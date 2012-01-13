@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <system>
+    <logpath des="日志文件夹路径"><![CDATA[D:\LawOfficeSystem\log\]]></logpath>
+    <uploadpath des="上传文件夹路径"><![CDATA[D:\LawOfficeSystem\Documents\Upload\]]></uploadpath>
+    <beckpath des="备份文件夹路径"><![CDATA[D:\LawOfficeSystem\Documents\beckup\]]></beckpath>
+    <dbpath des="数据库备份文件夹路径"><![CDATA[D:\LawOfficeSystem\DB\]]></dbpath>
+    <imgpath des="照片照径"><![CDATA[D:\LawOfficeSystem\pic\]]></imgpath>
+    <predays des="提前提醒的天数">15</predays>
+  </system>
+</root>
