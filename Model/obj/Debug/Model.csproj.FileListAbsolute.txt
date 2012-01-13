@@ -1,0 +1,10 @@
+E:\VisualStudio\LawDoc\Model\bin\Debug\WZY.Model.dll
+E:\VisualStudio\LawDoc\Model\bin\Debug\WZY.Model.pdb
+E:\VisualStudio\LawDoc\Model\obj\Debug\ResolveAssemblyReference.cache
+E:\VisualStudio\LawDoc\Model\obj\Debug\WZY.Model.dll
+E:\VisualStudio\LawDoc\Model\obj\Debug\WZY.Model.pdb
+F:\源码\LawDoc\Model\bin\Debug\WZY.Model.dll
+F:\源码\LawDoc\Model\bin\Debug\WZY.Model.pdb
+F:\源码\LawDoc\Model\obj\Debug\ResolveAssemblyReference.cache
+F:\源码\LawDoc\Model\obj\Debug\WZY.Model.dll
+F:\源码\LawDoc\Model\obj\Debug\WZY.Model.pdb
