@@ -45,8 +45,9 @@ namespace Helper
                 app.Quit();
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                log.error("操作office文档失败", ex.Message);
                 return false;
             }
             finally
@@ -92,8 +93,9 @@ namespace Helper
                 wordType.InvokeMember("Quit", System.Reflection.BindingFlags.InvokeMethod, null, word, null);
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                log.error("操作office文档失败", ex.Message); ;
                 return false;
             }
             finally

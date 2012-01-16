@@ -72,7 +72,7 @@ public partial class ProcessFile : System.Web.UI.Page
                         if (Helper.HelperOffice.GenerationWordHTML(filename, Server.MapPath(tempath)))
                         {
                             //Response.Redirect(tempath);
-                            Response.Write("正在生成预览....<script>location.href='" + tempath.TrimStart('~') + "';</script>");
+                            Response.Write("正在生成预览....<script>setTimeout(function(){location.href='" + tempath.TrimStart('~') + "';},5000);</script>");
                             return;
                         }
                         else
@@ -83,8 +83,15 @@ public partial class ProcessFile : System.Web.UI.Page
                     }
                     catch (Exception ex)
                     {
-                        Helper.log.error("预览文件失败，详细信息：" + ex.Message+"\n文件路径：" + tempath);
-                        Response.Write("预览失败,<a href='javascript:location.href=location.href;'>点此重试</a><br/>"+ex.Message);
+                        if (ex.Message.IndexOf("拒绝访问") >= 0)
+                        {
+                            Response.Write("正在生成预览....<script>setTimeout(function(){location.href=location.href},5000);</script>");
+                        }
+                        else
+                        {
+                            Helper.log.error("预览文件失败，详细信息：" + ex.Message + "\n文件路径：" + tempath);
+                            Response.Write("预览失败,<a href='javascript:location.href=location.href;'>点此重试</a><br/>" + ex.Message);
+                        }
                         return;
                     }
                 }
