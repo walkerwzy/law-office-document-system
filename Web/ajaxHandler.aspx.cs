@@ -138,10 +138,10 @@ public partial class ajaxHandler : System.Web.UI.Page
         {
             filter += " and ( custname like '%" + q + "%' or pycode like '%" + q.ToUpper() + "%' )";
         }
-        if (!string.IsNullOrEmpty(uid))
-        {
-            filter += " and uid=" + uid;
-        }
+        //if (!string.IsNullOrEmpty(uid))
+        //{
+        //    filter += " and uid=" + uid;
+        //}
         StringBuilder r = new StringBuilder("[");
         DataTable dt = new WZY.DAL.CUSTOMER().GetList(filter).Tables[0];
         if (dt.Rows.Count > 0)

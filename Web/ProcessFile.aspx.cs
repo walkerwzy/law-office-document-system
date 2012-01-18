@@ -53,32 +53,74 @@ public partial class ProcessFile : System.Web.UI.Page
                     //string folder = "~/Temp/Prev/" + DateTime.Now.ToString("yyyyMM") + "/";
                     //string tempath = folder + DateTime.Now.ToString("mmssfff") + tempname + ".html";
 
-                    //不再每次浏览都生成临时文件，假如临时文件存在，直接输出
-                    string tempname = Path.GetFileNameWithoutExtension(filename);
-                    string folder = "~/Temp/Prev/" + DateTime.Now.ToString("yyyyMM") + "/";
-                    string tempath = folder + tempname + ".html";
-                    if (File.Exists(Server.MapPath(tempath)))
+                    //判断扩展名
+                    string ext = System.IO.Path.GetExtension(filename).ToLower();
+                    int filetype = 0;//doc
+                    if (ext == ".xls" || ext == ".xlsx") filetype = 1;//excel
+                    else if (ext == ".jpg" || ext == ".png") filetype = 2;//picture
+                    else if (ext == ".ppt" || ext == ".pptx")
                     {
-                        Response.Redirect(tempath);
-                        Response.End();
+                        Response.Write("不支持预览电子幻灯片，请<a href='ProcessFile.aspx?act=download&d=" + docno + "'>点此下载</a>");
                         return;
                     }
+
+                    //创造临时目录
+                    string folder = "~/Temp/Prev/" + DateTime.Now.ToString("yyyyMM") + "/";
                     if (!Directory.Exists(Server.MapPath(folder)))
                     {
                         Directory.CreateDirectory(Server.MapPath(folder));
                     }
+                    //不再每次浏览都生成临时文件，假如临时文件存在，直接输出
+                    if (filetype == 2)
+                    {
+                        //处理成网络可访问的图片路径
+                        string picname = folder + Path.GetFileName(filename);
+                        if (!File.Exists(Server.MapPath(picname)))
+                        {
+                            //临时目录无文件则复制进去
+                            File.Copy(filename, Server.MapPath(picname), true);
+                        }
+                        //Response.Redirect(picname);
+                        picname = picname.TrimStart('~');
+                        Response.Write("<img src='" + picname + "' alt='' />");
+                        return;
+                    }
+                    string tempname = Path.GetFileNameWithoutExtension(filename);
+                    string tempath = folder + tempname + ".html";
+                    if (File.Exists(Server.MapPath(tempath)))
+                    {
+                        Response.Redirect(tempath);
+                        return;
+                    }
                     try
                     {
-                        if (Helper.HelperOffice.GenerationWordHTML(filename, Server.MapPath(tempath)))
+                        if (filetype == 0)
                         {
-                            //Response.Redirect(tempath);
-                            Response.Write("正在生成预览....<script>setTimeout(function(){location.href='" + tempath.TrimStart('~') + "';},5000);</script>");
-                            return;
+                            if (Helper.HelperOffice.GenerationWordHTML(filename, Server.MapPath(tempath)))
+                            {
+                                //Response.Redirect(tempath);
+                                Response.Write("正在生成预览....<script>setTimeout(function(){location.href='" + tempath.TrimStart('~') + "';},5000);</script>");
+                                return;
+                            }
+                            else
+                            {
+                                Response.Write("预览失败，<a href='ProcessFile.aspx?act=download&d=" + docno + "'>点此下载</a>");
+                                return;
+                            }
                         }
                         else
                         {
-                            Response.Write("预览失败，<a href='ProcessFile.aspx?act=download&d=" + docno + "'>点此下载</a>");
-                            return;
+                            if (Helper.HelperOffice.GenerationExcelHTML(filename, Server.MapPath(tempath)))
+                            {
+                                //Response.Redirect(tempath);
+                                Response.Write("正在生成预览....<script>setTimeout(function(){location.href='" + tempath.TrimStart('~') + "';},5000);</script>");
+                                return;
+                            }
+                            else
+                            {
+                                Response.Write("预览失败，<a href='ProcessFile.aspx?act=download&d=" + docno + "'>点此下载</a>");
+                                return;
+                            }
                         }
                     }
                     catch (Exception ex)

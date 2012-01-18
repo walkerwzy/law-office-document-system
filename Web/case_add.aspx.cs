@@ -181,13 +181,13 @@ public partial class case_add : validateUser
             string yuangao = this.txtyuangao.Text;
             string beigao = this.txtbeigao.Text;
             string anyou = this.txtanyou.Text;
-            object shouan = string.IsNullOrEmpty(txtshouan.Text.Trim())?null: DateTime.Parse(this.txtshouan.Text) as object;
-            object dijiaotime = string.IsNullOrEmpty(txtdijiaotime.Text.Trim())?null: DateTime.Parse(this.txtdijiaotime.Text) as object;
+            object shouan = string.IsNullOrEmpty(txtshouan.Text.Trim()) ? null : DateTime.Parse(this.txtshouan.Text) as object;
+            object dijiaotime = string.IsNullOrEmpty(txtdijiaotime.Text.Trim()) ? null : DateTime.Parse(this.txtdijiaotime.Text) as object;
             string faguan = this.txtfaguan.Text;
             string faguantel = this.txtfaguantel.Text;
             string office = this.txtoffice.Text;
             string court = this.txtcourt.Text;
-            object kaiting = string.IsNullOrEmpty(txtkaiting.Text.Trim())?null: DateTime.Parse(this.txtkaiting.Text) as object;
+            object kaiting = string.IsNullOrEmpty(txtkaiting.Text.Trim()) ? null : DateTime.Parse(this.txtkaiting.Text) as object;
             object panjuetime = string.IsNullOrEmpty(txtpanjuetime.Text.Trim()) ? null : DateTime.Parse(this.txtpanjuetime.Text) as object;
             decimal fee = string.IsNullOrEmpty(txtfee.Text.Trim()) ? 0 : decimal.Parse(this.txtfee.Text);
 
@@ -280,9 +280,10 @@ public partial class case_add : validateUser
             string extName = System.IO.Path.GetExtension(fu.FileName).ToLower(); //获取文件扩展名
             string orName = System.IO.Path.GetFileNameWithoutExtension(fu.FileName);//不带扩展名的文件名
             orName = orName.Replace(" ", "");//去除文件名里的空格
-            if (extName != ".doc" && extName != ".docx")
+            if (extName != ".doc" && extName != ".docx" && extName != ".pptx" && extName != ".ppt" && extName != ".xls" && extName != ".xlsx"
+                        && extName != ".jpg" && extName != ".png")
             {
-                showDialogWithAlert("请上传扩展名为.doc或.docx的文件！");
+                showDialogWithAlert("请上传扩展名为.doc|.docx|.ppt|.pptx|.xls|.xlsx的文件！\n或.jpg|.png格式的图片");
                 return -1;
             }
             else

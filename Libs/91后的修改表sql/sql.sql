@@ -136,4 +136,15 @@ create table alert (
 )
 go
 
-15871719845 蒋
+--2012/01/18
+--创建客户-合同视图
+create view view_cust_contract
+as
+select custid,recno,catename,uid,custno,displayname,deptid,cateid,custname,pycode,address,
+tel,fax,post,email,contact,contel,owner,ownertel,ownerqq,charge,chargetel,chargeqq,
+summary,ownerbirth,lunar1,chargebirth,lunar2,remark,c_stime,c_etime,c_fee,c_ctime  
+ FROM customer  
+left join(select uid as usid, displayname,deptid from sysuser) a on a.usid=customer.uid  
+left join (select cateid cid, catename from cate_cust) b on b.cid=customer.cateid  
+left join ( select clientid,c_stime,c_fee,c_etime,c_ctime from (select MAX(c_stime) m,custid as clientid from contract group by custid) g 
+left join contract c on c.custid=g.clientid and g.m=c.c_stime) c on c.clientid=customer.custid 

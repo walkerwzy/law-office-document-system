@@ -19,7 +19,7 @@
         }
         //员工
         function employee(uid, uname) {
-            var dlg = new $.dialog({ id: "dg02mep", title: '添加用户', page: "employee.aspx?t=" + new Date().getMilliseconds() + "&id=" + uid + "&name=" + uname, resize: false, width: 750, height: 550, cover: true, rang: true, cancelBtn: false });
+            var dlg = new $.dialog({ id: "dg02mep", title: '添加用户', page: "employee.aspx?t=" + new Date().getMilliseconds() + "&id=" + uid + "&name=" + uname, resize: false, width: 750, height: 590, cover: true, rang: true, cancelBtn: false });
             dlg.ShowDialog();
         }
     </script>

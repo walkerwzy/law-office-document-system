@@ -28,7 +28,7 @@ public partial class cases : validateUser
             if (!string.IsNullOrEmpty(Request["custid"])) usecustid = true;
             if (!string.IsNullOrEmpty(Request["caseid"])) usecaseid = true;
             if (!string.IsNullOrEmpty(Request["usedate"]) && Request["usedate"] == "yes") usedate = true;
-            if (suser.roleid == 0 || suser.roleid == 1)
+            if (suser.roleid == 0 || suser.roleid == 2)
             {
                 tools.addAdminOption(ddlrange);
             }

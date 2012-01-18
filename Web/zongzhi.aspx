@@ -17,7 +17,7 @@
 <div id="container">
     <div class="div_top">
          <div class="nav">
-          当前位置&nbsp;&nbsp;>&nbsp;&nbsp;本所宗旨
+          当前位置&nbsp;&nbsp;>&nbsp;&nbsp;公告栏
         </div>
         <!--简单过滤开始-->
         <div class="toolbar">

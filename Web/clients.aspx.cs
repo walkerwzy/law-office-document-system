@@ -86,6 +86,10 @@ public partial class clients : validateUser
             //{
             //    filter += " and owner like '%" + txtown.Value.Trim() + "%' ";
             //}
+            if (ddlcustcate.SelectedIndex>0)
+            {
+                filter += " and cateid=" + ddlcustcate.Text;
+            }
             switch (ddlnametype.SelectedIndex)
             {
                 case 0:

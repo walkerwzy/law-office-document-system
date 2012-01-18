@@ -79,7 +79,7 @@ namespace WZY.DAL
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
             db.AddInParameter(dbCommand, "uid", DbType.Int32, model.uid);
-            db.AddInParameter(dbCommand, "custno", DbType.String, getSeqNo());
+            db.AddInParameter(dbCommand, "custno", DbType.String, getSeqNo(model.cateid.Value));
             db.AddInParameter(dbCommand, "recno", DbType.Int32, getMaxRecNo());
             db.AddInParameter(dbCommand, "custname", DbType.String, model.custname);
             db.AddInParameter(dbCommand, "pycode", DbType.AnsiString, model.pycode);
@@ -406,14 +406,8 @@ namespace WZY.DAL
 
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select top " + pagesize + " custid,recno,catename,uid,custno,displayname,deptid,cateid,custname,pycode,address,tel,fax,post,email,contact,contel,owner,ownertel,ownerqq,charge,chargetel,chargeqq,summary,ownerbirth,lunar1,chargebirth,lunar2,remark,c_stime,c_etime,c_fee,c_ctime  ");
-            strSql.Append(" FROM customer ");
-            strSql.Append(" left join(select uid as usid, displayname,deptid from sysuser) a on a.usid=customer.uid ");
-            strSql.Append(" left join (select cateid cid, catename from cate_cust) b on b.cid=customer.cateid ");
-            strSql.Append(" left join (");
-            strSql.Append(" select clientid,c_stime,c_fee,c_etime,c_ctime from");
-            strSql.Append(" (select MAX(c_stime) m,custid as clientid from contract group by custid) g ");
-            strSql.Append(" left join contract c on c.custid=g.clientid and g.m=c.c_stime) c on c.clientid=customer.custid ");
-            strSql.Append(" where custid not in ( select top " + start + " custid from customer " + inwhere + " order by custid desc )");
+            strSql.Append(" FROM view_cust_contract ");
+            strSql.Append(" where custid not in ( select top " + start + " custid from view_cust_contract " + inwhere + " order by custid desc )");
             strSql.Append(strWhere);
             strSql.Append(" order by custid desc");
             Database db = DatabaseFactory.CreateDatabase();
@@ -451,9 +445,18 @@ namespace WZY.DAL
             }
         }
         //生成客户编号
-        private string getSeqNo()
+        private string getSeqNo(int cateid)
         {
             string prefix = "E";
+            try
+            {
+                WZY.Model.CATE_CUST model = new WZY.DAL.CATE_CUST().GetModel(cateid);
+                prefix = model.prefix;
+            }
+            catch
+            {
+
+            }
             string pre = prefix + DateTime.Now.ToString("yy");
             string temp = "";
             for (int i = 1; ; i++)

@@ -15,7 +15,7 @@ public partial class visit : validateUser
             {
                 ddlrange.SelectedIndex = 1;
             }
-            if (suser.roleid == 0 || suser.roleid == 1)
+            if (suser.roleid == 0 || suser.roleid == 2)
             {
                 tools.addAdminOption(ddlrange);
             }
