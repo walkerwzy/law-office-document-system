@@ -56,4 +56,9 @@ public partial class _Default : validateUser
             ScriptManager.RegisterClientScriptBlock(this, GetType(), "", "alert('清除缓存成功');", true);
         }
     }
+
+    protected void shutdownserver(object sender, EventArgs e)
+    {
+        ScriptManager.RegisterClientScriptBlock(this, GetType(), "", "alert('暂不支持');", true);
+    }
 }

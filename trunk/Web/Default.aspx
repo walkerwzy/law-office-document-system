@@ -178,6 +178,7 @@
             当前用户：<asp:Label runat="server" ID="lbluser"></asp:Label>|
              <asp:LinkButton runat="server" ID="lbtnlotout" Text="退出登录" PostBackUrl="~/logout.aspx" CausesValidation="false"></asp:LinkButton>|
             <asp:LinkButton runat="server" ID="lbtnclearcache" Text="清除缓存" OnClick="clearcache" CausesValidation="false"></asp:LinkButton>|
+            <%--<asp:LinkButton runat="server" ID="lbtnshutdown" Text="关闭服务器" OnClick="shutdownserver" CausesValidation="false"></asp:LinkButton>|--%>
             <span id="opArea"><asp:LinkButton runat="server" ID="lbtnsidepanel" CausesValidation="false" onClientClick="return false;">侧边栏<img src="images/collapse.gif" alt="" status="open" /></asp:LinkButton></span>
 	       <span id="themepanel"><a href="javascript:void(0);" title="灰色主题"><span id="theme-gray">&nbsp;</span></a><a href="javascript:void(0);" title="蓝色主题"><span id="theme-blue">&nbsp;</span></a></span>
            <asp:Label runat="server" ID="lbltime"></asp:Label>
@@ -189,7 +190,7 @@
                         <li class="menulv1 curnav">
                             <a hidefocus href="javascript:void(0);">行政办公</a>
                                 <ul>
-                                    <li><a hidefocus href="zongzhi.aspx" target="rightframe">本所宗旨</a></li>
+                                    <li><a hidefocus href="zongzhi.aspx" target="rightframe">公告栏</a></li>
                                     <li><a hidefocus href="zhanlue.aspx" target="rightframe">本所战略</a></li>
                                     <li><a hidefocus href="zhidus.aspx" target="rightframe">规章制度</a></li>
                             </ul>
@@ -260,7 +261,7 @@
                             <li class="pmenu openmenu">
                                 <a hidefocus href="javascript:void(0);">行政办公</a>
                                     <ul>
-                                        <li class="curli"><a hidefocus href="zongzhi.aspx" target="rightframe">本所宗旨</a></li>
+                                        <li class="curli"><a hidefocus href="zongzhi.aspx" target="rightframe">公告栏</a></li>
                                         <li><a hidefocus href="zhanlue.aspx" target="rightframe">本所战略</a></li>
                                         <li><a hidefocus href="zhidus.aspx" target="rightframe">规章制度</a></li>
                                 </ul>

@@ -17,7 +17,9 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
+    <div style="margin-left:10px;">
+    <br />
+    <span style="color:Gray;">照片请用图片工具处理成120*140或同比率的图片再上传，支持gif,jpg,png格式图片</span>
         <table id="whyg" align="center">
         <colgroup>
             <col width="100px" />

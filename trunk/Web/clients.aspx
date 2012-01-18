@@ -211,7 +211,7 @@
     </div>
     <div class="rightcontent" id="rightcontent">
     
-            <asp:GridView ID="gridlist" runat="server" DataKeyNames="custid" AutoGenerateColumns="false" CssClass="table1 detailtb" style="width:1280px;" OnRowDataBound="gvdatabind">
+            <asp:GridView ID="gridlist" runat="server" DataKeyNames="custid" AutoGenerateColumns="false" CssClass="table1 detailtb" style="width:1150px;" OnRowDataBound="gvdatabind">
                     <Columns>
         <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px">
             <HeaderTemplate><%--<input type="checkbox" id="cbxall" />--%></HeaderTemplate>
@@ -243,10 +243,10 @@
 		<%--<asp:BoundField DataField="fax" HeaderText="fax" SortExpression="fax" ItemStyle-HorizontalAlign="Center"  />--%> 
 		<%--<asp:BoundField DataField="post" HeaderText="post" SortExpression="post" ItemStyle-HorizontalAlign="Center"  />--%> 
 		<%--<asp:BoundField DataField="email" HeaderText="电子邮箱" SortExpression="email" ItemStyle-HorizontalAlign="Center"  HeaderStyle-Width="140px" ItemStyle-Width="140px" />--%> 
-		<asp:BoundField DataField="owner" HeaderText="法定代表人" SortExpression="owner" ItemStyle-HorizontalAlign="Center"  HeaderStyle-Width="80px" ItemStyle-Width="80px"  /> 
+		<asp:BoundField DataField="owner" HeaderText="法定代表人" SortExpression="owner" ItemStyle-HorizontalAlign="Center"  HeaderStyle-Width="100px" ItemStyle-Width="100px"  /> 
 		<%--<asp:BoundField DataField="ownertel" HeaderText="ownertel" SortExpression="ownertel" ItemStyle-HorizontalAlign="Center"  />--%> 
 		<%--<asp:BoundField DataField="ownerqq" HeaderText="ownerqq" SortExpression="ownerqq" ItemStyle-HorizontalAlign="Center"  />--%> 
-		<asp:BoundField DataField="charge" HeaderText="主要负责人" SortExpression="charge" ItemStyle-HorizontalAlign="Center"  HeaderStyle-Width="80px" ItemStyle-Width="80px" /> 
+		<asp:BoundField DataField="charge" HeaderText="主要负责人" SortExpression="charge" ItemStyle-HorizontalAlign="Center"  HeaderStyle-Width="100px" ItemStyle-Width="100px" /> 
 		<%--<asp:BoundField DataField="chargetel" HeaderText="负责人电话" SortExpression="chargetel" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="110px" ItemStyle-Width="110px"  />--%> 
 		<%--<asp:BoundField DataField="chargeqq" HeaderText="负责人QQ" SortExpression="chargeqq" ItemStyle-HorizontalAlign="Center"  HeaderStyle-Width="90px" ItemStyle-Width="90px" />--%> 
 		<asp:BoundField DataField="c_stime" HeaderText="签约日期"  ItemStyle-HorizontalAlign="Center"  HeaderStyle-Width="90px" ItemStyle-Width="90px" DataFormatString="{0:d}" /> 
