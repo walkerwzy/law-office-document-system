@@ -59,7 +59,7 @@
     <Compile Include="SYSUSER.cs" />
     <Compile Include="UserConfig.cs" />
     <Compile Include="VISIT.cs" />
-    <Compile Include="yuwudoc.cs" />
+    <Compile Include="yewudoc.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
