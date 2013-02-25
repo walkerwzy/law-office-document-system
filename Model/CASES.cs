@@ -217,6 +217,9 @@ namespace WZY.Model
         public int taolun { get; set; }
         public string court { get; set; }
 
+        public int tiwen { get; set; }
+        public int dabian { get; set; }
+
 	}
 }
 
