@@ -84,6 +84,11 @@ namespace WZY.Model
 		}
 		#endregion Model
 
+        //new
+        /// <summary>
+        /// 业务编号
+        /// </summary>
+        public int typeid { get; set; }
 	}
 }
 

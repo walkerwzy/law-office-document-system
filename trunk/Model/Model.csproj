@@ -44,6 +44,7 @@
     <Compile Include="CATE_CASE.cs" />
     <Compile Include="CATE_CUST.cs" />
     <Compile Include="CATE_DOC.cs" />
+    <Compile Include="cate_yewu.cs" />
     <Compile Include="CLIENTMAP.cs" />
     <Compile Include="CONTRACT.cs" />
     <Compile Include="CUSTOMER.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="SYSUSER.cs" />
     <Compile Include="UserConfig.cs" />
     <Compile Include="VISIT.cs" />
+    <Compile Include="yuwudoc.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
