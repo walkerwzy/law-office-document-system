@@ -15,7 +15,8 @@ public partial class ajaxHandler : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            switch (Request["act"])
+            var act = string.IsNullOrEmpty(Request["act"]) ? "" : Request["act"];
+            switch (act.ToLower())
             {
                 case "customer":
                     getCustormer();
@@ -29,11 +30,21 @@ public partial class ajaxHandler : System.Web.UI.Page
                 case "getuser":
                     getUser();
                     break;
+                case "getyewu":
+                    getYeWu();
+                    break;
+                case "getdoccate":
+                    getDocCate();
+                    break;
+                case "getalldoccate":
+                    getAllDocCate();
+                    break;
                 default:
                     break;
             }
         }
     }
+
 
     private void delFile()
     {
@@ -131,7 +142,7 @@ public partial class ajaxHandler : System.Web.UI.Page
         Response.Clear();
         Response.ContentType = "text/plain";
 
-        string q = Request["v"];
+        string q = Request["key"];
         string uid = Request["uid"];
         string filter = " 1=1 ";
         if (!string.IsNullOrEmpty(q))
@@ -163,7 +174,7 @@ public partial class ajaxHandler : System.Web.UI.Page
         Response.Clear();
         Response.ContentType = "text/plain";
 
-        string q = Request["v"];
+        string q = Request["key"];
         string filter = "";
         if (!string.IsNullOrEmpty(q))
         {
@@ -176,6 +187,79 @@ public partial class ajaxHandler : System.Web.UI.Page
             foreach (DataRow dr in dt.Rows)
             {
                 r.Append("[\"" + dr["uid"].ToString() + "\",\"" + dr["displayname"].ToString() + "\",\"" + dr["pycode"].ToString().ToUpper() + "\",\"\"],");
+            }
+        }
+        string arr = r.ToString();
+        arr = arr.TrimEnd(',');
+        arr += "]";
+        Response.Write(arr);
+        Response.End();
+    }
+
+    /// <summary>
+    /// 获取业务类型下的文档类型
+    /// </summary>
+    private void getDocCate()
+    {
+        Response.Clear();
+        Response.ContentType = "application/json";
+
+        string id = Request["id"];
+        StringBuilder r = new StringBuilder("[");
+        DataTable dt = new WZY.DAL.CATE_DOC().GetListByType(id).Tables[0];
+        if (dt.Rows.Count > 0)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                r.Append("[{\"id\":\"" + dr["cateid"].ToString() + "\",\"name\":\"" + dr["catename"].ToString() + "\"}],");
+            }
+        }
+        string arr = r.ToString();
+        arr = arr.TrimEnd(',');
+        arr += "]";
+        Response.Write(arr);
+        Response.End();
+    }
+
+    /// <summary>
+    /// 获取文档类型
+    /// </summary>
+    private void getAllDocCate()
+    {
+        Response.Clear();
+        Response.ContentType = "application/json";
+
+        StringBuilder r = new StringBuilder("[");
+        DataTable dt = new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq").Tables[0];
+        if (dt.Rows.Count > 0)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                r.Append("{\"id\":\"" + dr["cateid"].ToString() + "\",\"name\":\"" + dr["catename"].ToString() + "\",\"typeid\":\"" + dr["typeid"].ToString() + "\"},");
+            }
+        }
+        string arr = r.ToString();
+        arr = arr.TrimEnd(',');
+        arr += "]";
+        Response.Write(arr);
+        Response.End();
+    }
+
+    /// <summary>
+    /// 获取所有业务类型
+    /// </summary>
+    private void getYeWu()
+    {
+        Response.Clear();
+        Response.ContentType = "application/json";
+
+        StringBuilder r = new StringBuilder("[");
+        DataTable dt = new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index ").Tables[0];
+        if (dt.Rows.Count > 0)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                r.Append("{\"id\":\"" + dr["cate_id"].ToString() + "\",\"name\":\"" + dr["cate_name"].ToString() + "\"},");
             }
         }
         string arr = r.ToString();

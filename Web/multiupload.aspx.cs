@@ -16,12 +16,12 @@ public partial class multiupload : validateUser
     {
         if (!IsPostBack)
         {
-            DataTable dt=new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0];
-            for (int i = 1; i < 9; i++)
-            {
-                DropDownList ddl = Page.FindControl("DropDownList" + i) as DropDownList;
-                Helper.HelperDropDownList.BindData(ddl, dt, "catename", "cateid", 0);
-            }
+            DataTable dt = new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0];
+            //for (int i = 1; i < 9; i++)
+            //{
+            //    DropDownList ddl = Page.FindControl("DropDownList" + i) as DropDownList;
+            //    Helper.HelperDropDownList.BindData(ddl, dt, "catename", "cateid", 0);
+            //}
             hiduserid.Value = suser.uid.ToString();
         }
     }
@@ -43,10 +43,11 @@ public partial class multiupload : validateUser
         {
             FileUpload fuctrl = Page.FindControl("FileUpload" + i) as FileUpload;
             DropDownList ddlcate = Page.FindControl("DropDownList" + i) as DropDownList;
+            DropDownList ddltype = Page.FindControl("DropDownList" + (i + 8)) as DropDownList;
             if (fuctrl.HasFile)
             {
                 ctrfile++;
-                if (fileupload(fuctrl,ddlcate)) ctr++;
+                if (fileupload(fuctrl, ddltype, ddlcate)) ctr++;
             }
         }
         if (ctrfile == 0) showDialogWithAlert("请至少上传一个文件");
@@ -55,7 +56,7 @@ public partial class multiupload : validateUser
     }
 
     //上传单个文件的方法
-    private bool fileupload(FileUpload fu,DropDownList ddlcate)
+    private bool fileupload(FileUpload fu, DropDownList ddltype, DropDownList ddlcate)
     {
         XDocument xdoc = Utility.getConfigFile();
         string uploadpath = xdoc.Root.Descendants("uploadpath").SingleOrDefault().Value;
@@ -64,7 +65,7 @@ public partial class multiupload : validateUser
         string orName = System.IO.Path.GetFileNameWithoutExtension(fu.FileName);//不带扩展名的文件名
         orName = orName.Replace(" ", "");//去除文件名里的空格
         if (extName != ".doc" && extName != ".docx" && extName != ".pptx" && extName != ".ppt" && extName != ".xls" && extName != ".xlsx"
-            && extName!=".jpg"&&extName!=".png")
+            && extName != ".jpg" && extName != ".png")
         {
             showDialogWithAlert("请上传扩展名为.doc|.docx|.ppt|.pptx|.xls|.xlsx的文件！\n或.jpg|.png格式的图片");
             return false;
@@ -98,7 +99,8 @@ public partial class multiupload : validateUser
 
             //保存文档记录到数据库
             WZY.Model.DOCS model = new WZY.Model.DOCS();
-            model.cateid = Helper.HelperDigit.ConvertToInt32(ddlcate.Text, -1);
+            model.typeid = Helper.HelperDigit.ConvertToInt32(Request[ddltype.ID], -1);
+            model.cateid = Helper.HelperDigit.ConvertToInt32(Request[ddlcate.ID], -1);
             model.custid = Helper.HelperDigit.ConvertToInt32(hidcateid.Value, -1);
             model.docname = orName;
             model.docpath = suser.displayname + @"\" + docname;

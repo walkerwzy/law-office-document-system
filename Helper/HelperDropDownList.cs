@@ -60,7 +60,7 @@ namespace Helper
             ddl.DataTextField = name;
             ddl.DataValueField = value;
             ddl.DataBind();
-            ddl.Items.Insert(0, new ListItem("ÇëÑ¡Ôñ...", ""));
+            ddl.Items.Insert(0, new ListItem("È«²¿", ""));
             ddl.SelectedIndex = 0;
 
         }
