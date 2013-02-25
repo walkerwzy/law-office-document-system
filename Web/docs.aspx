@@ -60,6 +60,10 @@
         <div class="toolbar" <% if(usecustid){ %>style="display:none;"<%} %>>
             <table class="tab1">
                 <tr>
+                    <td valign="middle">主营业务：</td>
+                    <td valign="middle">
+                        <div class="select"><div><asp:DropDownList ToolTip="主营业务" runat="server" ID="ddltype"></asp:DropDownList></div></div>
+                    </td>
                     <td valign="middle">文档类别：</td>
                     <td valign="middle">
                         <div class="select"><div><asp:DropDownList ToolTip="文档类别" runat="server" ID="ddlcate"></asp:DropDownList></div></div>
@@ -133,7 +137,7 @@
         </asp:TemplateField>
         <asp:TemplateField HeaderText="文件名" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="250px" ItemStyle-Width="250px">
             <ItemTemplate>
-                <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 22)%></span>
+                <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 12)%></span>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField HeaderText="上传时间" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="80px" HeaderStyle-Width="80px" DataField="uptime" DataFormatString="{0:d}" />

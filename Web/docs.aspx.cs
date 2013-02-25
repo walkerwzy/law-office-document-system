@@ -18,7 +18,8 @@ public partial class docs : validateUser
         if (!IsPostBack)
         {
             Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0, true);
-            if (suser.roleid == 0 || suser.roleid == 2)//管理员和律师可以看所有客户和文档
+            Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", 0, true);
+            if (suser.roleid == 0 || suser.roleid == 1)
             {
                 tools.addAdminOption(ddlrange);
             }
@@ -66,6 +67,10 @@ public partial class docs : validateUser
             if (!cbxCase.Checked)
             {
                 filter += " and cateid<>7 ";
+            }
+            if (ddltype.SelectedIndex>0)
+            {
+                filter += " and typeid=" + ddltype.Text;
             }
             switch (ddlrange.SelectedIndex)
             {
