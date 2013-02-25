@@ -9,11 +9,11 @@ using System.Data.Common;
 namespace WZY.DAL
 {
 	/// <summary>
-	/// 数据访问类:yuwudoc
+	/// 数据访问类:yewudoc
 	/// </summary>
-	public partial class yuwudoc
+	public partial class yewudoc
 	{
-		public yuwudoc()
+		public yewudoc()
 		{}
 		#region  Method
 
@@ -22,7 +22,7 @@ namespace WZY.DAL
 		/// </summary>
 		public int GetMaxId()
 		{
-			string strsql = "select max(recid)+1 from yuwudoc";
+			string strsql = "select max(recid)+1 from yewudoc";
 			Database db = DatabaseFactory.CreateDatabase();
 			object obj = db.ExecuteScalar(CommandType.Text, strsql);
 			if (obj != null && obj != DBNull.Value)
@@ -39,7 +39,7 @@ namespace WZY.DAL
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			StringBuilder strSql = new StringBuilder();
-			strSql.Append("select count(1) from yuwudoc where recid=@recid ");
+			strSql.Append("select count(1) from yewudoc where recid=@recid ");
 			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
 			db.AddInParameter(dbCommand, "recid", DbType.Int32,recid);
 			int cmdresult;
@@ -66,18 +66,18 @@ namespace WZY.DAL
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>
-		public int Add(WZY.Model.yuwudoc model)
+		public int Add(WZY.Model.yewudoc model)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("insert into yuwudoc(");
-			strSql.Append("cate_id,cateid)");
+			strSql.Append("insert into yewudoc(");
+			strSql.Append("typeid,cateid)");
 
 			strSql.Append(" values (");
-			strSql.Append("@cate_id,@cateid)");
+			strSql.Append("@typeid,@cateid)");
 			strSql.Append(";select @@IDENTITY");
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-			db.AddInParameter(dbCommand, "cate_id", DbType.Byte, model.cate_id);
+			db.AddInParameter(dbCommand, "typeid", DbType.Byte, model.typeid);
 			db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
 			int result;
 			object obj = db.ExecuteScalar(dbCommand);
@@ -90,17 +90,17 @@ namespace WZY.DAL
 		/// <summary>
 		/// 更新一条数据
 		/// </summary>
-		public bool Update(WZY.Model.yuwudoc model)
+		public bool Update(WZY.Model.yewudoc model)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("update yuwudoc set ");
-			strSql.Append("cate_id=@cate_id,");
+			strSql.Append("update yewudoc set ");
+			strSql.Append("typeid=@typeid,");
 			strSql.Append("cateid=@cateid");
 			strSql.Append(" where recid=@recid ");
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
 			db.AddInParameter(dbCommand, "recid", DbType.Int32, model.recid);
-			db.AddInParameter(dbCommand, "cate_id", DbType.Byte, model.cate_id);
+			db.AddInParameter(dbCommand, "typeid", DbType.Byte, model.typeid);
 			db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
 			int rows=db.ExecuteNonQuery(dbCommand);
 
@@ -121,7 +121,7 @@ namespace WZY.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from yuwudoc ");
+			strSql.Append("delete from yewudoc ");
 			strSql.Append(" where recid=@recid ");
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
@@ -143,10 +143,9 @@ namespace WZY.DAL
 		public bool DeleteList(string recidlist )
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from yuwudoc ");
-            strSql.Append(" where recid in (" + recidlist + ")  ");
-            var database = DatabaseFactory.CreateDatabase();
-            int rows = database.ExecuteNonQuery(CommandType.Text, strSql.ToString());
+			strSql.Append("delete from yewudoc ");
+			strSql.Append(" where recid in ("+recidlist + ")  ");
+			int rows=DbHelperSQL.ExecuteSql(strSql.ToString());
 			if (rows > 0)
 			{
 				return true;
@@ -160,16 +159,16 @@ namespace WZY.DAL
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>
-		public WZY.Model.yuwudoc GetModel(int recid)
+		public WZY.Model.yewudoc GetModel(int recid)
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select recid,cate_id,cateid from yuwudoc ");
+			strSql.Append("select recid,typeid,cateid from yewudoc ");
 			strSql.Append(" where recid=@recid ");
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
 			db.AddInParameter(dbCommand, "recid", DbType.Int32,recid);
-			WZY.Model.yuwudoc model=null;
+			WZY.Model.yewudoc model=null;
 			using (IDataReader dataReader = db.ExecuteReader(dbCommand))
 			{
 				if(dataReader.Read())
@@ -184,18 +183,18 @@ namespace WZY.DAL
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>
-		public WZY.Model.yuwudoc DataRowToModel(DataRow row)
+		public WZY.Model.yewudoc DataRowToModel(DataRow row)
 		{
-			WZY.Model.yuwudoc model=new WZY.Model.yuwudoc();
+			WZY.Model.yewudoc model=new WZY.Model.yewudoc();
 			if (row != null)
 			{
 				if(row["recid"]!=null && row["recid"].ToString()!="")
 				{
 					model.recid=int.Parse(row["recid"].ToString());
 				}
-				if(row["cate_id"]!=null && row["cate_id"].ToString()!="")
+				if(row["typeid"]!=null && row["typeid"].ToString()!="")
 				{
-					model.cate_id=int.Parse(row["cate_id"].ToString());
+					model.typeid=int.Parse(row["typeid"].ToString());
 				}
 				if(row["cateid"]!=null && row["cateid"].ToString()!="")
 				{
@@ -211,8 +210,8 @@ namespace WZY.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select recid,cate_id,cateid ");
-			strSql.Append(" FROM yuwudoc ");
+			strSql.Append("select recid,typeid,cateid ");
+			strSql.Append(" FROM yewudoc ");
 			if(strWhere.Trim()!="")
 			{
 				strSql.Append(" where "+strWhere);
@@ -232,8 +231,8 @@ namespace WZY.DAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" recid,cate_id,cateid ");
-			strSql.Append(" FROM yuwudoc ");
+			strSql.Append(" recid,typeid,cateid ");
+			strSql.Append(" FROM yewudoc ");
 			if(strWhere.Trim()!="")
 			{
 				strSql.Append(" where "+strWhere);
@@ -249,13 +248,12 @@ namespace WZY.DAL
 		public int GetRecordCount(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select count(1) FROM yuwudoc ");
+			strSql.Append("select count(1) FROM yewudoc ");
 			if(strWhere.Trim()!="")
 			{
 				strSql.Append(" where "+strWhere);
-            }
-            var database = DatabaseFactory.CreateDatabase();
-            object obj = database.ExecuteScalar(CommandType.Text, strSql.ToString());
+			}
+			object obj = DbHelperSQL.GetSingle(strSql.ToString());
 			if (obj == null)
 			{
 				return 0;
@@ -281,15 +279,14 @@ namespace WZY.DAL
 			{
 				strSql.Append("order by T.recid desc");
 			}
-			strSql.Append(")AS Row, T.*  from yuwudoc T ");
+			strSql.Append(")AS Row, T.*  from yewudoc T ");
 			if (!string.IsNullOrEmpty(strWhere.Trim()))
 			{
 				strSql.Append(" WHERE " + strWhere);
 			}
 			strSql.Append(" ) TT");
-            strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
-            var database = DatabaseFactory.CreateDatabase();
-            return database.ExecuteDataSet(CommandType.Text, strSql.ToString());
+			strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
+			return DbHelperSQL.Query(strSql.ToString());
 		}
 
 		/*
@@ -300,7 +297,7 @@ namespace WZY.DAL
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("UP_GetRecordByPage");
-			db.AddInParameter(dbCommand, "tblName", DbType.AnsiString, "yuwudoc");
+			db.AddInParameter(dbCommand, "tblName", DbType.AnsiString, "yewudoc");
 			db.AddInParameter(dbCommand, "fldName", DbType.AnsiString, "recid");
 			db.AddInParameter(dbCommand, "PageSize", DbType.Int32, PageSize);
 			db.AddInParameter(dbCommand, "PageIndex", DbType.Int32, PageIndex);
@@ -313,16 +310,16 @@ namespace WZY.DAL
 		/// <summary>
 		/// 获得数据列表（比DataSet效率高，推荐使用）
 		/// </summary>
-		public List<WZY.Model.yuwudoc> GetListArray(string strWhere)
+		public List<WZY.Model.yewudoc> GetListArray(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select recid,cate_id,cateid ");
-			strSql.Append(" FROM yuwudoc ");
+			strSql.Append("select recid,typeid,cateid ");
+			strSql.Append(" FROM yewudoc ");
 			if(strWhere.Trim()!="")
 			{
 				strSql.Append(" where "+strWhere);
 			}
-			List<WZY.Model.yuwudoc> list = new List<WZY.Model.yuwudoc>();
+			List<WZY.Model.yewudoc> list = new List<WZY.Model.yewudoc>();
 			Database db = DatabaseFactory.CreateDatabase();
 			using (IDataReader dataReader = db.ExecuteReader(CommandType.Text, strSql.ToString()))
 			{
@@ -338,19 +335,19 @@ namespace WZY.DAL
 		/// <summary>
 		/// 对象实体绑定数据
 		/// </summary>
-		public WZY.Model.yuwudoc ReaderBind(IDataReader dataReader)
+		public WZY.Model.yewudoc ReaderBind(IDataReader dataReader)
 		{
-			WZY.Model.yuwudoc model=new WZY.Model.yuwudoc();
+			WZY.Model.yewudoc model=new WZY.Model.yewudoc();
 			object ojb; 
 			ojb = dataReader["recid"];
 			if(ojb != null && ojb != DBNull.Value)
 			{
 				model.recid=(int)ojb;
 			}
-			ojb = dataReader["cate_id"];
+			ojb = dataReader["typeid"];
 			if(ojb != null && ojb != DBNull.Value)
 			{
-				model.cate_id=(int)ojb;
+				model.typeid=(int)ojb;
 			}
 			ojb = dataReader["cateid"];
 			if(ojb != null && ojb != DBNull.Value)
