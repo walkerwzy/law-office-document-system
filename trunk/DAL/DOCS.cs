@@ -70,13 +70,14 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into docs(");
-            strSql.Append("uid,cateid,custid,docname,docpath,uptime,remark)");
+            strSql.Append("uid,typeid,cateid,custid,docname,docpath,uptime,remark)");
             strSql.Append(" values (");
-            strSql.Append("@uid,@cateid,@custid,@docname,@docpath,@uptime,@remark)");
+            strSql.Append("@uid,@typeid,@cateid,@custid,@docname,@docpath,@uptime,@remark)");
             strSql.Append(";select @@IDENTITY");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
             db.AddInParameter(dbCommand, "uid", DbType.Int32, model.uid);
+            db.AddInParameter(dbCommand, "typeid", DbType.Int32, model.typeid);
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
             db.AddInParameter(dbCommand, "custid", DbType.Int32, model.custid);
             db.AddInParameter(dbCommand, "docname", DbType.String, model.docname);
@@ -99,6 +100,7 @@ namespace WZY.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update docs set ");
             strSql.Append("uid=@uid,");
+            strSql.Append("typeid=@typeeid,");
             strSql.Append("cateid=@cateid,");
             strSql.Append("custid=@custid,");
             strSql.Append("docname=@docname,");
@@ -110,6 +112,7 @@ namespace WZY.DAL
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
             db.AddInParameter(dbCommand, "docid", DbType.Int32, model.docid);
             db.AddInParameter(dbCommand, "uid", DbType.Int32, model.uid);
+            db.AddInParameter(dbCommand, "typeid", DbType.Int32, model.typeid);
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
             db.AddInParameter(dbCommand, "custid", DbType.Int32, model.custid);
             db.AddInParameter(dbCommand, "docname", DbType.String, model.docname);
@@ -142,7 +145,7 @@ namespace WZY.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select docid,uid,cateid,custid,docname,docpath,uptime,remark from docs ");
+            strSql.Append("select docid,uid,typeid,cateid,custid,docname,docpath,uptime,remark from docs ");
             strSql.Append(" where docid=@docid ");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
@@ -164,7 +167,7 @@ namespace WZY.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select docid,uid,displayname,deptid,cateid,custid,custname,docname,docpath,uptime,remark ");
+            strSql.Append("select docid,uid,displayname,deptid,typeid,cateid,custid,custname,docname,docpath,uptime,remark ");
             strSql.Append(" FROM docs ");
             strSql.Append(" left join (select uid as userid, displayname,deptid from sysuser) a on a.userid=docs.uid ");
             strSql.Append(" left join (select custid as cusid, custname from customer) b on b.cusid=docs.custid ");
@@ -269,7 +272,7 @@ namespace WZY.DAL
             }
             int start = (pageindex - 1) * pagesize;
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select top " + pagesize + " docid,uid,displayname,deptid,cateid,custid,custname,docname,docpath,uptime,remark ");
+            strSql.Append("select top " + pagesize + " docid,uid,displayname,deptid,typeid,cateid,custid,custname,docname,docpath,uptime,remark ");
             strSql.Append(" FROM docs ");
             strSql.Append(" left join (select uid as userid, displayname,deptid from sysuser) a on a.userid=docs.uid ");
             strSql.Append(" left join (select custid as cusid, custname from customer) b on b.cusid=docs.custid ");

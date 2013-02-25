@@ -63,6 +63,7 @@
     <Compile Include="CATE_CASE.cs" />
     <Compile Include="CATE_CUST.cs" />
     <Compile Include="CATE_DOC.cs" />
+    <Compile Include="cate_yewu.cs" />
     <Compile Include="char2py.cs" />
     <Compile Include="CLIENTMAP.cs" />
     <Compile Include="CONTRACT.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="UserConfig.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="VISIT.cs" />
+    <Compile Include="yuwudoc.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Helper\Helper.csproj">
