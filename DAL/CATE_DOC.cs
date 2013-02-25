@@ -254,6 +254,19 @@ namespace WZY.DAL
         {
             return cateid == 7;
         }
+
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetListByType(string typeid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select cateid,catename,seq,remark ");
+            strSql.Append(" FROM cate_doc where  cateid in ( select cateid from yuwudoc where cate_id=" + typeid + " )");
+            Database db = DatabaseFactory.CreateDatabase();
+            return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+        }
     }
 }
 
