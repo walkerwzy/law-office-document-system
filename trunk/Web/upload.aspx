@@ -16,6 +16,13 @@
 <table cellSpacing="0" cellPadding="0" width="100%" border="0" class="mytable">
 	<tr>
 	<td height="32" width="100px" align="right">
+		主营业务
+	：</td>
+	<td height="32" width="*" align="left">
+		<asp:DropDownList ToolTip="主营业务" runat="server" ID="ddltype"></asp:DropDownList>
+	</td></tr>
+	<tr>
+	<td height="32" width="100px" align="right">
 		文档类别
 	：</td>
 	<td height="32" width="*" align="left">

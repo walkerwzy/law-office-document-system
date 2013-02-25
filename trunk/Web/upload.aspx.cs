@@ -16,6 +16,7 @@ public partial class upload : validateUser
         if (!IsPostBack)
         {
             Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0);
+            Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", 0);
             hiduserid.Value = suser.uid.ToString();
             if (Request["act"] == "modify")
             {
@@ -53,6 +54,7 @@ public partial class upload : validateUser
         {
             WZY.Model.DOCS model = bll.GetModel(Convert.ToInt32(hiddocid.Value));
             model.custid = Convert.ToInt32(hidcateid.Value);
+            model.typeid = Convert.ToInt32(ddltype.Text);
             model.cateid = Convert.ToInt32(ddlcate.Text);
             model.docname = txtdocname.Text.Trim();
             model.remark = txtremark.Text.Trim();
@@ -74,10 +76,9 @@ public partial class upload : validateUser
         string extName = System.IO.Path.GetExtension(fu.FileName).ToLower(); //获取文件扩展名
         string orName = System.IO.Path.GetFileNameWithoutExtension(fu.FileName);//不带扩展名的文件名
         orName = orName.Replace(" ", "");//去除文件名里的空格
-        if (extName != ".doc" && extName != ".docx" && extName != ".pptx" && extName != ".ppt" && extName != ".xls" && extName != ".xlsx"
-                    && extName != ".jpg" && extName != ".png")
+        if (extName != ".doc" && extName != ".docx")
         {
-            showDialogWithAlert("请上传扩展名为.doc|.docx|.ppt|.pptx|.xls|.xlsx的文件！\n或.jpg|.png格式的图片");
+            showDialogWithAlert("请上传扩展名为.doc或.docx的文件！");
         }
         else
         {
