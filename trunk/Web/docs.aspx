@@ -19,7 +19,7 @@
 	        });
 	        //批量上传
 	        var dlgAddMulti = $("#btnAddm").dialog({ id: 'd2f3', title: '批量上传文档', page: 'multiupload.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
-	            resize: false, width: 650, height: 400, cover: true, cancelBtn: false, rang: true
+	            resize: false, width: 670, height: 400, cover: true, cancelBtn: false, rang: true
 	        });
 	    });
 	    //弹窗_编辑
@@ -96,7 +96,7 @@
                         <input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" />
                     </td>
                     <td>
-                        &nbsp;<asp:CheckBox ID="cbxCase" runat="server" Text="包括案件文档" />
+                        &nbsp;<asp:CheckBox ID="cbxCase" runat="server" Text="包括案件文档" Visible="false" />
                     </td>
                 <td valign="top">
                     <asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1" />
@@ -125,6 +125,11 @@
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField HeaderText="上传人" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="80px" HeaderStyle-Width="80px" DataField="displayname" />
+        <asp:TemplateField HeaderText="主营业务" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="100px" HeaderStyle-Width="100px">
+            <ItemTemplate>
+                <asp:DropDownList ID="ddltype" runat="server" DataSourceID="odstype" CssClass="tinput" Width="85px" DataTextField="cate_name" DataValueField="cate_id" selectedvalue='<%# Bind("typeid") %>' Enabled="false"></asp:DropDownList>
+            </ItemTemplate>
+        </asp:TemplateField>
         <asp:TemplateField HeaderText="文档类别" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="100px" HeaderStyle-Width="100px">
             <ItemTemplate>
                 <asp:DropDownList ID="ddlcate" runat="server" DataSourceID="odscate" CssClass="tinput" Width="85px" DataTextField="catename" DataValueField="cateid" selectedvalue='<%# Bind("cateid") %>' Enabled="false"></asp:DropDownList>
@@ -140,8 +145,8 @@
                 <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 12)%></span>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:BoundField HeaderText="上传时间" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="80px" HeaderStyle-Width="80px" DataField="uptime" DataFormatString="{0:d}" />
         <asp:BoundField HeaderText="文件操作" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="80px" HeaderStyle-Width="80px" />
+        <asp:BoundField HeaderText="上传时间" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="80px" HeaderStyle-Width="80px" DataField="uptime" DataFormatString="{0:yyyy-MM-dd HH:mm:ss}" />
         <asp:TemplateField HeaderText="&nbsp;"><ItemTemplate>&nbsp;</ItemTemplate></asp:TemplateField>
             </Columns>
     </asp:GridView>
@@ -168,6 +173,11 @@
         <asp:ObjectDataSource ID="odscate" runat="server" SelectMethod="GetList" TypeName="WZY.DAL.CATE_DOC">
             <SelectParameters>
                 <asp:Parameter DefaultValue="1=1 order by seq" Name="strWhere" Type="String" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:ObjectDataSource ID="odstype" runat="server" SelectMethod="GetList" TypeName="WZY.DAL.cate_yewu">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="1=1 order by cate_index" Name="strWhere" Type="String" />
             </SelectParameters>
         </asp:ObjectDataSource>
     </form>

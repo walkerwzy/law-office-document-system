@@ -64,10 +64,10 @@ public partial class docs : validateUser
             {
                 filter += " and cateid=" + ddlcate.Text;
             }
-            if (!cbxCase.Checked)
-            {
-                filter += " and cateid<>7 ";
-            }
+            //if (!cbxCase.Checked)
+            //{
+            //    filter += " and cateid<>7 ";
+            //}
             if (ddltype.SelectedIndex>0)
             {
                 filter += " and typeid=" + ddltype.Text;

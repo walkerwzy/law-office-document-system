@@ -15,8 +15,8 @@ public partial class upload : validateUser
     {
         if (!IsPostBack)
         {
-            Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0);
             Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", 0);
+            ddltype_TextChanged(null, null);
             hiduserid.Value = suser.uid.ToString();
             if (Request["act"] == "modify")
             {
@@ -52,10 +52,10 @@ public partial class upload : validateUser
         }
         if (Request["act"].ToLower() == "modify")
         {
-            WZY.Model.DOCS model = bll.GetModel(Convert.ToInt32(hiddocid.Value));
+            WZY.Model.DOCS model = bll.GetModel(Helper.HelperDigit.ConvertToInt32(hiddocid.Value, -1));
             model.custid = Convert.ToInt32(hidcateid.Value);
-            model.typeid = Convert.ToInt32(ddltype.Text);
-            model.cateid = Convert.ToInt32(ddlcate.Text);
+            model.typeid = Helper.HelperDigit.ConvertToInt32(ddltype.Text, -1);
+            model.cateid = Helper.HelperDigit.ConvertToInt32(ddlcate.Text, -1);
             model.docname = txtdocname.Text.Trim();
             model.remark = txtremark.Text.Trim();
 
@@ -110,6 +110,7 @@ public partial class upload : validateUser
             //保存文档记录到数据库
             WZY.Model.DOCS model = new WZY.Model.DOCS();
             model.cateid = Helper.HelperDigit.ConvertToInt32(ddlcate.Text, -1);
+            model.typeid = Helper.HelperDigit.ConvertToInt32(ddltype.Text, -1);
             model.custid = Helper.HelperDigit.ConvertToInt32(hidcateid.Value, -1);
             model.docname = string.IsNullOrEmpty(txtdocname.Text.Trim()) ? orName : txtdocname.Text.Trim();
             model.docpath = suser.displayname + @"\" + docname;
@@ -153,4 +154,8 @@ public partial class upload : validateUser
         runJS("location.href=location.href;");
     }
 
+    protected void ddltype_TextChanged(object sender, EventArgs e)
+    {
+        Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetListByType(ddltype.Text).Tables[0], "catename", "cateid", 0);
+    }
 }
