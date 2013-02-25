@@ -11,7 +11,7 @@ namespace WZY.Model
 		{}
 		#region Model
 		private int _recid;
-		private int? _cate_id;
+		private int? _typeid;
 		private int? _cateid;
 		/// <summary>
 		/// 
@@ -24,10 +24,10 @@ namespace WZY.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? cate_id
+		public int? typeid
 		{
-			set{ _cate_id=value;}
-			get{return _cate_id;}
+			set{ _typeid=value;}
+			get{return _typeid;}
 		}
 		/// <summary>
 		/// 
