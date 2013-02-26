@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Text;
 
 public partial class docs : validateUser
 {
@@ -12,12 +13,15 @@ public partial class docs : validateUser
     WZY.DAL.CUSTOMER custbll = new WZY.DAL.CUSTOMER();
     WZY.DAL.DOCS docbll = new WZY.DAL.DOCS();
     protected bool usecustid = false;
+    protected string cates;
+    protected string request_cateid;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!string.IsNullOrEmpty(Request["custid"])) usecustid = true;
+        cates = getdocates();
         if (!IsPostBack)
         {
-            Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0, true);
+            //Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0, true);
             Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", 0, true);
             if (suser.roleid == 0 || suser.roleid == 1)
             {
@@ -29,6 +33,24 @@ public partial class docs : validateUser
             }
             bindData();
         }
+        request_cateid = string.IsNullOrEmpty(Request["ddlcate"]) ? "-1" : Request["ddlcate"];
+    }
+
+    private string getdocates()
+    {
+        StringBuilder r = new StringBuilder("[");
+        DataTable dt = new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq").Tables[0];
+        if (dt.Rows.Count > 0)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                r.Append("{\"id\":\"" + dr["cateid"].ToString() + "\",\"name\":\"" + dr["catename"].ToString() + "\",\"typeid\":\"" + dr["typeid"].ToString() + "\"},");
+            }
+        }
+        string arr = r.ToString();
+        arr = arr.TrimEnd(',');
+        arr += "]";
+        return arr;
     }
 
     private void bindData()
@@ -60,15 +82,19 @@ public partial class docs : validateUser
             {
                 filter += " and uptime <= '" + txtedate.Value.Trim() + "' ";
             }
-            if (ddlcate.SelectedIndex > 0)
+            //if (ddlcate.SelectedIndex > 0)
+            //{
+            //    filter += " and cateid=" + ddlcate.Text;
+            //}
+            if (!string.IsNullOrEmpty(Request["ddlcate"]) && Request["ddlcate"] != "-1")
             {
-                filter += " and cateid=" + ddlcate.Text;
+                filter += " and cateid=" + Request["ddlcate"];
             }
             //if (!cbxCase.Checked)
             //{
             //    filter += " and cateid<>7 ";
             //}
-            if (ddltype.SelectedIndex>0)
+            if (ddltype.SelectedIndex > 0)
             {
                 filter += " and typeid=" + ddltype.Text;
             }
@@ -109,7 +135,7 @@ public partial class docs : validateUser
             (e.Row.Cells[0].FindControl("hidcandel") as HiddenField).Value = candel ? "1" : "0";
         }
     }
-    
+
     protected void btnsearch(object sender, EventArgs e)
     {
         bindData();

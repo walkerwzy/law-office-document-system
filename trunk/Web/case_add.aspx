@@ -149,25 +149,25 @@
                                 <asp:Label runat="server" ID="lbltip" ForeColor="Gray" Visible="false">上传会覆盖之前的文件，请谨慎操作</asp:Label>
                             </td>
                         </tr>
-                        <tr>
+                        <%--<tr>
                             <td height="25" width="150px" align="right">
                                 案件详情 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
                                 <asp:FileUpload ID="updetail" runat="server" Width="400px"  /><asp:Literal runat="server" ID="ltdetail"></asp:Literal>
                             </td>
-                        </tr>
-                        <tr>
+                        </tr>--%>
+                        <%--<tr>
                             <td height="25" width="150px" align="right">
                                 诉讼分析报告 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
                                 <asp:FileUpload ID="upsusong" runat="server" Width="400px" /><asp:Literal runat="server" ID="ltsusong"></asp:Literal>
                             </td>
-                        </tr>
+                        </tr>--%>
                         <tr>
                             <td height="25" width="150px" align="right">
-                                当事人证据材料 ：
+                                证据目录 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
                                 <asp:FileUpload ID="upevidence" runat="server" Width="400px"  /><asp:Literal runat="server" ID="ltevidence"></asp:Literal>
@@ -175,7 +175,7 @@
                         </tr>
                         <tr>
                             <td height="25" width="150px" align="right">
-                                起诉状 ：
+                                起诉状/上诉状 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
                                 <asp:FileUpload ID="upqisu" runat="server" Width="400px"  /><asp:Literal runat="server" ID="ltqisu"></asp:Literal>
@@ -191,21 +191,21 @@
                         </tr>
                         <tr>
                             <td height="25" width="150px" align="right">
-                                代理词/辩护词 ：
+                                代理意见 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
                                 <asp:FileUpload ID="updali" runat="server" Width="400px"  /><asp:Literal runat="server" ID="ltdaili"></asp:Literal>
                             </td>
                         </tr>
-                        <tr>
+                        <%--<tr>
                             <td height="25" width="150px" align="right">
                                 判决结果 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
                                 <asp:FileUpload ID="upresult" runat="server" Width="400px"  /><asp:Literal runat="server" ID="ltresult"></asp:Literal>
                             </td>
-                        </tr>
-                        <tr>
+                        </tr>--%>
+                        <%--<tr>
                             <td height="25" width="150px" align="right">
                                 结案报告 ：
                             </td>
@@ -213,13 +213,29 @@
                                 <asp:FileUpload ID="upresultreport" runat="server" Width="400px"  /><asp:Literal runat="server"
                                     ID="ltresultreport"></asp:Literal>
                             </td>
-                        </tr>
-                        <tr>
+                        </tr>--%>
+                        <%--<tr>
                             <td height="25" width="150px" align="right">
                                 案件讨论记录 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
                                 <asp:FileUpload ID="uptaolun" runat="server" Width="400px"  /><asp:Literal runat="server" ID="lttaolun"></asp:Literal>
+                            </td>
+                        </tr>--%>
+                        <tr>
+                            <td height="25" width="150px" align="right">
+                                法庭提问 ：
+                            </td>
+                            <td height="25" width="*" align="left" colspan="3">
+                                <asp:FileUpload ID="uptiwen" runat="server" Width="400px"  /><asp:Literal runat="server" ID="lttiwen"></asp:Literal>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="25" width="150px" align="right">
+                                答辩意见 ：
+                            </td>
+                            <td height="25" width="*" align="left" colspan="3">
+                                <asp:FileUpload ID="updabian" runat="server" Width="400px"  /><asp:Literal runat="server" ID="ltdabian"></asp:Literal>
                             </td>
                         </tr>
                         <tr>

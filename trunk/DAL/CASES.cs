@@ -70,10 +70,9 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into cases(");
-            strSql.Append("caseno,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,remark)");
-
+            strSql.Append("caseno,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark)");
             strSql.Append(" values (");
-            strSql.Append("'" + getSeqNo(model.cateid.Value) + "',@cateid,@custid,@uid,@yuangao,@beigao,@anyou,@shouan,@court,@dijiaotime,@faguan,@faguantel,@office,@kaiting,@panjuetime,@fee,@detail,@analysis,@evidence,@opinion,@quote,@qisu,@taolun,@result,@resultreport,@remark)");
+            strSql.Append("'" + getSeqNo(model.cateid.Value) + "',@cateid,@custid,@uid,@yuangao,@beigao,@anyou,@shouan,@court,@dijiaotime,@faguan,@faguantel,@office,@kaiting,@panjuetime,@fee,@detail,@analysis,@evidence,@opinion,@quote,@qisu,@taolun,@result,@resultreport,@tiwen,@dabian,@remark)");
             strSql.Append(";select @@IDENTITY");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
@@ -101,6 +100,8 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "taolun", DbType.Int32, model.taolun);
             db.AddInParameter(dbCommand, "result", DbType.Int32, model.result);
             db.AddInParameter(dbCommand, "resultreport", DbType.Int32, model.resultreport);
+            db.AddInParameter(dbCommand, "tiwen", DbType.Int32, model.tiwen);
+            db.AddInParameter(dbCommand, "dabian", DbType.Int32, model.dabian);
             db.AddInParameter(dbCommand, "remark", DbType.String, model.remark);
             int result;
             object obj = db.ExecuteScalar(dbCommand);
@@ -142,11 +143,13 @@ namespace WZY.DAL
             strSql.Append("taolun=@taolun,");
             strSql.Append("result=@result,");
             strSql.Append("resultreport=@resultreport,");
+            strSql.Append("tiwen=@tiwen,");
+            strSql.Append("dabian=@dabian,");
             strSql.Append("remark=@remark");
             strSql.Append(" where caseid=@caseid ");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            db.AddInParameter(dbCommand, "caseno", DbType.String, updateSeqNo(model.caseno,model.cateid.Value));
+            db.AddInParameter(dbCommand, "caseno", DbType.String, updateSeqNo(model.caseno, model.cateid.Value));
             db.AddInParameter(dbCommand, "caseid", DbType.Int32, model.caseid);
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
             db.AddInParameter(dbCommand, "custid", DbType.Int32, model.custid);
@@ -171,6 +174,8 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "taolun", DbType.Int32, model.taolun);
             db.AddInParameter(dbCommand, "result", DbType.Int32, model.result);
             db.AddInParameter(dbCommand, "resultreport", DbType.Int32, model.resultreport);
+            db.AddInParameter(dbCommand, "tiwen", DbType.Int32, model.tiwen);
+            db.AddInParameter(dbCommand, "dabian", DbType.Int32, model.dabian);
             db.AddInParameter(dbCommand, "remark", DbType.String, model.remark);
             db.ExecuteNonQuery(dbCommand);
 
@@ -199,7 +204,7 @@ namespace WZY.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseid,caseno,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,remark from cases ");
+            strSql.Append("select caseid,caseno,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark from cases ");
             strSql.Append(" where caseid=@caseid ");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
@@ -221,7 +226,7 @@ namespace WZY.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,deptid,custname,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,remark ");
+            strSql.Append("select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,deptid,custname,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
             strSql.Append(" FROM cases ");
             strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=cases.custid ");
             strSql.Append(" left join (select uid as userid, deptid, username, displayname from sysuser) as b on b.userid=cases.uid ");
@@ -258,7 +263,7 @@ namespace WZY.DAL
         public List<WZY.Model.CASES> GetListArray(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseno,caseid,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,remark ");
+            strSql.Append("select caseno,caseid,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
             strSql.Append(" FROM cases ");
             if (strWhere.Trim() != "")
             {
@@ -382,6 +387,16 @@ namespace WZY.DAL
             {
                 model.taolun = (int)ojb;
             }
+            ojb = dataReader["tiwen"];
+            if (ojb != null && ojb != DBNull.Value)
+            {
+                model.tiwen = (int)ojb;
+            }
+            ojb = dataReader["dabian"];
+            if (ojb != null && ojb != DBNull.Value)
+            {
+                model.dabian = (int)ojb;
+            }
             model.remark = dataReader["remark"].ToString();
             return model;
         }
@@ -418,7 +433,7 @@ namespace WZY.DAL
                 return true;
             }
         }
-        
+
         /// <summary>
         /// 删除多条数据
         /// </summary>

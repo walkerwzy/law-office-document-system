@@ -7,6 +7,9 @@
     <title>上传文件</title>
     <link href="css/public.css" rel="stylesheet" type="text/css" />
     <link href="/js/autoComplete/default.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .ddlcate{width:110px;}
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">

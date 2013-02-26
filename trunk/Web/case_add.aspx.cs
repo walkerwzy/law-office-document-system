@@ -54,15 +54,17 @@ public partial class case_add : validateUser
         this.txtkaiting.Text = model.kaiting.HasValue ? model.kaiting.Value.ToString("yyyy-MM-dd") : "";
         this.txtpanjuetime.Text = model.panjuetime.HasValue ? model.panjuetime.Value.ToString("yyyy-MM-dd") : "";
         this.txtfee.Text = model.fee.ToString();
-        this.ltdetail.Text = genFileLink(model.detail.Value, model.caseid, "detail");
-        this.ltsusong.Text = genFileLink(model.analysis.Value, model.caseid, "analysis");
+        //this.ltdetail.Text = genFileLink(model.detail.Value, model.caseid, "detail");
+        //this.ltsusong.Text = genFileLink(model.analysis.Value, model.caseid, "analysis");
         this.ltevidence.Text = genFileLink(model.evidence.Value, model.caseid, "evidence");
         this.ltopinion.Text = genFileLink(model.opinion.Value, model.caseid, "opinion");
         this.ltdaili.Text = genFileLink(model.quote.Value, model.caseid, "quote");
-        this.ltresult.Text = genFileLink(model.result.Value, model.caseid, "result");
-        this.ltresultreport.Text = genFileLink(model.resultreport.Value, model.caseid, "resultreport");
+        //this.ltresult.Text = genFileLink(model.result.Value, model.caseid, "result");
+        //this.ltresultreport.Text = genFileLink(model.resultreport.Value, model.caseid, "resultreport");
         this.ltqisu.Text = genFileLink(model.qisu, model.caseid, "qisu");
-        this.lttaolun.Text = genFileLink(model.taolun, model.caseid, "taolun");
+        //this.lttaolun.Text = genFileLink(model.taolun, model.caseid, "taolun");
+        this.lttiwen.Text = genFileLink(model.tiwen, model.caseid, "tiwen");
+        this.ltdabian.Text = genFileLink(model.dabian, model.caseid, "dabian");
         this.txtremark.Text = model.remark;
         lbltip.Visible = true;
 
@@ -191,15 +193,18 @@ public partial class case_add : validateUser
             object panjuetime = string.IsNullOrEmpty(txtpanjuetime.Text.Trim()) ? null : DateTime.Parse(this.txtpanjuetime.Text) as object;
             decimal fee = string.IsNullOrEmpty(txtfee.Text.Trim()) ? 0 : decimal.Parse(this.txtfee.Text);
 
-            int detail = upfile(updetail);
-            int analysis = upfile(upsusong);
-            int evidence = upfile(upevidence);
-            int opinion = upfile(upopinion);
-            int quote = upfile(updali);
-            int result = upfile(upresult);
-            int resultreport = upfile(upresultreport);
-            int qisu = upfile(upqisu);
-            int taolun = upfile(uptaolun);
+            int detail = -1;// upfile(updetail);
+            int analysis = -1;//upfile(upsusong);
+            int evidence = upfile(upevidence, 11);
+            int opinion = upfile(upopinion, 12);
+            int quote = upfile(updali, 14);
+            int result = -1;//upfile(upresult);
+            int resultreport = -1;//upfile(upresultreport);
+            int qisu = upfile(upqisu, 10);
+            int taolun = -1;//upfile(uptaolun);
+            int tiwen = upfile(uptiwen, 13);
+            int dabian = upfile(updabian, 15);
+
             string remark = this.txtremark.Text;
 
             WZY.Model.CASES model = new WZY.Model.CASES();
@@ -248,6 +253,10 @@ public partial class case_add : validateUser
                 model.qisu = qisu;
             if (taolun != -1 || isAdd)
                 model.taolun = taolun;
+            if (tiwen != -1 || isAdd)
+                model.tiwen = tiwen;
+            if (dabian != -1 || isAdd)
+                model.dabian = dabian;
             model.remark = remark;
 
             WZY.DAL.CASES bll = new WZY.DAL.CASES();
@@ -270,7 +279,7 @@ public partial class case_add : validateUser
     }
 
 
-    private int upfile(FileUpload fu)
+    private int upfile(FileUpload fu, int cateid)
     {
         XDocument xdoc = Utility.getConfigFile();
         string uploadpath = xdoc.Root.Descendants("uploadpath").SingleOrDefault().Value;
@@ -315,7 +324,8 @@ public partial class case_add : validateUser
 
                 //保存文档记录到数据库
                 WZY.Model.DOCS model = new WZY.Model.DOCS();
-                model.cateid = 7;
+                model.typeid = 2;//诉讼业务
+                model.cateid = cateid;
                 model.custid = Helper.HelperDigit.ConvertToInt32(hidcust.Value, -1);
                 model.docname = orName;
                 model.docpath = suser.displayname + @"\" + docname;

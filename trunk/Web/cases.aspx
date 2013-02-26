@@ -37,7 +37,7 @@
 	        }
 	        var id = $(".selected input:checked").data("id");
 	        var info = $(".selected input:checked").val();
-	        var dlg = new $.dialog({ id: "dg02", title: '修改案件信息', page: "case_add.aspx?act=modify&info="+info+"&t=" + new Date().getMilliseconds() + "&id="+ id +"&url=" + location.href, resize: false, width: 750, height: 500, cover: true, rang: true, cancelBtn: false });
+	        var dlg = new $.dialog({ id: "dg02", title: '修改案件信息', page: "case_add.aspx?act=modify&info="+info+"&t=" + new Date().getMilliseconds() + "&id="+ id +"&url=" + location.href, resize: false, width: 750, height: 600, cover: true, rang: true, cancelBtn: false });
 	        dlg.ShowDialog();
 	    }
         </script>
@@ -147,17 +147,17 @@
         </asp:TemplateField>
 		<asp:BoundField DataField="dijiaotime" HeaderText="递交手续时间" SortExpression="dijiaotime" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px" ItemStyle-Width="80px" DataFormatString="{0:d}" /> 
 		<asp:BoundField DataField="fee" HeaderText="代理费用" SortExpression="fee" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" /> 
-        <asp:TemplateField HeaderText="案件详情" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        <%--<asp:TemplateField HeaderText="案件详情" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("detail").ToString()),Eval("caseid").ToString(),"detail",Eval("deptid").ToString()) %>
             </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField HeaderText="诉讼分析报告" HeaderStyle-Width="80px" ItemStyle-Width="80px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>--%>
+        <%--<asp:TemplateField HeaderText="诉讼分析报告" HeaderStyle-Width="80px" ItemStyle-Width="80px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("analysis").ToString()), Eval("caseid").ToString(), "analysis", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField HeaderText="证据材料" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>--%>
+        <asp:TemplateField HeaderText="证据目录" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("evidence").ToString()), Eval("caseid").ToString(), "evidence", Eval("deptid").ToString())%>
             </ItemTemplate>
@@ -167,36 +167,46 @@
                 <%# getDocPath(Convert.ToInt32(Eval("opinion").ToString()), Eval("caseid").ToString(), "opinion", Eval("deptid").ToString())%>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="代理词/辩护词" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail">
+        <asp:TemplateField HeaderText="代理意见" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("quote").ToString()), Eval("caseid").ToString(), "quote", Eval("deptid").ToString())%>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="起诉状" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        <asp:TemplateField HeaderText="上诉状/起诉状" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("qisu").ToString()), Eval("caseid").ToString(), "quote", Eval("deptid").ToString())%>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="判决结果" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        <asp:TemplateField HeaderText="法庭提问" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+            <ItemTemplate>
+                <%# getDocPath(Convert.ToInt32(Eval("tiwen").ToString()), Eval("caseid").ToString(), "tiwen", Eval("deptid").ToString())%>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="答辩意见" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+            <ItemTemplate>
+                <%# getDocPath(Convert.ToInt32(Eval("dabian").ToString()), Eval("caseid").ToString(), "dabian", Eval("deptid").ToString())%>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <%--<asp:TemplateField HeaderText="判决结果" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("result").ToString()), Eval("caseid").ToString(), "result", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField HeaderText="结案报告" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>--%>
+        <%--<asp:TemplateField HeaderText="结案报告" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("resultreport").ToString()), Eval("caseid").ToString(), "resultreport", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField HeaderText="案件讨论记录" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>--%>
+        <%--<asp:TemplateField HeaderText="案件讨论记录" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("taolun").ToString()), Eval("caseid").ToString(), "quote", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>
+        </asp:TemplateField>--%>
 		<%--<asp:BoundField DataField="detail" HeaderText="案件详情" SortExpression="detail" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="140px" ItemStyle-Width="140px" ItemStyle-CssClass="nodetail" /> 
 		<asp:BoundField DataField="analysis" HeaderText="诉讼分析报告" SortExpression="analysis" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" /> 
 		<asp:BoundField DataField="evidence" HeaderText="证件材料" SortExpression="evidence" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" /> 
 		<asp:BoundField DataField="opinion" HeaderText="质证意见" SortExpression="opinion" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" /> 
-		<asp:BoundField DataField="quote" HeaderText="代理词/辩护词" SortExpression="quote" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" /> 
+		<asp:BoundField DataField="quote" HeaderText="代理意见" SortExpression="quote" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" /> 
 		<asp:BoundField DataField="result" HeaderText="判决结果" SortExpression="result" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" /> 
 		<asp:BoundField DataField="resultreport" HeaderText="结案报告" SortExpression="resultreport" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" />
 		<asp:BoundField DataField="remark" HeaderText="备注" SortExpression="remark" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" />  --%>
@@ -268,21 +278,25 @@
     function getDocname(field){
         switch (field) {
             case "detail":
-            return "案件详情";
+                return "案件详情";
             case "analysis":
-            return "诉讼分析报告";
+                return "诉讼分析报告";
             case "evidence":
-            return "证据材料";
+                return "证据材料";
             case "opinion":
-            return "质证意见";
+                return "质证意见";
             case "quote":
-            return "代理词/辩护词";
+                return "代理意见";
             case "result":
                 return "判决结果";
             case "qisu":
                 return "起诉状";
             case "taolun":
                 return "案件讨论记录";
+            case "tiwen":
+                return "法庭提问";
+            case "dabian":
+                return "答辩意见";
             default:
             return "结案报告";
         
