@@ -53,6 +53,16 @@ namespace Helper
             ddl.DataBind();
         }
 
+        public static void BindData(DropDownList ddl, DataTable dt, string name, string value, string selectedvalue,bool addblank)
+        {
+            ddl.DataSource = dt;
+            ddl.DataTextField = name;
+            ddl.DataValueField = value;
+            ddl.DataBind();
+            ddl.Items.Insert(0, new ListItem("全部", "-1"));
+            ddl.SelectedValue = selectedvalue;
+        }
+
         public static void BindData(DropDownList ddl, DataTable dt, string name, string value, int selectedindex, bool addBlank)
         {
             ddl.Items.Clear();
@@ -60,7 +70,7 @@ namespace Helper
             ddl.DataTextField = name;
             ddl.DataValueField = value;
             ddl.DataBind();
-            ddl.Items.Insert(0, new ListItem("全部", ""));
+            ddl.Items.Insert(0, new ListItem("全部", "-1"));
             ddl.SelectedIndex = 0;
 
         }
