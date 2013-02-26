@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="docs.aspx.cs" Inherits="docs" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="docs.aspx.cs" Inherits="docs" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -12,6 +12,7 @@
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
       
 	<script type="text/javascript">
+        <%="var cates=" + cates + ";" %>
 	    $(function () {
 	        //添加
 	        var dlgAdd = $("#btnAdd").dialog({ id: 'd2', title: '上传文档', page: 'upload.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
@@ -21,7 +22,19 @@
 	        var dlgAddMulti = $("#btnAddm").dialog({ id: 'd2f3', title: '批量上传文档', page: 'multiupload.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
 	            resize: false, width: 670, height: 400, cover: true, cancelBtn: false, rang: true
 	        });
+	        $("#ddltype").change(function () {
+	            var o = $(this);
+	            var ddl = $("#ddlcate").empty().append($("<option/>", { text: '全部', value: -1 }));
+	            var data = cates;
+	            if ($("option:selected", o).index() > 0) data = $(cates).filter(function (i, m) { return m.typeid == o.val(); });
+	            $(data).each(function (i, m) { $("<option/>", { text: m.name, value: m.id }).appendTo(ddl); });
+	        }).trigger("change");
+	        fakeviewstate();
 	    });
+	    //回发后还原非服务器控件的值
+	    function fakeviewstate() {
+	        $("#ddlcate option[value=<%=request_cateid%>]").attr("selected", true);
+	    }
 	    //弹窗_编辑
 	    function detail() {
 	        if ($(".selected").length == 0) {
