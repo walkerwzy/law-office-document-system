@@ -23,7 +23,8 @@ public partial class clients : validateUser
             {
                 tools.addAdminOption(ddlrange);
             }
-            Helper.HelperDropDownList.BindData(ddlcustcate, new WZY.DAL.CATE_CUST().GetList("").Tables[0], "catename", "cateid", 0, true);
+            var clienttype = string.IsNullOrEmpty(Request["clienttype"]) ? "-1" : Request["clienttype"];
+            Helper.HelperDropDownList.BindData(ddlcustcate, new WZY.DAL.CATE_CUST().GetList("").Tables[0], "catename", "cateid", clienttype, true);
             if (cfg.depart)
             {
                 ddlrange.SelectedIndex = 1;

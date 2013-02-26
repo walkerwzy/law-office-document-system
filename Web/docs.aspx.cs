@@ -22,7 +22,8 @@ public partial class docs : validateUser
         if (!IsPostBack)
         {
             //Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0, true);
-            Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", 0, true);
+            var doctype = string.IsNullOrEmpty(Request["type"]) ? "-1" : Request["type"];
+            Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", doctype, true);
             if (suser.roleid == 0 || suser.roleid == 1)
             {
                 tools.addAdminOption(ddlrange);
