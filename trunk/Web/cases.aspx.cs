@@ -33,7 +33,8 @@ public partial class cases : validateUser
                 tools.addAdminOption(ddlrange);
             }
             hiduinfo.Value = suser.uid + "|" + suser.deptid + "|" + suser.roleid;
-            Helper.HelperDropDownList.BindData(ddlcasecate, cate_case, "catename", "cateid", 0, true);
+            var cateid = string.IsNullOrEmpty(Request["casetype"]) ? "-1" : Request["casetype"];
+            Helper.HelperDropDownList.BindData(ddlcasecate, cate_case, "catename", "cateid", cateid, true);
             if (cfg.depart)
             {
                 ddlrange.SelectedIndex = 1;
