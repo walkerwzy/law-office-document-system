@@ -1,7 +1,0 @@
-﻿
-/*pop window use*/
-.maintable{border:1px solid #ccc; border-collapse:collapse; color:#1e5494; margin:10px;}
-.maintable td{border:1px solid #ccc; padding:3px;}
-.maintable td input, .maintable td textarea{border:1px solid #ccc; height:20px;}
-.maintable tr{height:18px; line-height:18px;}
-.maintable th{ text-align:right;}
