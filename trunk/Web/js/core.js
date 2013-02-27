@@ -6,26 +6,26 @@ var src=$("script:last").attr("src");
 $(function () {
     //取type参数，给注册表格事件用
     var args = (/type=([^#&]+).*/i.exec(src) || ["", "single"])[1];
-    setWidthHeight();
-    fixheader();
+    //setWidthHeight();
+    //fixheader();
     //隐藏浮层
-    parent.popAction(false);
+    //parent.popAction(false);
     //选择记录、行选择
     $(".GVcbx").click(function (e) {
+        e.stopPropagation();
         if (args == "single") {
             $(".GVcbx").not(this).attr("checked", false);
             var tr = $(this).parents("tr").eq(0);
-            tr.toggleClass("selected");
-            $(".selected").not(tr).removeClass("selected");
+            tr.toggleClass("selected warning");
+            $(".selected").not(tr).removeClass("selected warning");
         } else {
             var tr = $(this).parents("tr").eq(0);
             var o = $(this);
             setTimeout(function () {
-                if (o.attr("checked")) { $(".selected").not(tr).removeClass("selected"); tr.addClass("selected multiselected"); } else tr.removeClass("selected multiselected");
+                if (o.attr("checked")) { $(".selected").not(tr).removeClass("selected warning"); tr.addClass("selected warning multiselected"); } else tr.removeClass("selected warning multiselected");
                 $("#cbxall").prop("checked", $(".GVcbx").not(":checked").length == 0);
             }, 0);
         }
-        e.stopPropagation();
     });
     var m; //行点击事件延时标志
     $("#gridlist tr").click(function () { var o = this; m = setTimeout(function () { $(".GVcbx", o).click(); }, 200); });
@@ -35,16 +35,16 @@ $(function () {
         var c = $(".GVcbx", this);
         o.toggleClass("selected");
         c.attr("checked", !(c.attr("checked")));
-        $(".selected").not(o).removeClass("selected");
+        $(".selected").not(o).removeClass("selected warning");
         $(".GVcbx").not(c).attr("checked", false);
         if (c.attr("checked")) detail();
     });
     //注册全选
-    if (args != "single") $("#cbxall").click(function () { var thistable = $("#gridlist"); if ($(this).prop("checked")) { $(".GVcbx", thistable).prop("checked", true); $("tr", thistable).addClass("multiselected").last().addClass("selected"); } else { $(".GVcbx", thistable).prop("checked", false); $("tr", thistable).removeClass("selected multiselected"); } });
+    if (args != "single") $("#cbxall").click(function () { var thistable = $("#gridlist"); if ($(this).prop("checked")) { $(".GVcbx", thistable).prop("checked", true); $("tr", thistable).addClass("multiselected").last().addClass("selected"); } else { $(".GVcbx", thistable).prop("checked", false); $("tr", thistable).removeClass("selected warning multiselected"); } });
     //注册横滚事件
     $("#rightcontent").scroll(function () { var left = 0 - this.scrollLeft; $("#fixheader").css({ marginLeft: left }); });
     //浏览器大小改变事件
-    window.onresize = setWidthHeight;
+    //window.onresize = setWidthHeight;
     //表格浮动提示
     $(".nodetail").mouseenter(function (e) { $("#divdetail").html("").hide(); }).find("a").mouseover(function (e) { e.stopPropagation(); });
     $(".detailtb td").not(".nodetail").mouseenter(function (e) { var d = $(this).parent("tr").find(":hidden").val() || ""; if (d != "") { var dvd = $("#divdetail"); dvd.html(d).css({ left: e.pageX, top: e.pageY }).show(); var fh = $(window).height() - e.pageY - dvd.height(); if (fh < 0) dvd.css({ top: $(window).height() - dvd.height() - 13 }); } else $("#divdetail").hide(); })
@@ -56,7 +56,7 @@ $(function () {
     setTheme();
 });
 //动态设定宽高
-function setWidthHeight() { var top = $("#rightcontent").position().top + 25; $("#rightcontent").height($(window).height() - top); }
+//function setWidthHeight() { var top = $("#rightcontent").position().top + 25; $("#rightcontent").height($(window).height() - top); }
 //固定gridview头部
 function fixheader() {
     $("<table/>", { "class": "table1" }).appendTo($("#fixheader")).append($("#gridlist tr:first"));
@@ -75,4 +75,23 @@ function cprint() {
     $("td span").each(function (i, m) { var o = $(m); o.text(o.data("ot")); });
     $("#gridlist tr:first").remove();
     $(".div_top").add(".divpager").add(":checkbox").show();
+}
+
+
+//原首页的popAction用以显示加载中的效果
+function popAction(action) {
+    alert(action);
+}
+
+
+//取cookie值
+function getCookie(name) {
+    var arr = document.cookie.match(new RegExp("(^|;\\s*)" + name + "=([^;]*)(;|$)"));
+    if (arr != null) return unescape(decodeURI(arr[2])); return "";
+}
+//设置cookie
+function setCookie(c_name, value, expiredays) {
+    var exdate = new Date();
+    exdate.setDate(exdate.getDate() + expiredays);
+    document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toUTCString());
 }
