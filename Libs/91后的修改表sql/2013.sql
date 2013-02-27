@@ -4,6 +4,8 @@ alter table cases add tiwen int;
 go
 alter table cases add dabian int;
 go
+update cases set tiwen=-1,dabian=-1;
+go
 
 --为文档表添加业务类型的列
 alter table docs add typeid int;
