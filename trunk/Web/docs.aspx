@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
     <title>文档管理</title>
     <link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
     <link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />
@@ -11,47 +11,51 @@
     <script type="text/javascript" src="/js/lhgdialog.min.js"></script>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
       
-	<script type="text/javascript">
+        <script type="text/javascript">
         <%="var cates=" + cates + ";" %>
-	    $(function () {
-	        //添加
-	        var dlgAdd = $("#btnAdd").dialog({ id: 'd2', title: '上传文档', page: 'upload.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
-	            resize: false, width: 500, height: 400, cover: true, cancelBtn: false, rang: true
-	        });
-	        //批量上传
-	        var dlgAddMulti = $("#btnAddm").dialog({ id: 'd2f3', title: '批量上传文档', page: 'multiupload.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
-	            resize: false, width: 670, height: 400, cover: true, cancelBtn: false, rang: true
-	        });
-	        $("#ddltype").change(function () {
-	            var o = $(this);
-	            var ddl = $("#ddlcate").empty().append($("<option/>", { text: '全部', value: -1 }));
-	            var data = cates;
-	            if ($("option:selected", o).index() > 0) data = $(cates).filter(function (i, m) { return m.typeid == o.val(); });
-	            $(data).each(function (i, m) { $("<option/>", { text: m.name, value: m.id }).appendTo(ddl); });
-	        }).trigger("change");
-	        fakeviewstate();
-	    });
-	    //回发后还原非服务器控件的值
-	    function fakeviewstate() {
-	        $("#ddlcate option[value=<%=request_cateid%>]").attr("selected", true);
-	    }
-	    //弹窗_编辑
-	    function detail() {
-	        if ($(".selected").length == 0) {
-	            alert("请选择一条记录！");
-	            return;
-	        }
-	        var id = $(".selected input:checked").val();
-	        var auth = $(".selected input:hidden").val();
-	        var dlg = new $.dialog({ id: "dg02", title: '编辑文档', page: 'upload.aspx?act=modify&auth='+auth+'&id=' + id + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
-             resize: false, width: 500, height: 400, cover: true, rang: true, cancelBtn: false });
-	        dlg.ShowDialog();
-	    }        
+            $(function () {
+                //添加
+                var dlgAdd = $("#btnAdd").dialog({
+                    id: 'd2', title: '上传文档', page: 'upload.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
+                    resize: false, width: 500, height: 400, cover: true, cancelBtn: false, rang: true
+                });
+                //批量上传
+                var dlgAddMulti = $("#btnAddm").dialog({
+                    id: 'd2f3', title: '批量上传文档', page: 'multiupload.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
+                    resize: false, width: 670, height: 400, cover: true, cancelBtn: false, rang: true
+                });
+                $("#ddltype").change(function () {
+                    var o = $(this);
+                    var ddl = $("#ddlcate").empty().append($("<option/>", { text: '全部', value: -1 }));
+                    var data = cates;
+                    if ($("option:selected", o).index() > 0) data = $(cates).filter(function (i, m) { return m.typeid == o.val(); });
+                    $(data).each(function (i, m) { $("<option/>", { text: m.name, value: m.id }).appendTo(ddl); });
+                }).trigger("change");
+                fakeviewstate();
+            });
+            //回发后还原非服务器控件的值
+            function fakeviewstate() {
+                $("#ddlcate option[value=<%=request_cateid%>]").attr("selected", true);
+            }
+            //弹窗_编辑
+            function detail() {
+                if ($(".selected").length == 0) {
+                    alert("请选择一条记录！");
+                    return;
+                }
+                var id = $(".selected input:checked").val();
+                var auth = $(".selected input:hidden").val();
+                var dlg = new $.dialog({
+                    id: "dg02", title: '编辑文档', page: 'upload.aspx?act=modify&auth=' + auth + '&id=' + id + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
+                    resize: false, width: 500, height: 400, cover: true, rang: true, cancelBtn: false
+                });
+                dlg.ShowDialog();
+            }
         </script>
 </head>
 <body>
     <form id="form1" runat="server" defaultbutton="LinkButton1">
-	<div id="container">
+        <div id="container">
     <div class="div_top">
          <div class="nav">
           当前位置&nbsp;&nbsp;>&nbsp;&nbsp;<%if (usecustid)
@@ -197,7 +201,7 @@
 </body>
 <script src="/js/ca/WdatePicker.js" type="text/javascript"></script>
 <script type="text/javascript">
-    function checkQuery() {return true;}
+    function checkQuery() { return true; }
     function deldoc(id) {
         if (!confirm("确认删除？")) return;
         //ajax删除文件

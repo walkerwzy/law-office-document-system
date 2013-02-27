@@ -100,7 +100,7 @@ namespace WZY.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update docs set ");
             strSql.Append("uid=@uid,");
-            strSql.Append("typeid=@typeeid,");
+            strSql.Append("typeid=@typeid,");
             strSql.Append("cateid=@cateid,");
             strSql.Append("custid=@custid,");
             strSql.Append("docname=@docname,");
