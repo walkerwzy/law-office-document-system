@@ -1,18 +1,14 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="docs.aspx.cs" Inherits="docs" EnableEventValidation="false" %>
-<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
-<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
-<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>文档管理</title>
-    <%--<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
+    <link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
     <link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript" src="/js/lhgdialog.min.js"></script>--%>
-    <walker:header ID="myheader" runat="server" />
+    <script type="text/javascript" src="/js/lhgdialog.min.js"></script>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
       
 	<script type="text/javascript">
@@ -55,7 +51,6 @@
 </head>
 <body>
     <form id="form1" runat="server" defaultbutton="LinkButton1">
-    <walker:navi ID="mynavi" runat="server" />
 	<div id="container">
     <div class="div_top">
          <div class="nav">
