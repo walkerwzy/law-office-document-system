@@ -27,8 +27,9 @@ public partial class qkupload : validateUser
                 Response.Write("非法入口");
                 Response.End();
             }
-            txtcust.Text=c.custname;
-            Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0);
+            txtcust.Text = c.custname;
+            Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", 0);
+            ddltype_TextChanged(null, null);
             hiduserid.Value = suser.uid.ToString();
         }
     }
@@ -89,6 +90,7 @@ public partial class qkupload : validateUser
 
             //保存文档记录到数据库
             WZY.Model.DOCS model = new WZY.Model.DOCS();
+            model.typeid = Helper.HelperDigit.ConvertToInt32(Request["ddltype"], -1);
             model.cateid = Helper.HelperDigit.ConvertToInt32(ddlcate.Text, -1);
             model.custid = Helper.HelperDigit.ConvertToInt32(hidcateid.Value, -1);
             model.docname = string.IsNullOrEmpty(txtdocname.Text.Trim()) ? orName : txtdocname.Text.Trim();
@@ -115,6 +117,11 @@ public partial class qkupload : validateUser
     public void btnCancle_Click(object sender, EventArgs e)
     {
         runJS("location.href=location.href;");
+    }
+
+    protected void ddltype_TextChanged(object sender, EventArgs e)
+    {
+        Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetListByType(ddltype.Text).Tables[0], "catename", "cateid", 0);
     }
 
 }
