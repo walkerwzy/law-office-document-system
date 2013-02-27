@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="upload.aspx.cs" Inherits="upload" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="upload.aspx.cs" Inherits="upload" EnableEventValidation="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +14,7 @@
     <asp:HiddenField runat="server" ID="hiddocid" Value="" />
     <asp:HiddenField runat="server" ID="hiduserid" />
     <asp:ScriptManager ID="spm1" runat="server"></asp:ScriptManager>
-<table cellSpacing="0" cellPadding="0" width="100%" border="0" class="mytable">
+<table cellspacing="0" cellpadding="0" width="100%" border="0" class="mytable">
 	<tr>
 	<td height="32" width="100px" align="right">
 		主营业务

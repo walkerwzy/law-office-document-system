@@ -54,7 +54,7 @@ public partial class upload : validateUser
         {
             WZY.Model.DOCS model = bll.GetModel(Helper.HelperDigit.ConvertToInt32(hiddocid.Value, -1));
             model.custid = Convert.ToInt32(hidcateid.Value);
-            model.typeid = Helper.HelperDigit.ConvertToInt32(ddltype.Text, -1);
+            model.typeid = Helper.HelperDigit.ConvertToInt32(Request["ddltype"], -1);
             model.cateid = Helper.HelperDigit.ConvertToInt32(ddlcate.Text, -1);
             model.docname = txtdocname.Text.Trim();
             model.remark = txtremark.Text.Trim();
@@ -66,6 +66,7 @@ public partial class upload : validateUser
             }
             catch (Exception ex)
             {
+                Helper.log.error("修改文档失败：\n" + ex.Message);
                 showDialogWithAlert("保存失败：\n" + ex.Message);
             }
             return;
