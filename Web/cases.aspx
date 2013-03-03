@@ -1,14 +1,18 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="cases.aspx.cs" Inherits="cases" ValidateRequest="false" %>
+<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
+<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
+<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
+<%@ Register TagPrefix="walker" TagName="popover" Src="~/controls/popover.ascx" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>案件管理</title>
-    <link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
+    <%--<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
     <link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript" src="/js/lhgdialog.min.js"></script>
+    <script type="text/javascript" src="/js/lhgdialog.min.js"></script>--%>
+    <walker:header runat="server" ID="myheader" mytitle="案件管理" />
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
       
 	<script type="text/javascript">
@@ -44,27 +48,35 @@
 </head>
 <body>
     <form id="form1" runat="server" defaultbutton="LinkButton1">
-	<div id="container">
-    <div class="div_top">
-         <div class="nav">
-          当前位置&nbsp;&nbsp;>&nbsp;&nbsp;<%if (usecustid)
-                                         { %><a href='/clients.aspx?f=<%=Request.QueryString["f"] %>' style="text-decoration:none; color:Blue;">客户管理</a>&nbsp;&nbsp;>&nbsp;&nbsp;<%} %>案件管理
+    <walker:navi runat="server" ID="mynavi" menu="cases" />
+	<div id="container" class="container">
+    <div class="div_top container">
+         <div class="nav breadcrumb">
+          当前位置&nbsp;&nbsp;>&nbsp;&nbsp;
+             <%if (usecustid){ %>
+             <a href='/clients.aspx?f=<%=Request.QueryString["f"] %>' style="text-decoration:none; color:Blue;">客户管理</a>&nbsp;&nbsp;>&nbsp;&nbsp;
+             <%} %>案件管理
+             <%--<a href="javascript:void(0);" onclick='location.href=&#39;/clients.aspx?f=&#39;+encodeURIComponent(&#39;<%= Request.QueryString["f"] %>&#39;);' class="btn1" id="A1">客户管理</a>--%>
         </div>
         <!--简单过滤开始-->
-                <% if (usecustid)
-                   { %>
-        <div class="toolbar">
-            <table class="tab1">
-                <tr>
-                <td valign="top">
-                    <a href="javascript:void(0);" onclick='location.href=&#39;/clients.aspx?f=&#39;+encodeURIComponent(&#39;<%= Request.QueryString["f"] %>&#39;);' class="btn1" id="A1">返回客户管理</a>
-                </td>
-                </tr>
-            </table>
-        </div>
-                <%} %>
-        <div class="toolbar" <% if(usecustid){ %>style="display:none;"<%} %>>
-            <table class="tab1">
+        <div class="toolbar form-inline" <% if(usecustid){ %>style="display:none;"<%} %>>
+            <fieldset>
+                <legend>查询条件</legend>
+                <label>案件类别：<asp:DropDownList ID="ddlcasecate" runat="server"></asp:DropDownList></label>
+                <label>案件编号：<input type="text" title="案件编号" id="txtno" class="tinput shortTxt input-small" runat="server" /></label>
+                <label>委托人：<input type="text" title="委托人" id="txtpeople" class="tinput shortTxt input-small" runat="server" /></label>
+                <label>案由：<input type="text" title="案由" id="txtreason" class="tinput shortTxt input-small" runat="server" /></label>
+                <label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label><br />
+                <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',startDate:'%y-{%M-1}-%d',maxDate:'%y-{%M}-%d'});" runat="server" /></label>
+                <label>至：<input id="txtedate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtsdate\')}',maxDate:'%y-%M-%d'});" runat="server" /></label>&nbsp;&nbsp;
+                <div class="btn-group">
+                    <asp:Button runat="server" ID="LinkButton1" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnEdit" onclick="detail();">编辑</a>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd">添加</a>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnDelShow" onclick="return checkQuery();">删除</a>
+                </div>
+            </fieldset>
+            <%--<table class="tab1">
                 <tr>
                     <td>案件类别：</td>
                     <td><div class="select"><div><asp:DropDownList ID="ddlcasecate" runat="server"></asp:DropDownList></div></div></td>
@@ -85,9 +97,9 @@
                         <div class="select"><div><asp:DropDownList runat="server" ID="ddlrange"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></div></div>
                     </td>
                 </tr>
-            </table>
+            </table>--%>
         </div> 
-        <div class="toolbar" <% if(usecustid){ %>style="display:none;"<%} %>>
+        <%--<div class="toolbar" <% if(usecustid){ %>style="display:none;"<%} %>>
             <table class="tab1">
                 <tr>
                     <td>收案日期：</td>
@@ -98,9 +110,9 @@
                 <td valign="top">
                     <asp:Button runat="server" ID="LinkButton1" Text="查询" OnClick="btnsearch" CssClass="btn1" />
                 </td>
-                <%--<td valign="top">
+                <td valign="top">
                     <a href="javascript:void(0);" class="btn1" id="btnHighQuery">高级搜索</a>
-                </td>--%>
+                </td>
                 <td valign="top">
                     <a href="javascript:void(0);" class="btn1" id="btnEdit" onclick="detail();">编辑</a>
                 </td>
@@ -113,13 +125,13 @@
                 </td>
                 </tr>
             </table>
-        </div>
+        </div>--%>
         <!--简单过滤结束-->
-        <div class="fixheader" id="fixheader"></div>
+        <%--<div class="fixheader" id="fixheader"></div>--%>
     </div>
     <asp:HiddenField runat="server" ID="hiduinfo" />
-    <div class="rightcontent" id="rightcontent">
-    <asp:GridView ID="gridlist" CssClass="table1 detailtb" runat="server" DataKeyNames="caseid" AutoGenerateColumns="false" OnRowDataBound="gvdatabind" style="width:1380px;">
+    <div class="rightcontent container" id="rightcontent">
+    <asp:GridView ID="gridlist" CssClass="table1 detailtb  table table-bordered table-condensed" runat="server" DataKeyNames="caseid" AutoGenerateColumns="false" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="false">
     <Columns>
         <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px">
             <HeaderTemplate><input type="checkbox" id="cbxall" /></HeaderTemplate>
@@ -210,14 +222,14 @@
 		<asp:BoundField DataField="result" HeaderText="判决结果" SortExpression="result" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" /> 
 		<asp:BoundField DataField="resultreport" HeaderText="结案报告" SortExpression="resultreport" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" />
 		<asp:BoundField DataField="remark" HeaderText="备注" SortExpression="remark" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" ItemStyle-CssClass="nodetail" />  --%>
-        <asp:TemplateField HeaderText="&nbsp;"><ItemTemplate>&nbsp;</ItemTemplate></asp:TemplateField>
+        <%--<asp:TemplateField HeaderText="&nbsp;"><ItemTemplate>&nbsp;</ItemTemplate></asp:TemplateField>--%>
     </Columns>
     </asp:GridView>
     </div>
     <div class="divpager">
         <asp:Label runat="server" ID="lblpager"></asp:Label>
     </div>
-    <div id="divdetail"></div>
+    <div id="divdetail"><walker:popover runat="server" ID="mypopover" poptitle="案件详情" /></div>
     </div>
     </form>
 </body>

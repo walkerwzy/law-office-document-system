@@ -281,6 +281,25 @@ namespace WZY.DAL
             Database db = DatabaseFactory.CreateDatabase();
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
         }
+
+        public DataSet GetDailyDocCount(DateTime starttime, DateTime endtime)
+        {
+            string sql = "select count(*) ctr, cast(uptime as date) dates from docs where uptime>='" + starttime.ToString("yyyy-MM-dd") + "' and uptime<='" + endtime.ToString("yyyy-MM-dd") + "' group by cast(uptime as date)";
+            try
+            {
+                var db = DatabaseFactory.CreateDatabase();
+                DataSet ds = db.ExecuteDataSet(CommandType.Text, sql);
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Helper.log.error("查询每日文件上传数出错：" + sql, ex.Message);
+                DataSet ds = new DataSet();
+                DataTable dt = new DataTable();
+                ds.Tables.Add(dt);
+                return ds;
+            }
+        }
     }
 }
 

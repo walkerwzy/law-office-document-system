@@ -72,6 +72,11 @@ public partial class cases : validateUser
         {
             DataRowView dr = e.Row.DataItem as DataRowView;
             string detail = "<b>承办律师：</b>{8}<br /><b>承办法官：</b>{0}<br/ ><b>法官电话：</b>{1}<br/ ><b>审理法院：</b>{9}<br/><b>法官办公室：</b>{2}<br/ ><b>开庭日期：</b>{3}<br/ ><b>判决日期：</b>{4}<br/ ><b>收案日期：</b>{5}<br /><b>案由：</b>{6}<br /><b>备注：</b>{7}";
+            //e.Row.Attributes["data-role"] = "popover";
+            //e.Row.Attributes["data-placement"] = "right";
+            //e.Row.Attributes["data-content"] = string.Format(detail, dr["faguan"].ToString(), dr["faguantel"].ToString(), dr["office"].ToString(), getdatetime(dr["kaiting"]), getdatetime(dr["panjuetime"]), getdatetime(dr["shouan"]), dr["anyou"].ToString(), dr["remark"].ToString(), dr["displayname"].ToString(), dr["court"].ToString());
+            //e.Row.Attributes["data-original-title"] = "案件详情";
+            //e.Row.Attributes["data-trigger"] = "manual";
             (e.Row.Cells[0].FindControl("hiddetail") as HiddenField).Value = string.Format(detail, dr["faguan"].ToString(), dr["faguantel"].ToString(), dr["office"].ToString(), getdatetime(dr["kaiting"]), getdatetime(dr["panjuetime"]), getdatetime(dr["shouan"]), dr["anyou"].ToString(), dr["remark"].ToString(), dr["displayname"].ToString(), dr["court"].ToString());
             e.Row.Cells[2].Text = cate_case.Select("cateid=" + dr["cateid"].ToString())[0]["catename"].ToString();
         }
