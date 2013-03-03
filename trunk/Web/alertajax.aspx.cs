@@ -39,6 +39,9 @@ public partial class alertajax : validateUser
             case "delagendar":
                 delAgendar();
                 break;
+            case "docs":
+                doccount();
+                break;
             default:
                 BigThing();
                 break;
@@ -288,6 +291,39 @@ public partial class alertajax : validateUser
         Response.Write(msg.ToString());
         Response.End();
 
+    }
+
+    //上传文档数
+    private void doccount()
+    {
+        Response.Clear();
+        Response.ContentType = "text/plain";
+
+        islogin();
+        StringBuilder msg = new StringBuilder();
+        DateTime dtstart = tools.ConvertIntDateTime(Convert.ToInt64(Request["start"]));
+        DateTime dtend = tools.ConvertIntDateTime(Convert.ToInt64(Request["end"]));
+        DataTable dt = new WZY.DAL.DOCS().GetDailyDocCount(dtstart, dtend).Tables[0];
+        msg.Append("[");
+        if (dt.Rows.Count > 0)
+        {
+            bool isfirst = true;
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (!isfirst)
+                {
+                    msg.Append(",");
+                }
+                else
+                {
+                    isfirst = false;
+                }
+                msg.Append("{\"title\":\"有" + dr["ctr"].ToString() + "份新文档上传\",\"start\":\"" + Convert.ToDateTime(dr["dates"]).ToString("yyyy-MM-dd") + "\",\"description\":\"今日共有" + dr["ctr"].ToString() + "份新文档上传\",\"url\":\"/docs.aspx?date=" + dr["dates"].ToString() + "\",\"editable\":false}");
+            }
+        }
+        msg.Append("]");
+        Response.Write(msg.ToString());
+        Response.End();
     }
 
     //更改日程安排

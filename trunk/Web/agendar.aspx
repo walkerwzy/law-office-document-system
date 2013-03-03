@@ -1,9 +1,17 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="agendar.aspx.cs" Inherits="agendar" %>
+<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
+<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
+<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
+
+<!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title></title>
-<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
-<link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>主页</title>
+<%--<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />--%>
+    <walker:header ID="myheader" runat="server" />
 <link href="js/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
 <link href="js/fullcalendar/fullcalendar.print.css" rel="stylesheet" type="text/css" media="print" />
     <style type="text/css">
@@ -17,39 +25,33 @@
         .cgray, .cgray div{background:Gray; border-color:Gray;}
         .corange, .orange div{background:#ec870e; border-color:#ec870e;}
         .cpurple, .cpurple div{background:#f3a;border-color:#d2a;}
-        .cyellow, .cyellow div{background:#ff3;border-color:#df3; color:#333;}
+        .cyellow, .cyellow div{background:#ff3;border-color:#ff3; color:#333;}
+        
+        #a-detail{margin:20px;}
+        #a-detail li{ vertical-align:top;}
+        #txtcont{width:400px;height:100px;resize:none;}
     </style>
 </head>
 <body>
-<div id="container">
-    <div class="div_top">
-         <div class="nav">
-          当前位置&nbsp;&nbsp;>&nbsp;&nbsp;日程安排
+    <form id="form1" runat="server">
+    <walker:navi ID="mynavi" runat="server" menu="home" />
+    <div class="container">
+        <div class="breadcrumb">
+            当前位置&nbsp;&nbsp;>&nbsp;&nbsp;主页
         </div>
-        <div class="fixheader" id="fixheader"></div>
     </div>
-    <div class="rightcontent" id="rightcontent">
-        <div id='calendar'></div>
-    </div>
-    <div class="divpager"></div>
-    </div>
+    <div id='calendar'></div>
     <div style="display:none;" id="agendarform">
-        <ul id="a-detail">
-            <style type="text/css">
-                #a-detail{margin:20px;}
-                #a-detail li{ vertical-align:top;}
-                #txtcont{width:400px;height:100px;resize:none;}
-            </style>
-            <li>事件内容：<textarea id="txtcont" class="tinput"></textarea></li>
-            <li>不公开：<input type="checkbox" id="cbxprivate"/><span class="tgray">不公开的日程只有本人能查看</span></li>
-        </ul>
+    <ul id="a-detail">
+        <li>事件内容：<textarea id="txtcont" class="tinput"></textarea></li>
+        <li>不公开：<input type="checkbox" id="cbxprivate"/><span class="tgray">不公开的日程只有本人能查看</span></li>
+    </ul>
     </div>
-</body>
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
-    <script src="js/fullcalendar/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
+    </form>
+    
+    <script src="js/fullcalendar/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
     <script src="js/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
     <script src="js/fullcalendar/gcal.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/lhgdialog.min.js"></script>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -63,8 +65,8 @@
              { url: 'alertajax.aspx?act=kaiting', className: 'cred' },
              { url: 'alertajax.aspx?act=birthday', className: 'cgray' },
              { url: 'alertajax.aspx?act=xuyue', className: 'corange' },
-             { url: 'alertajax.aspx?act=docs', className:'cyellow' },
-             { url: 'https://www.google.com/calendar/feeds/china__zh_cn%40holiday.calendar.google.com/public/basic', className: "cgreen cgoogle"}];
+             { url: 'alertajax.aspx?act=docs', className: 'cyellow' },
+             { url: 'https://www.google.com/calendar/feeds/china__zh_cn%40holiday.calendar.google.com/public/basic', className: "cgreen cgoogle" }];
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
@@ -150,7 +152,7 @@
                             $('#calendar').fullCalendar('updateEvent', e);
                         } else {
                             //$('#calendar').fullCalendar('addEventSource', [{ id: f[1], title: nt, description: nt, start: e}]);此两次效果相同
-                            $('#calendar').fullCalendar('renderEvent', { id: f[1], title: nt, description: nt, start: e});
+                            $('#calendar').fullCalendar('renderEvent', { id: f[1], title: nt, description: nt, start: e });
                         }
                     }
                     else alert(d);
@@ -159,4 +161,5 @@
             });
         }
     </script>
+</body>
 </html>

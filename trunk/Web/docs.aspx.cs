@@ -132,7 +132,7 @@ public partial class docs : validateUser
             bool candel = false;
             if (dr["uid"].ToString() == suser.uid.ToString() || (dr["deptid"].ToString() == suser.deptid.ToString() && suser.roleid == 1) || suser.roleid == 0)
             { candel = true; }
-            e.Row.Cells[6].Text = tools.getDocViewDel(Convert.ToInt32(dr["docid"]), candel);
+            e.Row.Cells[7].Text = tools.getDocViewDel(Convert.ToInt32(dr["docid"]), candel);
             (e.Row.Cells[0].FindControl("hidcandel") as HiddenField).Value = candel ? "1" : "0";
         }
     }

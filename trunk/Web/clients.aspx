@@ -1,14 +1,18 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="clients.aspx.cs" Inherits="clients" ValidateRequest="false" EnableEventValidation="false" %>
+<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
+<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
+<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
+<%@ Register TagPrefix="walker" TagName="popover" Src="~/controls/popover.ascx" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>客户管理</title>
-    <link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
+<%--    <link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
     <link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript" src="/js/lhgdialog.min.js"></script>
+    <script type="text/javascript" src="/js/lhgdialog.min.js"></script>--%>
+    <walker:header runat="server" ID="myheader" mytitle="客户管理" />
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
       
 	<script type="text/javascript">
@@ -106,16 +110,50 @@
 </head>
 <body>
 <form id="form1" runat="server" defaultbutton="LinkButton1">
+    <walker:navi runat="server" ID="mynavi" menu="clients" />
     <asp:HiddenField runat="server" ID="hidquery" />
     <asp:HiddenField runat="server" ID="hidbackaction" Value="0" />
-	<div id="container">
-    <div class="div_top">
-         <div class="nav">
+	<div id="container" class="container">
+    <div class="div_top container">
+         <div class="nav breadcrumb">
           当前位置&nbsp;&nbsp;>&nbsp;&nbsp;客户管理
         </div>
         <!--简单过滤开始-->
-        <div class="toolbar">
-            <table class="tab1">
+        <div class="toolbar form-inline">
+            <fieldset>
+                <legend>查询条件</legend>
+                <label>签约状态：<asp:DropDownList runat="server" ID="ddlqianyue" style="width:100px;"><asp:ListItem>签约客户</asp:ListItem><asp:ListItem>意向客户</asp:ListItem><asp:ListItem>未续约客户</asp:ListItem><asp:ListItem>全部</asp:ListItem></asp:DropDownList></label>
+                <label>客户类别：<asp:DropDownList runat="server" ID="ddlcustcate" style="width:125px;"></asp:DropDownList></label>
+                <label>签约时间：<asp:TextBox runat="server" ID="txtstime" CssClass="tinput shortTxt Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" style="width:80px!important;"></asp:TextBox></label>
+                <label>至：<asp:TextBox runat="server" ID="txtetime" CssClass="tinput shortTxt Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" style="width:80px!important;"></asp:TextBox></label>
+                <label><asp:DropDownList runat="server" ID="ddlnametype" style="width:140px;"><asp:ListItem>客户名称</asp:ListItem><asp:ListItem>法定代表人名称</asp:ListItem><asp:ListItem>负责人名称</asp:ListItem></asp:DropDownList>
+                    ：
+                    <input type="text" id="txtcustname" class="tinput shortTxt input-small" runat="server" />
+                </label><br />
+                <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txteTime')[0].focus();}});" runat="server" style="width:80px!important;" /></label>
+                <label>至：<input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" style="width:80px!important;" /></label>
+                <label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>&nbsp;&nbsp;
+                <div class="btn-group">
+                    <asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd">添加</a>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnChange" onclick="change();">转移客户</a>
+                    <a href="javascript:cprint();" class="btn1 btn">打印</a>
+                    <asp:LinkButton runat="server" ID="lbtnexcel" OnClick="export" CssClass="btn1 btn">导出</asp:LinkButton>
+                </div>&nbsp;&nbsp;
+                <label>
+                对选定客户操作：
+                    <div class="btn-group">
+                        <a href="javascript:void(0);" class="btn1 btn" id="btnHighQuery" onclick="detail();">编辑</a>
+                        <asp:Button runat="server" ID="btnDel" Text="删除" OnClick="delcust" OnClientClick="return candel();" CssClass="btn1 btn" />
+                        <a href="javascript:void(0);" class="btn1 btn" id="A11" onclick="getCases();">相关案件</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A12" onclick="getDocs();">相关文档</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A13" onclick="getContract();">签约记录</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A14" onclick="addVisit();">拜访记录</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A15  " onclick="upload();">上传资料</a>
+                    </div>
+                </label>
+            </fieldset>
+            <%--<table class="tab1">
                 <tr>
                     <td valign="middle">签约状态：</td>
                     <td valign="top">
@@ -140,23 +178,23 @@
                     <td valign="top">
                         <input type="text" id="txtcustname" class="tinput shortTxt" runat="server" />
                     </td>
-                    <%--<td valign="middle">法定代表人：</td>
+                    <td valign="middle">法定代表人：</td>
                     <td valign="top">
                         <input type="text" title="法定代表人" id="txtown" class="tinput shortTxt" runat="server" />
                     </td>
                     <td valign="middle">负责人：</td>
-                    <td valign="top"><asp:TextBox runat="server" ID="txtcharge" CssClass="tinput shortTxt"></asp:TextBox></td>--%>
+                    <td valign="top"><asp:TextBox runat="server" ID="txtcharge" CssClass="tinput shortTxt"></asp:TextBox></td>
                 </tr>
-            </table>
+            </table>--%>
         </div> 
-        <div class="toolbar">
+        <%--<div class="toolbar">
             <table class="tab1">
                 <tr>
-                    <%--<td>收案日期：</td>
+                    <td>收案日期：</td>
                     <td>
                         <input id="txtsdate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txteTime')[0].focus();}});" runat="server" />至：
                         <input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" />
-                    </td>--%>
+                    </td>
                     <td valign="middle">数据范围：</td>
                     <td valign="top">
                         <div class="select"><div><asp:DropDownList runat="server" ID="ddlrange"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></div></div>
@@ -164,9 +202,9 @@
                 <td valign="top">
                     <asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1" />
                 </td>
-                <%--<td valign="top">
+                <td valign="top">
                     <a href="javascript:void(0);" class="btn1" id="btnHighQuery">高级搜索</a>
-                </td>--%>
+                </td>
                 <td valign="top">
                     <a href="javascript:void(0);" class="btn1" id="btnAdd">添加</a>
                 </td>
@@ -205,13 +243,13 @@
                 </td>
                 </tr>
             </table>
-        </div>
+        </div>--%>
         <!--简单过滤结束-->
         <div class="fixheader" id="fixheader"></div>
     </div>
     <div class="rightcontent" id="rightcontent">
     
-            <asp:GridView ID="gridlist" runat="server" DataKeyNames="custid" AutoGenerateColumns="false" CssClass="table1 detailtb" style="width:1150px;" OnRowDataBound="gvdatabind">
+            <asp:GridView ID="gridlist" runat="server" DataKeyNames="custid" AutoGenerateColumns="false" CssClass="table1 detailtb table table-condesed table-bordered" style="width:1150px;" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="false">
                     <Columns>
         <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px">
             <HeaderTemplate><%--<input type="checkbox" id="cbxall" />--%></HeaderTemplate>
@@ -259,7 +297,7 @@
                 <a href="javascript:void(0);" onclick='upload(<%# Eval("custid") %>);'>上传资料</a>
             </ItemTemplate>
         </asp:TemplateField>--%>
-        <asp:TemplateField HeaderText=" "><ItemTemplate>&nbsp;</ItemTemplate></asp:TemplateField>
+        <%--<asp:TemplateField HeaderText=" "><ItemTemplate>&nbsp;</ItemTemplate></asp:TemplateField>--%>
     </Columns>
                 </asp:GridView>
     </div>
