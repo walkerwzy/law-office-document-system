@@ -317,6 +317,18 @@ namespace WZY.DAL
             object r = db.ExecuteScalar(CommandType.Text, sql);
             return r.ToString();
         }
+        /// <summary>
+        /// 获取用户姓名
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public string GetUserDisplayNameByID(int uid)
+        {
+            string sql = "select top 1 displayname from sysuser where uid=" + uid;
+            Database db = DatabaseFactory.CreateDatabase();
+            object r = db.ExecuteScalar(CommandType.Text, sql);
+            return r.ToString();
+        }
 
     }
 }

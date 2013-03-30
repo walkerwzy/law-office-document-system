@@ -1,7 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="docs.aspx.cs" Inherits="docs" EnableEventValidation="false" %>
-<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
-<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
-<%--<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>--%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -71,7 +68,7 @@
                 <label>上传人：<input type="text" title="上传人" id="txtuser" class="tinput shortTxt input-small" runat="server" /></label>
                 <label>客户名：<input type="text" title="客户名" id="txtcust" class="tinput shortTxt input-small" runat="server" /></label>
                 <label>案由：<input type="text" title="案由" id="txtfilename" class="tinput shortTxt" runat="server" /></label>
-                <label>数据范围：<asp:DropDownList ToolTip="数据范围" runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label><br />
+                <%--<label>数据范围：<asp:DropDownList ToolTip="数据范围" runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%><br />
                 <label>开始时间：<input id="txtsdate" type="text" class="Wdate shortTxt input-small" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txtedate')[0].focus();}});" runat="server" /></label>
                 <label>结束时间：<input id="txtedate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" /></label>
                 &nbsp;&nbsp;

@@ -1,8 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="cases.aspx.cs" Inherits="cases" ValidateRequest="false" %>
-<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
-<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
-<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
-<%@ Register TagPrefix="walker" TagName="popover" Src="~/controls/popover.ascx" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -30,7 +26,7 @@
 //	        });
 	        //添加
 	        var dlgAdd = $("#btnAdd").dialog({ id: 'd2', title: '添加案件', page: 'case_add.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
-	            resize: true, width: 750, height: 600, cover: true, cancelBtn: false, rang: true
+	            resize: true, width: 750, height: 660, cover: true, cancelBtn: false, rang: true
 	        });
 	    });
 	    //弹窗_编辑
@@ -41,7 +37,7 @@
 	        }
 	        var id = $(".selected input:checked").data("id");
 	        var info = $(".selected input:checked").val();
-	        var dlg = new $.dialog({ id: "dg02", title: '修改案件信息', page: "case_add.aspx?act=modify&info="+info+"&t=" + new Date().getMilliseconds() + "&id="+ id +"&url=" + location.href, resize: false, width: 750, height: 600, cover: true, rang: true, cancelBtn: false });
+	        var dlg = new $.dialog({ id: "dg02", title: '修改案件信息', page: "case_add.aspx?act=modify&info="+info+"&t=" + new Date().getMilliseconds() + "&id="+ id +"&url=" + location.href, resize: false, width: 750, height: 660, cover: true, rang: true, cancelBtn: false });
 	        dlg.ShowDialog();
 	    }
         </script>
@@ -62,11 +58,11 @@
         <div class="toolbar form-inline" <% if(usecustid){ %>style="display:none;"<%} %>>
             <fieldset>
                 <legend>查询条件</legend>
-                <label>案件类别：<asp:DropDownList ID="ddlcasecate" runat="server"></asp:DropDownList></label>
+                <label>案件类别：<asp:DropDownList ID="ddlcasecate" runat="server" CssClass="input-medium"></asp:DropDownList></label>
                 <label>案件编号：<input type="text" title="案件编号" id="txtno" class="tinput shortTxt input-small" runat="server" /></label>
                 <label>委托人：<input type="text" title="委托人" id="txtpeople" class="tinput shortTxt input-small" runat="server" /></label>
                 <label>案由：<input type="text" title="案由" id="txtreason" class="tinput shortTxt input-small" runat="server" /></label>
-                <label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label><br />
+                <%--<label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%>
                 <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',startDate:'%y-{%M-1}-%d',maxDate:'%y-{%M}-%d'});" runat="server" /></label>
                 <label>至：<input id="txtedate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtsdate\')}',maxDate:'%y-%M-%d'});" runat="server" /></label>&nbsp;&nbsp;
                 <div class="btn-group">
@@ -228,10 +224,28 @@
     </asp:GridView>
     </div>
     <div class="divpager">
-        <asp:Label runat="server" ID="lblpager"></asp:Label>
+        <%--<asp:Label runat="server" ID="lblpager"></asp:Label>--%>
+        <webdiyer:aspnetpager id="AspNetPager1" runat="server" AlwaysShow="True" ShowCustomInfoSection="Left"
+        width="100%" CustomInfoHTML="共<b> %RecordCount% </b>条记录 <b>%CurrentPageIndex%</b> / <b>%PageCount%</b>" ShowMoreButtons="true" ShowDisabledButtons="false" FirstPageText="第一页" LastPageText="最后页" PrevPageText="上一页" NextPageText="下一页" Direction="RightToLeft" CustomInfoStyle="text-align:left;"></webdiyer:aspnetpager>
     </div>
     <div id="divdetail"><walker:popover runat="server" ID="mypopover" poptitle="案件详情" /></div>
     </div>
+        
+        <asp:ObjectDataSource ID="ods" runat="server" 
+            DataObjectTypeName="WZY.Model.CASES" DeleteMethod="Delete" 
+            SelectMethod="GetListPager" TypeName="WZY.DAL.CASES" UpdateMethod="Update">
+            <DeleteParameters>
+                <asp:Parameter Name="caseid" Type="Int32" />
+            </DeleteParameters>
+            <SelectParameters>
+                <asp:Parameter DefaultValue="1=1" Name="strWhere" Type="String" />
+                <asp:Parameter DefaultValue="caseid" Name="orderby" Type="String"/>
+                <asp:Parameter DefaultValue="desc" Name="orderdirection" Type="String"/>
+                <asp:ControlParameter ControlID="AspNetPager1" PropertyName="CurrentPageIndex" DefaultValue="1" Name="pageindex" Type="Int32" />
+                <asp:ControlParameter ControlID="AspNetPager1" PropertyName="PageSize" DefaultValue="10" Name="pagesize" Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+
         <walker:shared runat="server" ID="myshared" />
     </form>
 </body>

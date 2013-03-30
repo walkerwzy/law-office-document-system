@@ -519,6 +519,18 @@ namespace WZY.DAL
                 return true;
             }
         }
+        /// <summary>
+        /// 获取客户姓名
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string GetCustNameById(int id)
+        {
+            string sql = "select top 1 custname from customer where custid=" + id;
+            Database db = DatabaseFactory.CreateDatabase();
+            object r = db.ExecuteScalar(CommandType.Text, sql);
+            return r.ToString();
+        }
     }
 }
 

@@ -70,13 +70,14 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into cases(");
-            strSql.Append("caseno,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark)");
+            strSql.Append("caseno,cateid,custid,uid,lawid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark)");
             strSql.Append(" values (");
-            strSql.Append("'" + getSeqNo(model.cateid.Value) + "',@cateid,@custid,@uid,@yuangao,@beigao,@anyou,@shouan,@court,@dijiaotime,@faguan,@faguantel,@office,@kaiting,@panjuetime,@fee,@detail,@analysis,@evidence,@opinion,@quote,@qisu,@taolun,@result,@resultreport,@tiwen,@dabian,@remark)");
+            strSql.Append("'" + getSeqNo(model.cateid.Value) + "',@cateid,@custid,@uid,@lawid,@yuangao,@beigao,@anyou,@shouan,@court,@dijiaotime,@faguan,@faguantel,@office,@kaiting,@panjuetime,@fee,@detail,@analysis,@evidence,@opinion,@quote,@qisu,@taolun,@result,@resultreport,@tiwen,@dabian,@remark)");
             strSql.Append(";select @@IDENTITY");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
             db.AddInParameter(dbCommand, "uid", DbType.Int32, model.uid);
+            db.AddInParameter(dbCommand, "lawid", DbType.Int32, model.lawid);
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
             db.AddInParameter(dbCommand, "custid", DbType.Int32, model.custid);
             db.AddInParameter(dbCommand, "yuangao", DbType.String, model.yuangao);
@@ -119,6 +120,7 @@ namespace WZY.DAL
             //暂不提供更新uid
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update cases set ");
+            strSql.Append("lawid=@lawid,");
             strSql.Append("caseno=@caseno,");
             strSql.Append("cateid=@cateid,");
             strSql.Append("custid=@custid,");
@@ -149,6 +151,8 @@ namespace WZY.DAL
             strSql.Append(" where caseid=@caseid ");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+            db.AddInParameter(dbCommand, "uid", DbType.Int32, model.uid);
+            db.AddInParameter(dbCommand, "lawid", DbType.Int32, model.lawid);
             db.AddInParameter(dbCommand, "caseno", DbType.String, updateSeqNo(model.caseno, model.cateid.Value));
             db.AddInParameter(dbCommand, "caseid", DbType.Int32, model.caseid);
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
@@ -204,7 +208,7 @@ namespace WZY.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseid,caseno,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark from cases ");
+            strSql.Append("select caseid,caseno,cateid,custid,uid,lawid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark from cases ");
             strSql.Append(" where caseid=@caseid ");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
@@ -226,10 +230,11 @@ namespace WZY.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,deptid,custname,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
+            strSql.Append("select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,lawid,lawname,deptid,custname,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
             strSql.Append(" FROM cases ");
             strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=cases.custid ");
-            strSql.Append(" left join (select uid as userid, deptid, username, displayname from sysuser) as b on b.userid=cases.uid ");
+            strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=cases.uid ");//上传人
+            strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=cases.lawid ");//承办律师
             strSql.Append("left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
             if (strWhere.Trim() != "")
             {
@@ -237,6 +242,61 @@ namespace WZY.DAL
             }
             Database db = DatabaseFactory.CreateDatabase();
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+        }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetListPager(string strWhere, int pagesize, int pageindex, string orderby, string orderdirection)
+        {
+            int start = pagesize*(pageindex - 1) + 1;
+            int end = start + pagesize - 1;
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append(
+                "select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,lawid,lawname,deptid,custname,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark");
+            strSql.Append(" from (");
+            //分页数据开始
+            strSql.Append("SELECT * FROM ( ");
+            strSql.Append(" SELECT ROW_NUMBER() OVER (");
+            if (!string.IsNullOrEmpty(orderby.Trim()))
+            {
+                strSql.Append("order by T." + orderby + (orderdirection.ToLower() == "desc" ? " desc" : ""));
+            }
+            else
+            {
+                strSql.Append("order by T.caseid desc");
+            }
+            strSql.Append(")AS Row, T.*  from cases T ");
+            if (!string.IsNullOrEmpty(strWhere.Trim()))
+            {
+                strSql.Append(" WHERE " + strWhere);
+            }
+            strSql.Append(" ) TT");
+            strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", start, end);
+            //分页数据结束
+            strSql.Append(") source ");
+            strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=source.custid ");
+            strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=source.uid ");//上传人
+            strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=source.lawid ");//承办律师
+            strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+
+            var database = DatabaseFactory.CreateDatabase();
+            return database.ExecuteDataSet(CommandType.Text, strSql.ToString());
+
+
+            //StringBuilder strSql = new StringBuilder();
+            //strSql.Append("select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,lawid,lawname,deptid,custname,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
+            //strSql.Append(" FROM cases ");
+            //strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=cases.custid ");
+            //strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=cases.uid ");//上传人
+            //strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=cases.lawid ");//承办律师
+            //strSql.Append("left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+            //if (strWhere.Trim() != "")
+            //{
+            //    strSql.Append(" where " + strWhere);
+            //}
+            //Database db = DatabaseFactory.CreateDatabase();
+            //return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
         }
 
         /*
@@ -263,7 +323,7 @@ namespace WZY.DAL
         public List<WZY.Model.CASES> GetListArray(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseno,caseid,cateid,custid,uid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
+            strSql.Append("select caseno,caseid,cateid,custid,uid,lawid,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
             strSql.Append(" FROM cases ");
             if (strWhere.Trim() != "")
             {
@@ -309,6 +369,11 @@ namespace WZY.DAL
             if (ojb != null && ojb != DBNull.Value)
             {
                 model.uid = (int)ojb;
+            }
+            ojb = dataReader["lawid"];
+            if (ojb != null && ojb != DBNull.Value)
+            {
+                model.lawid = (int)ojb;
             }
             model.yuangao = dataReader["yuangao"].ToString();
             model.beigao = dataReader["beigao"].ToString();
@@ -473,6 +538,19 @@ namespace WZY.DAL
             DbCommand dbCommand = db.GetSqlStringCommand(strSql);
             db.ExecuteNonQuery(dbCommand);
 
+        }
+
+        public int GetRecordCount(string filter)
+        {
+            string sql = "select count(1) from cases ";
+            if (!string.IsNullOrEmpty(filter.Trim())) sql += " where " + filter;
+            var database = DatabaseFactory.CreateDatabase();
+            object obj = database.ExecuteScalar(CommandType.Text, sql);
+            if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
+            {
+                return 0;
+            }
+            return int.Parse(obj.ToString());
         }
 
         //生成案件序列号

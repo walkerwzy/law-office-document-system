@@ -1,8 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="clients.aspx.cs" Inherits="clients" ValidateRequest="false" EnableEventValidation="false" %>
-<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
-<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
-<%--<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>--%>
-<%@ Register TagPrefix="walker" TagName="popover" Src="~/controls/popover.ascx" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -132,7 +128,7 @@
                 </label><br />
                 <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txteTime')[0].focus();}});" runat="server" style="width:80px!important;" /></label>
                 <label>至：<input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" style="width:80px!important;" /></label>
-                <label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>&nbsp;&nbsp;
+                <%--<label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%>&nbsp;&nbsp;
                 <div class="btn-group">
                     <%--<asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />--%>
                     <asp:LinkButton runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" OnClick="btnsearch" CssClass="btn1 btn btn-primary"><i class="icon-search icon-white"></i> 查询</asp:LinkButton>

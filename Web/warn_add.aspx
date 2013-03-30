@@ -46,7 +46,7 @@
     </form>
 </body>
 <script src="/js/ca/WdatePicker.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript">
     var thisdg = frameElement.lhgDG;
     thisdg.addBtn('btnClose', '取消', function () { top.popAction(false); thisdg.cancel(); });

@@ -201,7 +201,7 @@
 <script type="text/javascript">
     var doctype = 0;
     $(function () {
-        $("#txtcust").autoCmpt({ url: "ajaxHandler.aspx?act=customer&uid=" + $("#hiduserid").val(), width: 324 });
+        $("#txtcust").autoCmpt({ url: "ajaxHandler.aspx?act=customer&uid=" + $("#hiduserid").val(), width: 324, hidden: $("#hidcateid") });
         $("#txtcust").attr("qid", $("#hidcateid").val() || "");
 
         $.get('/ajaxhandler.aspx?act=getyewu', function (d) {

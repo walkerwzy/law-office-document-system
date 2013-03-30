@@ -1,7 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="agendar.aspx.cs" Inherits="agendar" %>
-<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
-<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
-<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
 
 <!DOCTYPE html>
 

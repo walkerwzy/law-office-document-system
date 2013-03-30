@@ -210,15 +210,22 @@ namespace WZY.DAL
         /// </summary>
         public DataSet GetList(string strWhere)
         {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select recid,typeid,cateid ");
-            strSql.Append(" FROM yewudoc ");
-            if (strWhere.Trim() != "")
+            //字典数据，先查缓存
+            var cate = Helper.HelperCache.GetCache("yewu_doc");
+            if (cate == null)
             {
-                strSql.Append(" where " + strWhere);
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("select recid,typeid,cateid ");
+                strSql.Append(" FROM yewudoc ");
+                if (strWhere.Trim() != "")
+                {
+                    strSql.Append(" where " + strWhere);
+                }
+                Database db = DatabaseFactory.CreateDatabase();
+                cate = db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+                Helper.HelperCache.Insert("yewu_doc", cate, 24);
             }
-            Database db = DatabaseFactory.CreateDatabase();
-            return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+            return cate as DataSet;
         }
 
         /// <summary>

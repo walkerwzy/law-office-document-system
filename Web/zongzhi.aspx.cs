@@ -5,12 +5,17 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class zongzhi : System.Web.UI.Page
+public partial class zongzhi : validateUser
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            SetUserName(this);
+        }
         WZY.Model.office model = new WZY.DAL.office().GetModel();
-        if (model != null) {
+        if (model != null)
+        {
             lblcont.Text = model.zongzhi;
         }
     }

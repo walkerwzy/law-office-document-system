@@ -20,16 +20,16 @@ public partial class clients : validateUser
             if (!string.IsNullOrEmpty(Request["usedate"]) && Request["usedate"] == "yes") usedate = true;
             if (!string.IsNullOrEmpty(Request["custid"])) usecustid = true;
             if (!string.IsNullOrEmpty(Request["usecontract"]) && Request["usecontract"] == "yes") usecontract = true;
-            if (suser.roleid == 0 || suser.roleid == 2)//管理员和律师可以看所有客户和文档
-            {
-                tools.addAdminOption(ddlrange);
-            }
+            //if (suser.roleid == 0 || suser.roleid == 2)//管理员和律师可以看所有客户和文档
+            //{
+            //    tools.addAdminOption(ddlrange);
+            //}
             var clienttype = string.IsNullOrEmpty(Request["clienttype"]) ? "-1" : Request["clienttype"];
             Helper.HelperDropDownList.BindData(ddlcustcate, new WZY.DAL.CATE_CUST().GetList("").Tables[0], "catename", "cateid", clienttype, true);
-            if (cfg.depart)
-            {
-                ddlrange.SelectedIndex = 1;
-            }
+            //if (cfg.depart)
+            //{
+            //    ddlrange.SelectedIndex = 1;
+            //}
             bindData();
         }
     }
@@ -104,18 +104,18 @@ public partial class clients : validateUser
                     filter += " and charge like '%" + txtcustname.Value.Trim() + "%' ";
                     break;
             }
-            switch (ddlrange.SelectedIndex)
-            {
-                case 0:
-                    filter += " and uid=" + suser.uid;
-                    break;
-                case 1:
-                    filter += " and deptid=" + suser.deptid;
-                    break;
-                case 2:
-                default:
-                    break;
-            }
+            //switch (ddlrange.SelectedIndex)
+            //{
+            //    case 0:
+            //        filter += " and uid=" + suser.uid;
+            //        break;
+            //    case 1:
+            //        filter += " and deptid=" + suser.deptid;
+            //        break;
+            //    case 2:
+            //    default:
+            //        break;
+            //}
             switch (ddlqianyue.SelectedIndex)
             {
                 case 0://签约
