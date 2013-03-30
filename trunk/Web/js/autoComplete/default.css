@@ -4,4 +4,4 @@
 #suggest p.highlight{ background:#22f; color:#eee;}
 #suggest .sugtips{color:#888; border-bottom:1px dashed #888; padding-left:5px; line-height:21px;}
 #suggest span.inputcode{float:right;}
-#suggest p.narrow{ float:left; width:50px;}
+#suggest p.narrow{ float:left; width:50px;overflow: hidden;white-space: nowrap;}

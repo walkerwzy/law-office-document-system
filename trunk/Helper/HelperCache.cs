@@ -6,11 +6,17 @@ using System.Web;
 
 namespace Helper
 {
-    public static class HelperCache
+    public class HelperCache
     {
         public static object GetCache(string key)
         {
-            return HttpRuntime.Cache[key];
+            return HttpRuntime.Cache.Get(key);
+            //return HttpRuntime.Cache[key];
+        }
+
+        public static void RemoveCache(string key)
+        {
+            HttpRuntime.Cache.Remove(key);
         }
 
 
@@ -33,6 +39,17 @@ namespace Helper
         public static void Insert(string key, object value, string denpendency)
         {
             HttpRuntime.Cache.Insert(key, value, new System.Web.Caching.CacheDependency(denpendency));
+        }
+
+        /// <summary>
+        /// 添加对象到缓存
+        /// </summary>
+        /// <param name="key">键名</param>
+        /// <param name="value">键值</param>
+        /// <param name="hours">缓存的小时数</param>
+        public static void Insert(string key, object value, int hours)
+        {
+            HttpRuntime.Cache.Insert(key, value, null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.FromHours(hours));
         }
     }
 }

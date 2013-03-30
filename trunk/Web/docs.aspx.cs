@@ -25,14 +25,14 @@ public partial class docs : validateUser
             //Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0, true);
             var doctype = string.IsNullOrEmpty(Request["type"]) ? "-1" : Request["type"];
             Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", doctype, true);
-            if (suser.roleid == 0 || suser.roleid == 1)
-            {
-                tools.addAdminOption(ddlrange);
-            }
-            if (cfg.depart)
-            {
-                ddlrange.SelectedIndex = 1;
-            }
+            //if (suser.roleid == 0 || suser.roleid == 1)
+            //{
+            //    tools.addAdminOption(ddlrange);
+            //}
+            //if (cfg.depart)
+            //{
+            //    ddlrange.SelectedIndex = 1;
+            //}
             bindData();
         }
         request_cateid = string.IsNullOrEmpty(Request["ddlcate"]) ? "-1" : Request["ddlcate"];
@@ -100,18 +100,18 @@ public partial class docs : validateUser
             {
                 filter += " and typeid=" + ddltype.Text;
             }
-            switch (ddlrange.SelectedIndex)
-            {
-                case 0:
-                    filter += " and uid=" + suser.uid;
-                    break;
-                case 1:
-                    filter += " and deptid=" + suser.deptid;
-                    break;
-                case 2:
-                default:
-                    break;
-            }
+            //switch (ddlrange.SelectedIndex)
+            //{
+            //    case 0:
+            //        filter += " and uid=" + suser.uid;
+            //        break;
+            //    case 1:
+            //        filter += " and deptid=" + suser.deptid;
+            //        break;
+            //    case 2:
+            //    default:
+            //        break;
+            //}
         }
         filter += " order by uptime desc ";
 
@@ -130,9 +130,7 @@ public partial class docs : validateUser
             //e.Row.Cells[1].Text = userbll.GetModel(Convert.ToInt32(dr["uid"])).displayname;
             //e.Row.Cells[3].Text = custbll.GetModel(Convert.ToInt32(dr["custid"])).custname;
             //删除权限仅支持本人数据，部门负责人：部门数据，管理员：全部数据
-            bool candel = false;
-            if (dr["uid"].ToString() == suser.uid.ToString() || (dr["deptid"].ToString() == suser.deptid.ToString() && suser.roleid == 1) || suser.roleid == 0)
-            { candel = true; }
+            bool candel = dr["uid"].ToString() == suser.uid.ToString() || (dr["deptid"].ToString() == suser.deptid.ToString() && suser.roleid == 1) || suser.roleid == 0;
             e.Row.Cells[7].Text = tools.getDocViewDel(Convert.ToInt32(dr["docid"]), candel);
             (e.Row.Cells[0].FindControl("hidcandel") as HiddenField).Value = candel ? "1" : "0";
         }

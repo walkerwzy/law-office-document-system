@@ -29,17 +29,17 @@ public partial class cases : validateUser
             if (!string.IsNullOrEmpty(Request["custid"])) usecustid = true;
             if (!string.IsNullOrEmpty(Request["caseid"])) usecaseid = true;
             if (!string.IsNullOrEmpty(Request["usedate"]) && Request["usedate"] == "yes") usedate = true;
-            if (suser.roleid == 0 || suser.roleid == 2)
-            {
-                tools.addAdminOption(ddlrange);
-            }
+            //if (suser.roleid == 0 || suser.roleid == 2)
+            //{
+            //    tools.addAdminOption(ddlrange);
+            //}
             hiduinfo.Value = suser.uid + "|" + suser.deptid + "|" + suser.roleid;
             var cateid = string.IsNullOrEmpty(Request["casetype"]) ? "-1" : Request["casetype"];
             Helper.HelperDropDownList.BindData(ddlcasecate, cate_case, "catename", "cateid", cateid, true);
-            if (cfg.depart)
-            {
-                ddlrange.SelectedIndex = 1;
-            }
+            //if (cfg.depart)
+            //{
+            //    ddlrange.SelectedIndex = 1;
+            //}
             btnsearch(null, null);
         }
     }
@@ -53,20 +53,25 @@ public partial class cases : validateUser
             page = 1;
         }
 
-        PagedDataSource ps = new PagedDataSource
-            {
-                DataSource = new WZY.DAL.CASES().GetList(filter).Tables[0].DefaultView,
-                AllowPaging = true,
-                PageSize = pagesize
-            };
-        if (page > ps.PageCount) page = 1;
-        ps.CurrentPageIndex = page - 1;
+        ods.SelectParameters[0].DefaultValue = filter;
+        gridlist.DataSourceID = "ods";
 
-        gridlist.DataSource = ps;
-        gridlist.DataBind();
+        AspNetPager1.RecordCount = new WZY.DAL.CASES().GetRecordCount(filter);
+        AspNetPager1.PageSize = cfg.pagesize;
+        //PagedDataSource ps = new PagedDataSource
+        //    {
+        //        DataSource = new WZY.DAL.CASES().GetList(filter).Tables[0].DefaultView,
+        //        AllowPaging = true,
+        //        PageSize = pagesize
+        //    };
+        //if (page > ps.PageCount) page = 1;
+        //ps.CurrentPageIndex = page - 1;
 
-        string url = Request.Url.ToString();
-        lblpager.Text = Pager.getPagerstring(ps, url, 1, 7);
+        //gridlist.DataSource = ps;
+        //gridlist.DataBind();
+
+        //string url = Request.Url.ToString();
+        //lblpager.Text = Pager.getPagerstring(ps, url, 1, 7);
     }
 
     protected void gvdatabind(object sender, GridViewRowEventArgs e)
@@ -74,13 +79,13 @@ public partial class cases : validateUser
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             DataRowView dr = e.Row.DataItem as DataRowView;
-            string detail = "<b>承办律师：</b>{8}<br /><b>承办法官：</b>{0}<br/ ><b>法官电话：</b>{1}<br/ ><b>审理法院：</b>{9}<br/><b>法官办公室：</b>{2}<br/ ><b>开庭日期：</b>{3}<br/ ><b>判决日期：</b>{4}<br/ ><b>收案日期：</b>{5}<br /><b>案由：</b>{6}<br /><b>备注：</b>{7}";
+            string detail = "<b>数据上传：</b>{10}<br/><b>承办律师：</b>{8}<br /><b>承办法官：</b>{0}<br/ ><b>法官电话：</b>{1}<br/ ><b>审理法院：</b>{9}<br/><b>法官办公室：</b>{2}<br/ ><b>开庭日期：</b>{3}<br/ ><b>判决日期：</b>{4}<br/ ><b>收案日期：</b>{5}<br /><b>案由：</b>{6}<br /><b>备注：</b>{7}";
             //e.Row.Attributes["data-role"] = "popover";
             //e.Row.Attributes["data-placement"] = "right";
             //e.Row.Attributes["data-content"] = string.Format(detail, dr["faguan"].ToString(), dr["faguantel"].ToString(), dr["office"].ToString(), getdatetime(dr["kaiting"]), getdatetime(dr["panjuetime"]), getdatetime(dr["shouan"]), dr["anyou"].ToString(), dr["remark"].ToString(), dr["displayname"].ToString(), dr["court"].ToString());
             //e.Row.Attributes["data-original-title"] = "案件详情";
             //e.Row.Attributes["data-trigger"] = "manual";
-            (e.Row.Cells[0].FindControl("hiddetail") as HiddenField).Value = string.Format(detail, dr["faguan"].ToString(), dr["faguantel"].ToString(), dr["office"].ToString(), getdatetime(dr["kaiting"]), getdatetime(dr["panjuetime"]), getdatetime(dr["shouan"]), dr["anyou"].ToString(), dr["remark"].ToString(), dr["displayname"].ToString(), dr["court"].ToString());
+            (e.Row.Cells[0].FindControl("hiddetail") as HiddenField).Value = string.Format(detail, dr["faguan"].ToString(), dr["faguantel"].ToString(), dr["office"].ToString(), getdatetime(dr["kaiting"]), getdatetime(dr["panjuetime"]), getdatetime(dr["shouan"]), dr["anyou"].ToString(), dr["remark"].ToString(), dr["lawname"].ToString(), dr["court"].ToString(),dr["displayname"].ToString());
             e.Row.Cells[2].Text = cate_case.Select("cateid=" + dr["cateid"].ToString())[0]["catename"].ToString();
         }
     }
@@ -91,7 +96,7 @@ public partial class cases : validateUser
         string sql = " 1=1 ";
         if (usecustid)
         {
-            sql += " and custid=" + Request["custid"] + " order by caseid desc ";
+            sql += " and custid=" + Request["custid"];
             bindData(sql);
             return;
         }
@@ -126,24 +131,23 @@ public partial class cases : validateUser
             sql += " and cateid=" + ddlcasecate.Text;
         }
         //数据范围
-        switch (ddlrange.SelectedIndex)
-        {
-            case 0:
-                sql += " and uid=" + suser.uid;
-                break;
-            case 1:
-                sql += " and (deptid=" + suser.deptid.Value + " or chargedeptid=" + suser.deptid.Value + ")";//本部门上传的，或客户类别属于本部门的，都可以查看
-                break;
-            case 2:
-            default:
-                break;
-        }
+        //switch (ddlrange.SelectedIndex)
+        //{
+        //    case 0:
+        //        sql += " and uid=" + suser.uid;
+        //        break;
+        //    case 1:
+        //        sql += " and (deptid=" + suser.deptid.Value + " or chargedeptid=" + suser.deptid.Value + ")";//本部门上传的，或客户类别属于本部门的，都可以查看
+        //        break;
+        //    case 2:
+        //    default:
+        //        break;
+        //}
         if (usedate)
         {
             int predays = int.Parse(Utility.getConfigFile().Root.Descendants("predays").SingleOrDefault().Value);
             sql += " and kaiting>='" + DateTime.Now.ToString("yyyy-MM-dd") + "' and kaiting<= '" + DateTime.Now.AddDays(predays).ToString("yyyy-MM-dd") + "'";
         }
-        sql += " order by caseid desc ";
         bindData(sql);
     }
 

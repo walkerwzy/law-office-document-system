@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="header.ascx.cs" Inherits="controls_header" %>
     <title><%=mytitle %>|湖南炜弘律师事务所文档管理系统</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <%--<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">--%>
     <%--<link href="//netdna.bootstrapcdn.com/bootswatch/2.3.0/united/bootstrap.min.css" rel="stylesheet">--%>

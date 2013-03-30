@@ -40,11 +40,22 @@ public partial class ajaxHandler : System.Web.UI.Page
                     getAllDocCate();
                     break;
                 default:
+                    hello();
                     break;
             }
         }
     }
-
+    
+    /// <summary>
+    /// 获取业务类型下的文档类型
+    /// </summary>
+    private void hello()
+    {
+        Response.Clear();
+        Response.ContentType = "application/json";
+        Response.Write("hello world");
+        Response.End();
+    }
 
     private void delFile()
     {
@@ -138,7 +149,6 @@ public partial class ajaxHandler : System.Web.UI.Page
 
     private void getCustormer()
     {
-
         Response.Clear();
         Response.ContentType = "text/plain";
 
@@ -147,7 +157,7 @@ public partial class ajaxHandler : System.Web.UI.Page
         string filter = " 1=1 ";
         if (!string.IsNullOrEmpty(q))
         {
-            filter += " and ( custname like '%" + q + "%' or pycode like '%" + q.ToUpper() + "%' )";
+            filter += " and ( custname like '%" + q + "%' or upper(pycode) like '%" + q.ToUpper() + "%' )";
         }
         //if (!string.IsNullOrEmpty(uid))
         //{
@@ -172,13 +182,13 @@ public partial class ajaxHandler : System.Web.UI.Page
     private void getUser()
     {
         Response.Clear();
-        Response.ContentType = "text/plain";
+        Response.ContentType = "application/json";
 
         string q = Request["key"];
         string filter = "";
         if (!string.IsNullOrEmpty(q))
         {
-            filter = "  displayname like '%" + q + "%' or pycode like '%" + q.ToUpper() + "%' ";
+            filter = "  displayname like '%" + q + "%' or upper(pycode) like '%" + q.ToUpper() + "%' ";
         }
         StringBuilder r = new StringBuilder("[");
         DataTable dt = new WZY.DAL.SYSUSER().GetList(filter).Tables[0];
@@ -268,4 +278,5 @@ public partial class ajaxHandler : System.Web.UI.Page
         Response.Write(arr);
         Response.End();
     }
+
 }

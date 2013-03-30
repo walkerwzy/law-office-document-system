@@ -1,6 +1,6 @@
-﻿/*!
- * Date : 2011-07-31 11:03:11
- * Copyright (c) 2011 by Walker Wang
+﻿/*
+ * Date : 2012-03-30 23:03:11
+ * Copyright (c) 2013 by Walker Wang
  */
 var src = $("script:last").attr("src");
 $(function () {

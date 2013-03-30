@@ -1,15 +1,5 @@
-﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
+﻿using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Text.RegularExpressions;
 
 /// <summary>
 ///Pager 的摘要说明
@@ -139,15 +129,7 @@ public class Pager
             int i;
             for (i = from; i <= to; i++)
             {
-                string curclass;//当前页样式字串
-                if (i == currentPage)
-                {
-                    curclass = " class=\"curpage\" ";
-                }
-                else
-                {
-                    curclass = "";
-                }
+                string curclass = i == currentPage ? " class=\"curpage\" " : "";
                 pagestr += "<a href=\"" + url + i + "\"" + curclass + ">" + i + "</a>";
             }
 
@@ -184,7 +166,7 @@ public class Pager
         {
             pageposition = (int)position;
         }
-        string wrap = "<table class=\"pagertable\" border=\"0\" width=\"100%\"><tr>";
+        const string wrap = "<table class=\"pagertable\" border=\"0\" width=\"100%\"><tr>";
         if (pageposition == 0)
         {
             pagestr = wrap + "<td>" + pagestr + "</td><td width=\"150\" class=\"righttext\">" + pagestat + "</td></tr></table>";

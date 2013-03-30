@@ -217,6 +217,10 @@ namespace WZY.DAL
 		/// </summary>
 		public DataSet GetList(string strWhere)
 		{
+            //字典数据，先查缓存
+            var cate = Helper.HelperCache.GetCache("cate_yewu");
+            if (cate == null)
+            {
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select cate_id,cate_name,cate_index,cate_remark ");
 			strSql.Append(" FROM cate_yewu ");
@@ -225,7 +229,10 @@ namespace WZY.DAL
 				strSql.Append(" where "+strWhere);
 			}
 			Database db = DatabaseFactory.CreateDatabase();
-			return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+            cate = db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+            Helper.HelperCache.Insert("cate_yewu", cate, 24);
+            }
+            return cate as DataSet;
 		}
 
 		/// <summary>

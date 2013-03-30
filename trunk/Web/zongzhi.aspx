@@ -1,7 +1,4 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="zongzhi.aspx.cs" Inherits="zongzhi" %>
-<%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
-<%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
-<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

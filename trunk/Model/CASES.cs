@@ -220,6 +220,8 @@ namespace WZY.Model
         public int tiwen { get; set; }
         public int dabian { get; set; }
 
+	    public int lawid { get; set; }
+
 	}
 }
 

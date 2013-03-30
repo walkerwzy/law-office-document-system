@@ -39,9 +39,10 @@ public partial class case_add : validateUser
         WZY.Model.CASES model = bll.GetModel(caseid);
         hidcaseid.Value = model.caseid.ToString();
         ddlcateid.Text = model.cateid.ToString();
-        WZY.Model.CUSTOMER c = new WZY.DAL.CUSTOMER().GetModel(model.custid.Value);
-        this.txtcustid.Text = c == null ? "" : c.custname;
+        this.txtcustid.Text = new WZY.DAL.CUSTOMER().GetCustNameById(model.custid.Value);
         hidcust.Value = model.custid.ToString();
+        this.txtlawid.Text = new WZY.DAL.SYSUSER().GetUserDisplayNameByID(model.lawid);
+        hidlawid.Value = model.lawid.ToString();
         this.txtyuangao.Text = model.yuangao;
         this.txtbeigao.Text = model.beigao;
         this.txtanyou.Text = model.anyou;
@@ -94,6 +95,10 @@ public partial class case_add : validateUser
         if (!PageValidate.IsNumber(hidcust.Value))
         {
             strErr += "请从客户中选择委托人！\\n";
+        }
+        if (!PageValidate.IsNumber(hidlawid.Value))
+        {
+            strErr += "请选择承办律师！\\n";
         }
         if (this.txtyuangao.Text.Trim().Length == 0)
         {
@@ -180,6 +185,7 @@ public partial class case_add : validateUser
         {
             int cateid = int.Parse(ddlcateid.Text);
             int custid = int.Parse(hidcust.Value);
+            int lawid = int.Parse(hidlawid.Value);
             string yuangao = this.txtyuangao.Text;
             string beigao = this.txtbeigao.Text;
             string anyou = this.txtanyou.Text;
@@ -223,6 +229,7 @@ public partial class case_add : validateUser
             }
             model.cateid = cateid;
             model.custid = custid;
+            model.lawid = lawid;
             model.yuangao = yuangao;
             model.beigao = beigao;
             model.anyou = anyou;

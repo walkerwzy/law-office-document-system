@@ -30,6 +30,13 @@
                             </td>
                         </tr>
                         <tr>
+                            <td height="25" width="150px" align="right">承办律师：</td>
+                            <td height="25" width="*" align="left" colspan="3">
+                                <asp:TextBox runat="server" ID="txtlawid" CssClass="tinput" Width="200px"></asp:TextBox><span class="tred">*</span>
+                                <asp:HiddenField runat="server" ID="hidlawid" Value="-1"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td height="25" width="150px" align="right">
                                 案件类别 ：
                             </td>
@@ -243,7 +250,7 @@
                                 备注 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
-                                <asp:TextBox ID="txtremark" runat="server" Width="514px" Height="60px" TextMode="MultiLine"
+                                <asp:TextBox ID="txtremark" runat="server" Width="514px" Height="95px" TextMode="MultiLine"
                                     CssClass="tinput"></asp:TextBox>
                             </td>
                         </tr>
@@ -262,20 +269,26 @@
     </form>
 </body>
 <script src="/js/ca/WdatePicker.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
 <script src="/js/autoComplete/autoComplete.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
-        $("#txtcustid").autoCmpt({ url: "ajaxHandler.aspx?act=customer&uid=" + $("#hiduserid").val(), width: 380});
+        $("#txtcustid").autoCmpt({ url: "/ajaxHandler.aspx?act=customer&uid=" + $("#hiduserid").val(), width: 380, hidden: $("#hidcust") });
+        $("#txtlawid").autoCmpt({ url: "/ajaxhandler.aspx?act=getuser", width: 200, hidden: $("#hidlawid") });
     });
     var thisdg = frameElement.lhgDG;
     var savebtntxt = "添加";
     thisdg.addBtn('btnClose', '取消', function () { top.popAction(false); thisdg.cancel(); });
-    if ($("#hidcaseid").val() == "") thisdg.addBtn('btnClear', '清空', function () { __doPostBack('btnCancle', ''); });
-    else { savebtntxt = "保存"; $("#txtcustid").attr("qid", $("#hidcust").val()); }
+    if ($("#hidcaseid").val() == "") thisdg.addBtn('btnClear', '清空', function() { __doPostBack('btnCancle', ''); });
+    else {
+        savebtntxt = "保存";
+        $("#txtcustid").attr("qid", $("#hidcust").val());
+        $("#txtlawid").attr("qid", $("#hidlawid").val());
+    }
     thisdg.addBtn('btnOk', savebtntxt, function () { if (checkQuery()) __doPostBack('btnSave', ''); });
     function checkQuery() {
         if ($("#ddlcateid").val() == "") { alert('请选择案件分类'); return false; }
+        if ($.trim($("#txtlawid").val()) == "") { alert("承办律师不能为空"); return false; } else { $("#hidlawid").val($.trim($("#txtlawid").attr("qid"))); var hlaw = $("#hidlawid").val(); if (hlaw == "" || hlaw == "-1") { alert("无效的承办律师，请重新选择"); return false; } }
         if ($.trim($("#txtcustid").val()) == "") { alert("委托人不能为空"); return false; } else { $("#hidcust").val($.trim($("#txtcustid").attr("qid"))); var hust = $("#hidcust").val(); if (hust == "" || hust == "-1") { alert("无效的委托人，请重新选择"); return false; } }
         if ($.trim($("#txtyuangao").val()) == "") { alert("原告/申请人不能为空"); return false; }
         if ($.trim($("#txtbeigao").val()) == "") { alert("被告/被申请人不能为空"); return false; }
