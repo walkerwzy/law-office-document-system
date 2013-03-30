@@ -82,6 +82,7 @@ namespace WZY.DAL
 			db.AddInParameter(dbCommand, "cate_remark", DbType.AnsiString, model.cate_remark);
 			int result;
 			object obj = db.ExecuteScalar(dbCommand);
+            Helper.HelperCache.RemoveCache("cate_yewu");
 			if(!int.TryParse(obj.ToString(),out result))
 			{
 				return 0;
@@ -107,14 +108,12 @@ namespace WZY.DAL
 			db.AddInParameter(dbCommand, "cate_remark", DbType.AnsiString, model.cate_remark);
 			int rows=db.ExecuteNonQuery(dbCommand);
 
+            Helper.HelperCache.RemoveCache("cate_yewu");
 			if (rows > 0)
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+		    return false;
 		}
 
 		/// <summary>
@@ -131,14 +130,12 @@ namespace WZY.DAL
 			db.AddInParameter(dbCommand, "cate_id", DbType.Byte,cate_id);
 			int rows=db.ExecuteNonQuery(dbCommand);
 
+            Helper.HelperCache.RemoveCache("cate_yewu");
 			if (rows > 0)
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+		    return false;
 		}
 		/// <summary>
 		/// 批量删除数据
@@ -150,14 +147,12 @@ namespace WZY.DAL
 			strSql.Append(" where cate_id in ("+cate_idlist + ")  ");
             var database = DatabaseFactory.CreateDatabase();
             int rows = database.ExecuteNonQuery(CommandType.Text, strSql.ToString());
+            Helper.HelperCache.RemoveCache("cate_yewu");
 			if (rows > 0)
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+		    return false;
 		}
 
 		/// <summary>
@@ -238,13 +233,13 @@ namespace WZY.DAL
 		/// <summary>
 		/// 获得前几行数据
 		/// </summary>
-		public DataSet GetList(int Top,string strWhere,string filedOrder)
+		public DataSet GetList(int top,string strWhere,string filedOrder)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select ");
-			if(Top>0)
+			if(top>0)
 			{
-				strSql.Append(" top "+Top.ToString());
+				strSql.Append(" top "+top.ToString());
 			}
 			strSql.Append(" cate_id,cate_name,cate_index,cate_remark ");
 			strSql.Append(" FROM cate_yewu ");
@@ -274,10 +269,7 @@ namespace WZY.DAL
 			{
 				return 0;
 			}
-			else
-			{
-				return Convert.ToInt32(obj);
-			}
+		    return Convert.ToInt32(obj);
 		}
 		/// <summary>
 		/// 分页获取数据列表

@@ -86,6 +86,7 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "remark", DbType.String, model.remark);
             int result;
             object obj = db.ExecuteScalar(dbCommand);
+            Helper.HelperCache.RemoveCache("cate_cust");
             if (!int.TryParse(obj.ToString(), out result))
             {
                 return 0;
@@ -118,6 +119,7 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "remark", DbType.String, model.remark);
             db.ExecuteNonQuery(dbCommand);
 
+            Helper.HelperCache.RemoveCache("cate_cust");
         }
 
         /// <summary>
@@ -137,6 +139,7 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, cateid);
             db.ExecuteNonQuery(dbCommand);
 
+            Helper.HelperCache.RemoveCache("cate_cust");
         }
 
         /// <summary>
@@ -167,15 +170,22 @@ namespace WZY.DAL
         /// </summary>
         public DataSet GetList(string strWhere)
         {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select cateid,catename,seq,parent,prefix,deptid,remark ");
-            strSql.Append(" FROM cate_cust ");
-            if (strWhere.Trim() != "")
+            //字典数据，先查缓存
+            var cate = Helper.HelperCache.GetCache("cate_cust");
+            if (cate == null)
             {
-                strSql.Append(" where " + strWhere);
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("select cateid,catename,seq,parent,prefix,deptid,remark ");
+                strSql.Append(" FROM cate_cust ");
+                if (strWhere.Trim() != "")
+                {
+                    strSql.Append(" where " + strWhere);
+                }
+                Database db = DatabaseFactory.CreateDatabase();
+                cate = db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+                Helper.HelperCache.Insert("cate_cust", cate, 24);
             }
-            Database db = DatabaseFactory.CreateDatabase();
-            return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+            return cate as DataSet;
         }
 
         /*

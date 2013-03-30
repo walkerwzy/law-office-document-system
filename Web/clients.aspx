@@ -266,9 +266,9 @@
                 <span title='<%# Eval("custname") %>' class="spcustname txtoverflow" style="width:210px;"><%# Helper.HelperString.cutString(Eval("custname").ToString(),13) %></span>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:BoundField HeaderText="客户编号" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-HorizontalAlign="Left" DataField="custno" />
+        <asp:BoundField HeaderText="客户编号" HeaderStyle-Width="70px" ItemStyle-Width="60px" ItemStyle-HorizontalAlign="Left" DataField="custno" />
         <asp:BoundField HeaderText="客户类别" HeaderStyle-Width="90px" ItemStyle-Width="90px" DataField="catename" />
-        <asp:BoundField HeaderText="添加人" HeaderStyle-Width="80px" ItemStyle-Width="80px" DataField="displayname" />
+        <asp:BoundField HeaderText="添加人" HeaderStyle-Width="70px" ItemStyle-Width="80px" DataField="displayname" />
 		<%--<asp:BoundField DataField="pycode" HeaderText="pycode" SortExpression="pycode" ItemStyle-HorizontalAlign="Center"  />--%>
 		<%--<asp:BoundField DataField="tel" HeaderText="单位/联系电话" SortExpression="tel" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px"  />--%> 
         <%--<asp:TemplateField HeaderText="单位/联系地址" HeaderStyle-Width="140px" ItemStyle-Width="140px" ItemStyle-CssClass="nodetail">
