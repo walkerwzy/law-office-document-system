@@ -54,7 +54,7 @@ public partial class login : System.Web.UI.Page
             FlowControl.SaveLoginInfo(model.uid.ToString(), userdata);
 
             //跳转
-            runJS("location.href='default.aspx';");
+            runJS("location.href='agendar.aspx';");
         }
         catch (Exception ex)
         {

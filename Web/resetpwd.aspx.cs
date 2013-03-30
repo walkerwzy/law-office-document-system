@@ -10,7 +10,10 @@ public partial class resetpwd : validateUser
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            SetUserName(this);
+        }
     }
 
     protected void btnsaveclick(object sender, EventArgs e)
@@ -35,7 +38,8 @@ public partial class resetpwd : validateUser
         try
         {
             new WZY.DAL.SYSUSER().Update(suser.uid, txtpwd1.Text);
-            runJS("alert('修改密码成功，请重新登录');top.location.href='/logout.aspx';");
+            //runJS("alert('修改密码成功，请重新登录');top.location.href='/logout.aspx';");
+            runJS("mconfirm('修改密码成功，请重新登录','',function(){location.href='/logout.aspx';})");
         }
         catch (Exception ex)
         {

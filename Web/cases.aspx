@@ -70,10 +70,11 @@
                 <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',startDate:'%y-{%M-1}-%d',maxDate:'%y-{%M}-%d'});" runat="server" /></label>
                 <label>至：<input id="txtedate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtsdate\')}',maxDate:'%y-%M-%d'});" runat="server" /></label>&nbsp;&nbsp;
                 <div class="btn-group">
-                    <asp:Button runat="server" ID="LinkButton1" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnEdit" onclick="detail();">编辑</a>
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd">添加</a>
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnDelShow" onclick="return checkQuery();">删除</a>
+                    <%--<asp:Button runat="server" ID="LinkButton1" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />--%>
+                    <asp:LinkButton runat="server" ID="LinkButton1" OnClick="btnsearch" CssClass="btn1 btn btn-primary"><i class="icon-search icon-white"></i> 查询</asp:LinkButton>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnEdit" onclick="detail();"><i class="icon-pencil"></i> 编辑</a>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd"><i class="icon-plus"></i> 添加</a>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnDelShow" onclick="return checkQuery();"><i class="icon-trash"></i> 删除</a>
                 </div>
             </fieldset>
             <%--<table class="tab1">
@@ -131,9 +132,9 @@
     </div>
     <asp:HiddenField runat="server" ID="hiduinfo" />
     <div class="rightcontent container" id="rightcontent">
-    <asp:GridView ID="gridlist" CssClass="table1 detailtb  table table-bordered table-condensed" runat="server" DataKeyNames="caseid" AutoGenerateColumns="false" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="false">
+    <asp:GridView ID="gridlist" CssClass="table1 detailtb  table table-bordered table-condensed" runat="server" DataKeyNames="caseid" AutoGenerateColumns="false" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="True">
     <Columns>
-        <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px">
+        <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px" ItemStyle-CssClass="nodetail">
             <HeaderTemplate><input type="checkbox" id="cbxall" /></HeaderTemplate>
             <ItemTemplate>
                 <input type="checkbox" class="GVcbx" value='<%# Eval("caseid") %>|<%# Eval("uid") %>|<%# Eval("deptid") %>' name="ids" data-id='<%# Eval("caseid") %>'/>
@@ -142,19 +143,19 @@
         </asp:TemplateField>
 		<asp:BoundField DataField="caseno" HeaderText="案件编号" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px" ItemStyle-Width="80px" />
 		<asp:BoundField HeaderText="案件类别" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px" ItemStyle-Width="80px" />
-        <asp:TemplateField HeaderText="委托人" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="140px" ItemStyle-Width="140px">
+        <asp:TemplateField HeaderText="委托人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="140px" ItemStyle-Width="140px">
             <ItemTemplate>
-                <span title='<%# Eval("custname") %>'><%# Helper.HelperString.cutString(Eval("custname").ToString(),10) %></span>
+                <span title='<%# Eval("custname") %>'><%# Helper.HelperString.cutString(Eval("custname").ToString(),9) %></span>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="原告/申请人" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="104px" ItemStyle-Width="104px">
+        <asp:TemplateField HeaderText="原告/申请人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="104px" ItemStyle-Width="104px">
             <ItemTemplate>
-                <span title='<%# Eval("yuangao") %>'><%# Helper.HelperString.cutString(Eval("yuangao").ToString(),7)%></span>
+                <span title='<%# Eval("yuangao") %>'><%# Helper.HelperString.cutString(Eval("yuangao").ToString(),6)%></span>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="被告/被申请人" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="104px" ItemStyle-Width="104px">
+        <asp:TemplateField HeaderText="被告/被申请人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="104px" ItemStyle-Width="104px">
             <ItemTemplate>
-                <span title='<%# Eval("beigao") %>'><%# Helper.HelperString.cutString(Eval("beigao").ToString(),7)%></span>
+                <span title='<%# Eval("beigao") %>'><%# Helper.HelperString.cutString(Eval("beigao").ToString(),6)%></span>
             </ItemTemplate>
         </asp:TemplateField>
 		<asp:BoundField DataField="dijiaotime" HeaderText="递交手续时间" SortExpression="dijiaotime" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px" ItemStyle-Width="80px" DataFormatString="{0:d}" /> 
@@ -231,6 +232,7 @@
     </div>
     <div id="divdetail"><walker:popover runat="server" ID="mypopover" poptitle="案件详情" /></div>
     </div>
+        <walker:shared runat="server" ID="myshared" />
     </form>
 </body>
 <script src="/js/ca/WdatePicker.js" type="text/javascript"></script>

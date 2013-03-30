@@ -16,6 +16,7 @@ public partial class clients : validateUser
     {
         if (!IsPostBack)
         {
+            SetUserName(this);
             if (!string.IsNullOrEmpty(Request["usedate"]) && Request["usedate"] == "yes") usedate = true;
             if (!string.IsNullOrEmpty(Request["custid"])) usecustid = true;
             if (!string.IsNullOrEmpty(Request["usecontract"]) && Request["usecontract"] == "yes") usecontract = true;
@@ -157,9 +158,7 @@ public partial class clients : validateUser
         {
             DataRowView dr = e.Row.DataItem as DataRowView;
             //删除权限仅支持本人数据，部门负责人：部门数据，管理员：全部数据
-            bool candel = false;
-            if (dr["uid"].ToString() == suser.uid.ToString() || (dr["deptid"].ToString() == suser.deptid.ToString() && suser.roleid == 1) || suser.roleid == 0)
-                candel = true;
+            bool candel = dr["uid"].ToString() == suser.uid.ToString() || (dr["deptid"].ToString() == suser.deptid.ToString() && suser.roleid == 1) || suser.roleid == 0;
             (e.Row.Cells[0].FindControl("hidcandel") as HiddenField).Value = candel ? "1" : "0";
         }
     }
