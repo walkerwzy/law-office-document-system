@@ -8,10 +8,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>主页</title>
 <%--<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
 <link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />--%>
-    <walker:header ID="myheader" runat="server" />
+    <walker:header ID="myheader" runat="server" mytitle="主页" />
 <link href="js/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
 <link href="js/fullcalendar/fullcalendar.print.css" rel="stylesheet" type="text/css" media="print" />
     <style type="text/css">
@@ -26,25 +25,26 @@
         .corange, .orange div{background:#ec870e; border-color:#ec870e;}
         .cpurple, .cpurple div{background:#f3a;border-color:#d2a;}
         .cyellow, .cyellow div{background:#ff3;border-color:#ff3; color:#333;}
-        
-        #a-detail{margin:20px;}
-        #a-detail li{ vertical-align:top;}
-        #txtcont{width:400px;height:100px;resize:none;}
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
     <walker:navi ID="mynavi" runat="server" menu="home" />
-    <div class="container">
+    <div class="div_top container">
         <div class="breadcrumb">
             当前位置&nbsp;&nbsp;>&nbsp;&nbsp;主页
         </div>
+        <div id='calendar'></div>
     </div>
-    <div id='calendar'></div>
     <div style="display:none;" id="agendarform">
+    <style type="text/css">
+        #a-detail{margin:20px;}
+        #a-detail li{ vertical-align:top; list-style:none;}
+        #txtcont{width:400px;height:100px;resize:none;}
+    </style>
     <ul id="a-detail">
         <li>事件内容：<textarea id="txtcont" class="tinput"></textarea></li>
-        <li>不公开：<input type="checkbox" id="cbxprivate"/><span class="tgray">不公开的日程只有本人能查看</span></li>
+        <li>不公开：<input type="checkbox" id="cbxprivate"/>&nbsp;<span class="tgray muted">不公开的日程只有本人能查看</span></li>
     </ul>
     </div>
     </form>
@@ -61,12 +61,14 @@
             var y = date.getFullYear();
             var time = date.getTime();
 
-            var evs = [{ url: 'alertajax.aspx?act=agendar', className: 'clickable' },
+            var evs = [
+             //{ url: 'https://www.google.com/calendar/feeds/china__zh_cn%40holiday.calendar.google.com/public/basic', className: "cgreen cgoogle" },
+             { url: 'alertajax.aspx?act=agendar', className: 'clickable' },
              { url: 'alertajax.aspx?act=kaiting', className: 'cred' },
              { url: 'alertajax.aspx?act=birthday', className: 'cgray' },
              { url: 'alertajax.aspx?act=xuyue', className: 'corange' },
-             { url: 'alertajax.aspx?act=docs', className: 'cyellow' },
-             { url: 'https://www.google.com/calendar/feeds/china__zh_cn%40holiday.calendar.google.com/public/basic', className: "cgreen cgoogle" }];
+             { url: 'alertajax.aspx?act=docs', className: 'cyellow' }
+            ];
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
@@ -120,7 +122,7 @@
                 $("#txtcont").val(e.title);
                 $("#cbxprivate").prop("checked", e.p == 1).prop("disabled", e.cp == 0);
             }
-            var dlg = new $.dialog({ id: "dg02", title: title, html: $("#a-detail")[0], resize: false, width: 460, height: 250, cover: true, rang: true, cancelBtn: true, maxBtn: false });
+            var dlg = new $.dialog({ id: "dg02", title: title, html: $("#a-detail")[0], resize: false, width: 480, height: 280, cover: true, rang: true, cancelBtn: true, maxBtn: false });
             dlg.ShowDialog();
             if (isedit) {
                 dlg.addBtn('dbtndel', '删除', function () {
