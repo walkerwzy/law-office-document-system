@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="clients.aspx.cs" Inherits="clients" ValidateRequest="false" EnableEventValidation="false" %>
 <%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
 <%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
-<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
+<%--<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>--%>
 <%@ Register TagPrefix="walker" TagName="popover" Src="~/controls/popover.ascx" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -134,22 +134,24 @@
                 <label>至：<input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" style="width:80px!important;" /></label>
                 <label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>&nbsp;&nbsp;
                 <div class="btn-group">
-                    <asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd">添加</a>
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnChange" onclick="change();">转移客户</a>
-                    <a href="javascript:cprint();" class="btn1 btn">打印</a>
-                    <asp:LinkButton runat="server" ID="lbtnexcel" OnClick="export" CssClass="btn1 btn">导出</asp:LinkButton>
+                    <%--<asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />--%>
+                    <asp:LinkButton runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" OnClick="btnsearch" CssClass="btn1 btn btn-primary"><i class="icon-search icon-white"></i> 查询</asp:LinkButton>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd"><i class="icon-plus"></i> 添加</a>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnChange" onclick="change();"><i class="icon-random"></i> 转移客户</a>
+                    <a href="javascript:cprint();" class="btn1 btn"><i class="icon-print"></i> 打印</a>
+                    <asp:LinkButton runat="server" ID="lbtnexcel" OnClick="export" CssClass="btn1 btn"><i class="icon-upload"></i> 导出</asp:LinkButton>
                 </div>&nbsp;&nbsp;
                 <label>
                 对选定客户操作：
                     <div class="btn-group">
-                        <a href="javascript:void(0);" class="btn1 btn" id="btnHighQuery" onclick="detail();">编辑</a>
-                        <asp:Button runat="server" ID="btnDel" Text="删除" OnClick="delcust" OnClientClick="return candel();" CssClass="btn1 btn" />
-                        <a href="javascript:void(0);" class="btn1 btn" id="A11" onclick="getCases();">相关案件</a>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A12" onclick="getDocs();">相关文档</a>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A13" onclick="getContract();">签约记录</a>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A14" onclick="addVisit();">拜访记录</a>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A15  " onclick="upload();">上传资料</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="btnHighQuery" onclick="detail();"><i class="icon-pencil"></i> 编辑</a>
+                        <%--<asp:Button runat="server" ID="btnDel" Text="删除" OnClick="delcust" OnClientClick="return candel();" CssClass="btn1 btn" />--%>
+                        <asp:LinkButton runat="server" ID="btnDel" OnClick="delcust" OnClientClick="return candel();" CssClass="btn1 btn"><i class="icon-trash"></i> 删除</asp:LinkButton>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A11" onclick="getCases();"><i class="icon-book"></i> 相关案件</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A12" onclick="getDocs();"><i class="icon-list"></i> 相关文档</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A13" onclick="getContract();"><i class="icon-list-alt"></i> 签约记录</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A14" onclick="addVisit();"><i class="icon-thumbs-up"></i> 拜访记录</a>
+                        <a href="javascript:void(0);" class="btn1 btn" id="A15  " onclick="upload();"><i class="icon-upload"></i> 上传资料</a>
                     </div>
                 </label>
             </fieldset>
@@ -249,9 +251,9 @@
     </div>
     <div class="rightcontent" id="rightcontent">
     
-            <asp:GridView ID="gridlist" runat="server" DataKeyNames="custid" AutoGenerateColumns="false" CssClass="table1 detailtb table table-condesed table-bordered" style="width:1150px;" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="false">
+            <asp:GridView ID="gridlist" runat="server" DataKeyNames="custid" AutoGenerateColumns="false" CssClass="table1 detailtb table table-condesed table-bordered" style="width:1150px;" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="True">
                     <Columns>
-        <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px">
+        <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px" ItemStyle-CssClass="nodetail">
             <HeaderTemplate><%--<input type="checkbox" id="cbxall" />--%></HeaderTemplate>
             <ItemTemplate>
                 <input type="checkbox" class="GVcbx" value='<%# Eval("custid") %>' name="ids"/>
@@ -262,10 +264,10 @@
                 <asp:HiddenField runat="server" ID="hidcandel" />
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:BoundField HeaderText="序号" HeaderStyle-Width="40px" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Left" DataField="recno" />
+        <asp:BoundField HeaderText="序号" HeaderStyle-Width="40px" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Left" DataField="recno" ItemStyle-CssClass="nodetail" />
         <asp:TemplateField HeaderText="客户名称" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="210px" ItemStyle-Width="210px">
             <ItemTemplate>
-                <span title='<%# Eval("custname") %>' class="spcustname txtoverflow" style="width:210px;"><%# Eval("custname") %></span>
+                <span title='<%# Eval("custname") %>' class="spcustname txtoverflow" style="width:210px;"><%# Helper.HelperString.cutString(Eval("custname").ToString(),13) %></span>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField HeaderText="客户编号" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-HorizontalAlign="Left" DataField="custno" />
@@ -305,7 +307,7 @@
         <webdiyer:aspnetpager id="AspNetPager1" runat="server" AlwaysShow="True" ShowCustomInfoSection="Left"
         width="100%" CustomInfoHTML="共<b> %RecordCount% </b>条记录 <b>%CurrentPageIndex%</b> / <b>%PageCount%</b>" ShowMoreButtons="true" ShowDisabledButtons="false" FirstPageText="第一页" LastPageText="最后页" PrevPageText="上一页" NextPageText="下一页" Direction="RightToLeft" CustomInfoStyle="text-align:left;"></webdiyer:aspnetpager>
     </div>
-    <div id="divdetail"></div>
+    <div id="divdetail"><walker:popover runat="server" ID="mypopover" poptitle="详细资料" /></div>
     </div>
         <asp:ObjectDataSource ID="ods" runat="server" 
             DataObjectTypeName="WZY.Model.CUSTOMER" DeleteMethod="Delete" 

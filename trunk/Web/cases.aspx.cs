@@ -25,6 +25,7 @@ public partial class cases : validateUser
         }
         if (!IsPostBack)
         {
+            SetUserName(this);
             if (!string.IsNullOrEmpty(Request["custid"])) usecustid = true;
             if (!string.IsNullOrEmpty(Request["caseid"])) usecaseid = true;
             if (!string.IsNullOrEmpty(Request["usedate"]) && Request["usedate"] == "yes") usedate = true;
@@ -52,10 +53,12 @@ public partial class cases : validateUser
             page = 1;
         }
 
-        PagedDataSource ps = new PagedDataSource();
-        ps.DataSource = new WZY.DAL.CASES().GetList(filter).Tables[0].DefaultView;
-        ps.AllowPaging = true;
-        ps.PageSize = pagesize;
+        PagedDataSource ps = new PagedDataSource
+            {
+                DataSource = new WZY.DAL.CASES().GetList(filter).Tables[0].DefaultView,
+                AllowPaging = true,
+                PageSize = pagesize
+            };
         if (page > ps.PageCount) page = 1;
         ps.CurrentPageIndex = page - 1;
 

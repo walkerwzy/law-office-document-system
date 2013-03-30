@@ -10,6 +10,11 @@ public partial class controls_navi : System.Web.UI.UserControl
 {
     //当前页
     public string menu { get; set; }
+    public string UserName
+    {
+        get { return (string) ViewState["UserName"] ?? string.Empty; }
+        set { ViewState["UserName"] = value; }
+    }
 
     protected void Page_Load(object sender, EventArgs e)
     {

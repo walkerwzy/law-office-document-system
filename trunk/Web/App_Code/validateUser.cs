@@ -2,6 +2,7 @@
 using System.Web.UI;
 using System.Collections;
 using WZY.DAL;
+using System.Web.UI.WebControls;
 
 /// <summary>
 /// validateStu 的摘要说明
@@ -61,7 +62,20 @@ public class validateUser : System.Web.UI.Page
     }
     protected void alert(string msg)
     {
-        runJS("alert('" + msg.Replace("'","").Replace("\"","") + "');");
+        runJS("malert('" + msg.Replace("'", "").Replace("\"", "") + "');");
+    }
+
+    protected void SetUserName(Page page)
+    {
+        var uc = page.FindControl("mynavi") as UserControl;
+        if (uc != null)
+        {
+            var lbl = uc.FindControl("ltusername") as Literal;
+            if (lbl != null)
+            {
+                lbl.Text = suser.displayname;
+            }
+        }
     }
 
     //在页面加载的时候从缓存中提取用户信息

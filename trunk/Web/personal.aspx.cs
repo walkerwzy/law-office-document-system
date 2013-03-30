@@ -13,6 +13,7 @@ public partial class personal : validateUser
     {
         if (!IsPostBack)
         {
+            SetUserName(this);
             WZY.Model.SYSUSER mu = new WZY.DAL.SYSUSER().GetModel(suser.uid);
             txtusername.Text = mu.username;
             txtdisplayname.Text = mu.displayname;
@@ -45,7 +46,8 @@ public partial class personal : validateUser
         try
         {
             ubll.Update(model);
-            alert("保存成功");
+            //alert("保存成功");
+            runJS("mconfirm('修改成功，重新登录后生效，是否重新登录？','',function(){location.href='/logout.aspx';})");
         }
         catch (Exception ex)
         {
@@ -83,7 +85,8 @@ public partial class personal : validateUser
             {
                 bll.Update(model);
             }
-            runJS("if(confirm('修改成功，重新登录后生效，是否重新登录？')) top.location='logout.aspx';");
+            //runJS("if(confirm('修改成功，重新登录后生效，是否重新登录？')) top.location='logout.aspx';");
+            runJS("mconfirm('修改成功，重新登录后生效，是否重新登录？','',function(){location.href='/logout.aspx';})");
         }
         catch (Exception ex)
         {

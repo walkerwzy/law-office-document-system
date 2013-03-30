@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="docs.aspx.cs" Inherits="docs" EnableEventValidation="false" %>
 <%@ Register TagPrefix="walker" TagName="header" Src="~/controls/header.ascx" %>
 <%@ Register TagPrefix="walker" TagName="navi" Src="~/controls/navi.ascx" %>
-<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>
+<%--<%@ Register TagPrefix="walker" TagName="shared" Src="~/controls/shared.ascx" %>--%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -76,10 +76,11 @@
                 <label>结束时间：<input id="txtedate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" /></label>
                 &nbsp;&nbsp;
                 <div class="btn-group">
-                    <asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />
-                    <input type="button" class="btn1 btn" value="编辑" onclick="detail();" />
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd">上传文档</a>
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnAddm">批量上传</a>
+                    <%--<asp:Button runat="server" ID="LinkButton1" Text="查询" OnClientClick="return checkQuery();" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />--%>
+                    <asp:LinkButton runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" OnClick="btnsearch" CssClass="btn1 btn btn-primary"><i class="icon-search icon-white"></i> 查询</asp:LinkButton>
+                    <a href="javascript:detail();" class="btn1 btn"><i class="icon-pencil"></i> 编辑</a>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd"><i class="icon-upload"></i> 上传文档</a>
+                    <a href="javascript:void(0);" class="btn1 btn" id="btnAddm"><i class="icon-th"></i> 批量上传</a>
                 </div>
             </fieldset>
             <%--<table class="tab1">
@@ -131,7 +132,7 @@
         <%--<div class="fixheader" id="fixheader"></div>--%>
     </div>
     <div class="rightcontent container" id="rightcontent">
-<asp:GridView ID="gridlist" runat="server" CssClass="table1 table table-bordered table-condensed" DataKeyNames="docid" AutoGenerateColumns="false" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="false">
+<asp:GridView ID="gridlist" runat="server" CssClass="table1 table table-bordered table-condensed" DataKeyNames="docid" AutoGenerateColumns="false" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="True">
         <Columns>
         <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px">
             <HeaderTemplate><input type="checkbox" id="cbxall" /></HeaderTemplate>
@@ -153,12 +154,12 @@
         </asp:TemplateField>
         <asp:TemplateField HeaderText="客户名称" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="180px" ItemStyle-Width="162px">
             <ItemTemplate>
-                <span title='<%# Eval("custname") %>'><%# Helper.HelperString.cutString(Eval("custname").ToString(),12) %></span>
+                <span title='<%# Eval("custname") %>'><%# Helper.HelperString.cutString(Eval("custname").ToString(),13) %></span>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="文件名" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="250px" ItemStyle-Width="250px">
             <ItemTemplate>
-                <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 12)%></span>
+                <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 14)%></span>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField HeaderText="上传时间" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="120px" HeaderStyle-Width="80px" DataField="uptime" DataFormatString="{0:yyyy-MM-dd HH:mm:ss}" />
