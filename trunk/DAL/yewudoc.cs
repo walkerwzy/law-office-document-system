@@ -81,6 +81,7 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
             int result;
             object obj = db.ExecuteScalar(dbCommand);
+            Helper.HelperCache.RemoveCache("yewu_doc");
             if (!int.TryParse(obj.ToString(), out result))
             {
                 return 0;
@@ -104,6 +105,7 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "cateid", DbType.Int32, model.cateid);
             int rows = db.ExecuteNonQuery(dbCommand);
 
+            Helper.HelperCache.RemoveCache("yewu_doc");
             if (rows > 0)
             {
                 return true;
@@ -127,7 +129,7 @@ namespace WZY.DAL
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
             db.AddInParameter(dbCommand, "recid", DbType.Int32, recid);
             int rows = db.ExecuteNonQuery(dbCommand);
-
+            Helper.HelperCache.RemoveCache("yewu_doc");
             if (rows > 0)
             {
                 return true;
@@ -147,6 +149,7 @@ namespace WZY.DAL
             strSql.Append(" where recid in (" + recidlist + ")  ");
             var database = DatabaseFactory.CreateDatabase();
             int rows = database.ExecuteNonQuery(CommandType.Text, strSql.ToString());
+            Helper.HelperCache.RemoveCache("yewu_doc");
             if (rows > 0)
             {
                 return true;

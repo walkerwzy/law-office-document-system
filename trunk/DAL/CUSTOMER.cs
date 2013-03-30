@@ -531,6 +531,24 @@ namespace WZY.DAL
             object r = db.ExecuteScalar(CommandType.Text, sql);
             return r.ToString();
         }
+
+        /// <summary>
+        /// 获取记录条数
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public int GetRecordCount(string filter)
+        {
+            string sql = "select count(1) from customer ";
+            if (!string.IsNullOrEmpty(filter.Trim())) sql += " where " + filter;
+            var database = DatabaseFactory.CreateDatabase();
+            object obj = database.ExecuteScalar(CommandType.Text, sql);
+            if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
+            {
+                return 0;
+            }
+            return int.Parse(obj.ToString());
+        }
     }
 }
 

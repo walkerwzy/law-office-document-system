@@ -83,6 +83,7 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "remark", DbType.String, model.remark);
             int result;
             object obj = db.ExecuteScalar(dbCommand);
+            Helper.HelperCache.RemoveCache("cache_dept");
             if (!int.TryParse(obj.ToString(), out result))
             {
                 return 0;
@@ -109,6 +110,7 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "remark", DbType.String, model.remark);
             db.ExecuteNonQuery(dbCommand);
 
+            Helper.HelperCache.RemoveCache("cache_dept");
         }
 
         /// <summary>
@@ -128,11 +130,13 @@ namespace WZY.DAL
             db.AddInParameter(dbCommand, "deptid", DbType.Int32, deptid);
             db.ExecuteNonQuery(dbCommand);
 
+            Helper.HelperCache.RemoveCache("cache_dept");
         }
 
         public void Delete(WZY.Model.DEPART model)
         {
             Delete(model.deptid);
+            Helper.HelperCache.RemoveCache("cache_dept");
         }
 
         /// <summary>
@@ -163,15 +167,22 @@ namespace WZY.DAL
         /// </summary>
         public DataSet GetList(string strWhere)
         {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select deptid,deptname,seq,remark ");
-            strSql.Append(" FROM depart ");
-            if (strWhere.Trim() != "")
+            //字典数据，先查缓存
+            var cate = Helper.HelperCache.GetCache("cache_dept");
+            if (cate == null)
             {
-                strSql.Append(" where " + strWhere);
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("select deptid,deptname,seq,remark ");
+                strSql.Append(" FROM depart ");
+                if (strWhere.Trim() != "")
+                {
+                    strSql.Append(" where " + strWhere);
+                }
+                Database db = DatabaseFactory.CreateDatabase();
+                cate = db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+                Helper.HelperCache.Insert("cache_dept", cate, 24);
             }
-            Database db = DatabaseFactory.CreateDatabase();
-            return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+            return cate as DataSet;
         }
 
         /*

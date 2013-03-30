@@ -77,6 +77,13 @@
                                             </ul>
                                         </li>
                                         <li class="divider"></li>
+                                        <li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">系统设置</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">部门管理</a></li>
+                                                <li><a href="#">用户管理</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="divider"></li>
                                         <li><a href="#" onclick="mconfirm('确定退出?','',function(){location.href='/logout.aspx';});">退出</a></li>
                                     </ul>
                                 </li>

@@ -40,7 +40,7 @@ public partial class clients : validateUser
         ods.SelectParameters[0].DefaultValue = filter;
         gridlist.DataSourceID = "ods";
 
-        AspNetPager1.RecordCount = new WZY.DAL.CUSTOMER().GetList(filter).Tables[0].Rows.Count;
+        AspNetPager1.RecordCount = new WZY.DAL.CUSTOMER().GetRecordCount(filter);
         AspNetPager1.PageSize = cfg.pagesize;
     }
 
@@ -88,7 +88,7 @@ public partial class clients : validateUser
             //{
             //    filter += " and owner like '%" + txtown.Value.Trim() + "%' ";
             //}
-            if (ddlcustcate.SelectedIndex>0)
+            if (ddlcustcate.SelectedIndex > 0)
             {
                 filter += " and cateid=" + ddlcustcate.Text;
             }

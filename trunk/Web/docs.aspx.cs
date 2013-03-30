@@ -9,9 +9,9 @@ using System.Text;
 
 public partial class docs : validateUser
 {
-    WZY.DAL.SYSUSER userbll = new WZY.DAL.SYSUSER();
-    WZY.DAL.CUSTOMER custbll = new WZY.DAL.CUSTOMER();
-    WZY.DAL.DOCS docbll = new WZY.DAL.DOCS();
+    //WZY.DAL.SYSUSER userbll = new WZY.DAL.SYSUSER();
+    //WZY.DAL.CUSTOMER custbll = new WZY.DAL.CUSTOMER();
+    //WZY.DAL.DOCS docbll = new WZY.DAL.DOCS();
     protected bool usecustid = false;
     protected string cates;
     protected string request_cateid;
@@ -113,13 +113,14 @@ public partial class docs : validateUser
             //        break;
             //}
         }
+
+        AspNetPager1.RecordCount = new WZY.DAL.DOCS().GetRecordCount(filter);
+        AspNetPager1.PageSize = cfg.pagesize;
+
         filter += " order by uptime desc ";
 
         ods.SelectParameters[0].DefaultValue = filter;
         gridlist.DataSourceID = "ods";
-
-        AspNetPager1.RecordCount = new WZY.DAL.DOCS().GetList(filter).Tables[0].Rows.Count;
-        AspNetPager1.PageSize = cfg.pagesize;
     }
 
     protected void gvdatabind(object sender, GridViewRowEventArgs e)
