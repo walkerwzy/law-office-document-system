@@ -122,10 +122,10 @@
                 <label>客户类别：<asp:DropDownList runat="server" ID="ddlcustcate" style="width:125px;"></asp:DropDownList></label>
                 <label>签约时间：<asp:TextBox runat="server" ID="txtstime" CssClass="tinput shortTxt Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" style="width:80px!important;"></asp:TextBox></label>
                 <label>至：<asp:TextBox runat="server" ID="txtetime" CssClass="tinput shortTxt Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" style="width:80px!important;"></asp:TextBox></label>
-                <label><asp:DropDownList runat="server" ID="ddlnametype" style="width:140px;"><asp:ListItem>客户名称</asp:ListItem><asp:ListItem>法定代表人名称</asp:ListItem><asp:ListItem>负责人名称</asp:ListItem></asp:DropDownList>
+                <asp:DropDownList runat="server" ID="ddlnametype" style="width:140px;"><asp:ListItem>客户名称</asp:ListItem><asp:ListItem>法定代表人名称</asp:ListItem><asp:ListItem>负责人名称</asp:ListItem></asp:DropDownList>
                     ：
-                    <input type="text" id="txtcustname" class="tinput shortTxt input-small" runat="server" />
-                </label><br />
+                <input type="text" id="txtcustname" class="tinput shortTxt input-small" runat="server" />
+                <br />
                 <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txteTime')[0].focus();}});" runat="server" style="width:80px!important;" /></label>
                 <label>至：<input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" style="width:80px!important;" /></label>
                 <%--<label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%>&nbsp;&nbsp;
@@ -243,11 +243,11 @@
             </table>
         </div>--%>
         <!--简单过滤结束-->
-        <div class="fixheader" id="fixheader"></div>
+        <%--<div class="fixheader" id="fixheader"></div>--%>
     </div>
     <div class="rightcontent" id="rightcontent">
     
-            <asp:GridView ID="gridlist" runat="server" DataKeyNames="custid" AutoGenerateColumns="false" CssClass="table1 detailtb table table-condesed table-bordered" style="width:1150px;" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="True">
+            <asp:GridView ID="gridlist" runat="server" DataKeyNames="custid" AutoGenerateColumns="false" CssClass="table1 detailtb table table-condensed table-bordered" style="width:1150px;" OnRowDataBound="gvdatabind" GridLines="None" CellSpacing="-1" EnableViewState="True">
                     <Columns>
         <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px" ItemStyle-CssClass="nodetail">
             <HeaderTemplate><%--<input type="checkbox" id="cbxall" />--%></HeaderTemplate>
@@ -300,8 +300,10 @@
                 </asp:GridView>
     </div>
     <div class="divpager">
-        <webdiyer:aspnetpager id="AspNetPager1" runat="server" AlwaysShow="True" ShowCustomInfoSection="Left"
-        width="100%" CustomInfoHTML="共<b> %RecordCount% </b>条记录 <b>%CurrentPageIndex%</b> / <b>%PageCount%</b>" ShowMoreButtons="true" ShowDisabledButtons="false" FirstPageText="第一页" LastPageText="最后页" PrevPageText="上一页" NextPageText="下一页" Direction="RightToLeft" CustomInfoStyle="text-align:left;"></webdiyer:aspnetpager>
+        <webdiyer:aspnetpager id="AspNetPager1" runat="server" AlwaysShow="True" ShowCustomInfoSection="Right"
+        width="100%" CustomInfoHTML="共<b> %RecordCount% </b>条记录 <b>%CurrentPageIndex%</b> / <b>%PageCount%</b>" 
+            ShowMoreButtons="true" ShowDisabledButtons="true" FirstPageText="首页" LastPageText="尾页" PrevPageText="上页" NextPageText="下页"
+            Direction="LeftToRight" CustomInfoStyle="text-align:right;"></webdiyer:aspnetpager>
     </div>
     <div id="divdetail"><walker:popover runat="server" ID="mypopover" poptitle="详细资料" /></div>
     </div>

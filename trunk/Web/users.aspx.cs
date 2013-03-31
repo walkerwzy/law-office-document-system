@@ -11,8 +11,10 @@ public partial class users : validateUser
     {
         if (!IsPostBack)
         {
+            SetUserName(this);
             Helper.HelperDropDownList.BindData(ddldeptsearch, new WZY.DAL.DEPART().GetList("").Tables[0], "deptname", "deptid", 0, true);
             bindData();
+            btnAdd.Enabled = suser.roleid == 0 || suser.roleid == 1;
         }
     }
 
@@ -25,12 +27,14 @@ public partial class users : validateUser
         }
         if (!string.IsNullOrEmpty(txtusername.Text.Trim()))
         {
-            filter += " and displayname like '%" + txtusername.Text.Trim() + "%' ";
+            filter += " and (displayname like '%" + txtusername.Text.Trim() + "%' ";
+            filter += " or pycode like '%" + txtusername.Text.Trim() + "%'";
+            filter += " or username like '%" + txtusername.Text.Trim() + "%')";
         }
         ods.SelectParameters[0].DefaultValue = filter;
         gridlist.DataSourceID = "ods";
 
-        AspNetPager1.RecordCount = new WZY.DAL.SYSUSER().GetList(filter).Tables[0].Rows.Count;
+        AspNetPager1.RecordCount = new WZY.DAL.SYSUSER().GetRecordCount(filter);
         AspNetPager1.PageSize = cfg.pagesize;
     }
 
@@ -48,18 +52,9 @@ public partial class users : validateUser
     //}
     protected void gridlist_RowUpdated(object sender, GridViewUpdatedEventArgs e)
     {
-        if (e.Exception != null)
-        {
-            if (e.Exception.InnerException != null)
-            {
-                alert(e.Exception.InnerException.Message);
-            }
-            else
-            {
-                alert("有错误发生，请稍候再试");
-            }
-            e.ExceptionHandled = true;
-        }
+        if (e.Exception == null) return;
+        alert(e.Exception.InnerException != null ? e.Exception.InnerException.Message : "有错误发生，请稍候再试");
+        e.ExceptionHandled = true;
     }
 
     protected bool canedit(string deptid)

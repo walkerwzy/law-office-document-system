@@ -76,6 +76,8 @@ public class validateUser : System.Web.UI.Page
                 lbl.Text = suser.displayname;
             }
         }
+        //移除无权限的菜单，暂不作用
+        //runJS("onload=function(){adminAction(" + suser.roleid + ");}");
     }
 
     //在页面加载的时候从缓存中提取用户信息

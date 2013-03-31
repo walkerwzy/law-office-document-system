@@ -9,6 +9,9 @@
     <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="/js/lhgdialog.min.js"></script>--%>
     <walker:header runat="server" ID="myheader" mytitle="案件管理" />
+    <style type="text/css">
+        #delinfo p{ margin: 5px 0;}
+    </style>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
       
 	<script type="text/javascript">
@@ -71,6 +74,7 @@
                     <a href="javascript:void(0);" class="btn1 btn" id="btnEdit" onclick="detail();"><i class="icon-pencil"></i> 编辑</a>
                     <a href="javascript:void(0);" class="btn1 btn" id="btnAdd"><i class="icon-plus"></i> 添加</a>
                     <a href="javascript:void(0);" class="btn1 btn" id="btnDelShow" onclick="return checkQuery();"><i class="icon-trash"></i> 删除</a>
+                    <asp:Button runat="server" ID="btnDel" OnClick="delcase" Text="" style="display:none;"/>
                 </div>
             </fieldset>
             <%--<table class="tab1">
@@ -225,8 +229,10 @@
     </div>
     <div class="divpager">
         <%--<asp:Label runat="server" ID="lblpager"></asp:Label>--%>
-        <webdiyer:aspnetpager id="AspNetPager1" runat="server" AlwaysShow="True" ShowCustomInfoSection="Left"
-        width="100%" CustomInfoHTML="共<b> %RecordCount% </b>条记录 <b>%CurrentPageIndex%</b> / <b>%PageCount%</b>" ShowMoreButtons="true" ShowDisabledButtons="false" FirstPageText="第一页" LastPageText="最后页" PrevPageText="上一页" NextPageText="下一页" Direction="RightToLeft" CustomInfoStyle="text-align:left;"></webdiyer:aspnetpager>
+        <webdiyer:aspnetpager id="AspNetPager1" runat="server" AlwaysShow="True" ShowCustomInfoSection="Right"
+        width="100%" CustomInfoHTML="共<b> %RecordCount% </b>条记录 <b>%CurrentPageIndex%</b> / <b>%PageCount%</b>"
+             ShowMoreButtons="true" ShowDisabledButtons="True" FirstPageText="首页" LastPageText="尾页" PrevPageText="上页" NextPageText="下页"
+             Direction="LeftToRight" CustomInfoStyle="text-align:right;"></webdiyer:aspnetpager>
     </div>
     <div id="divdetail"><walker:popover runat="server" ID="mypopover" poptitle="案件详情" /></div>
     </div>
@@ -252,29 +258,44 @@
 <script src="/js/ca/WdatePicker.js" type="text/javascript"></script>
 <script type="text/javascript">
     var delflag = 0;
-    function checkQuery() { if ($(".selected").length == 0) { alert("请选择一条记录"); return false; }if (!auth()) {alert("无权限");return false;}   if(!confirm("删除案件会自动删除关联的文件，确认删除？"))return false; return deldocs(); }
-    function auth(o) {
-        var caseinfo, uinfo;
-        if (o) caseinfo = $(o).parents("tr").find(".GVcbx").val().split("|");
-        else caseinfo = $(".selected").find(".GVcbx").val().split("|");
-        uinfo = $("#hiduinfo").val().split("|");
-        if (caseinfo[1] != uinfo[0]) { //不是本人数据
-            if (caseinfo[2] != uinfo[1]) { //不是本部门数据
-                if (uinfo[2] != "0") {//不是管理员
-                    return false;
-                }
-            }
-            else {
-                if (uinfo[2] != "1" || uinfo[2] != 0) {//是本部门数据，但不是部门负责人，也不是管理员
-                    return false;
-                }
-            }
+    function checkQuery() {
+        if ($(".selected").length == 0) {
+            alert("请选择一条记录");
+            return false;
         }
-        return true;
+        if (!auth()) {
+            alert("无权限");
+            return false;
+        }
+        if (!confirm("删除案件会自动删除关联的文件，确认删除？")) return false;
+        return deldocs();
+    }
+    function auth(o) {
+        try {
+            var caseinfo, uinfo;
+            if (o) caseinfo = $(o).parents("tr").find(".GVcbx").val().split("|");
+            else caseinfo = $(".selected").find(".GVcbx").val().split("|");
+            uinfo = $("#hiduinfo").val().split("|");
+            if (caseinfo[1] != uinfo[0]) { //不是本人数据
+                if (caseinfo[2] != uinfo[1]) { //不是本部门数据
+                    if (uinfo[2] != "0") {//不是管理员
+                        return false;
+                    }
+                }
+                else {
+                    if (uinfo[2] != "1" || uinfo[2] != 0) {//是本部门数据，但不是部门负责人，也不是管理员
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
     //删除单个文件
     function deldoc(obj, id, caseid, field) {
-        if(!auth(obj)) alert("无权限");
+        if (!auth(obj)) { alert("无权限");return; }
         if (!confirm("确认删除？")) return;
         //ajax删除文件
         $.get("ajaxHandler.aspx", { act: "delcasefile", t: new Date().getMilliseconds(), id: id, caseid: caseid, field: field }, function (d) {
@@ -300,8 +321,14 @@
         docs.each(function (i, m) {
             deldocseq(info, $(m).data("docid"), $(m).data("caseid"),$(m).data("field"), getDocname($(m).data("field")));
         });
-        var m;
-        m = setInterval(function () { if (delflag == docs.length) clearInterval(m); info.append("<br/><p>关联文件已全部删除，正在删除案件资料...</p>"); setTimeout(function () { __doPostBack('btnDel', ''); }, 8000) }, 1000);
+        var msg;
+        msg = setInterval(function () {
+            if (delflag == docs.length) {
+                clearInterval(msg);
+                info.append("<br/><p>关联文件已全部删除，正在删除案件资料...</p>");
+                setTimeout(function() { __doPostBack('btnDel', ''); }, 8000);
+            }
+        }, 1000);
     }
     function getDocname(field){
         switch (field) {
