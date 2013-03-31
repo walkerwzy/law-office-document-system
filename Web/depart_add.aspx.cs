@@ -15,7 +15,10 @@ public partial class depart_add : validateUser
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-
+        if (0 != suser.roleid && 1 != suser.roleid)
+        {
+            showDialogWithAlert("无权限");
+        }
         string strErr = "";
         if (this.txtdeptname.Text.Trim().Length == 0)
         {

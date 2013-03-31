@@ -256,7 +256,7 @@ namespace WZY.DAL
         private static void isNameExist(WZY.Model.DEPART model)
         {
             DataTable dt = new WZY.DAL.DEPART().GetList("deptname='" + model.deptname + "'").Tables[0];
-            if (dt.Rows.Count > 0 && dt.Rows[0]["cateid"].ToString() != model.deptid.ToString())
+            if (dt.Rows.Count > 0 && dt.Rows[0]["deptid"].ToString() != model.deptid.ToString())
             {
                 throw new Exception("该类别已存在");
             }

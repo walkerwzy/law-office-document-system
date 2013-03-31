@@ -97,7 +97,6 @@ public partial class ajaxHandler : System.Web.UI.Page
     {
         Response.Clear();
         Response.ContentType = "text/plain";
-
         string msg = "-1";
         int id = Convert.ToInt32(Request["id"]);
         int caseid = Convert.ToInt32(Request["caseid"]);

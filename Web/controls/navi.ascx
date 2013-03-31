@@ -13,7 +13,7 @@
 			        <a href="/" class="brand">律所文档管理系统</a>
 			        <div class="nav-collapse collapse">
 			            <ul class="nav">
-			              <li class="<%=getclassname("home") %>"><a href="/agendar.aspx">主页</a></li>
+			              <li class="<%=getclassname("home") %>"><a href="/agendar.aspx"><i class="icon-home icon-white"></i> 主页</a></li>
 			              <li class="dropdown <%=getclassname("cases") %>">
 			                <a href="#" class="dropdown-toggle" data-toggle="dropdown">案件管理<b class="caret"></b></a>
 			                <ul class="dropdown-menu">
@@ -57,9 +57,9 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><asp:Literal runat="server" ID="ltusername"></asp:Literal><b class="caret"></b></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="/personal.aspx">个人设置</a></li>
-                                        <li><a href="/resetpwd.aspx">修改密码</a></li>
-                                        <li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">更换主题</a>
+                                        <li><a href="/personal.aspx"><i class="icon-user"></i> 个人设置</a></li>
+                                        <li><a href="/resetpwd.aspx"><i class="icon-edit"></i> 修改密码</a></li>
+                                        <li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-picture"></i> 更换主题</a>
                                             <ul class="dropdown-menu changeTheme">
                                                 <li><a href="#">default</a></li>
                                                 <li><a href="#">amelia</a></li>
@@ -76,15 +76,15 @@
                                                 <li><a href="#">united</a></li>
                                             </ul>
                                         </li>
-                                        <li class="divider"></li>
-                                        <li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">系统设置</a>
+                                        <li class="divider admin-action"></li>
+                                        <li class="dropdown-submenu admin-action"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> 系统设置</a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="#">部门管理</a></li>
-                                                <li><a href="#">用户管理</a></li>
+                                                <li><a href="/depart.aspx"><i class="icon-tags"></i> 部门管理</a></li>
+                                                <li><a href="/users.aspx"><i class="icon-bookmark"></i> 用户管理</a></li>
                                             </ul>
                                         </li>
                                         <li class="divider"></li>
-                                        <li><a href="#" onclick="mconfirm('确定退出?','',function(){location.href='/logout.aspx';});">退出</a></li>
+                                        <li><a href="#" onclick="mconfirm('确定退出?','',function(){location.href='/logout.aspx';});"><i class="icon-share"></i> 退出登录</a></li>
                                     </ul>
                                 </li>
                             </ul>

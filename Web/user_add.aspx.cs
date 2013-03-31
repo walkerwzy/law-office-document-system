@@ -19,7 +19,10 @@ public partial class user_add : validateUser
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-
+        if (0!=suser.roleid && 1!=suser.roleid)
+        {
+            showDialogWithAlert("无权限");
+        }
         string strErr = "";
         //if (!PageValidate.IsNumber(txtroleid.Text))
         //{
@@ -77,8 +80,15 @@ public partial class user_add : validateUser
         model.stat = stat;
 
         WZY.DAL.SYSUSER bll = new WZY.DAL.SYSUSER();
-        bll.Add(model);
-        showDialogWithReload("保存成功！");
+        try
+        {
+            bll.Add(model);
+            showDialogWithReload("保存成功！");
+        }
+        catch (Exception ex)
+        {
+            showDialogWithAlert(ex.Message);
+        }
 
     }
 

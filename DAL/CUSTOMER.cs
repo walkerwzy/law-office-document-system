@@ -535,14 +535,28 @@ namespace WZY.DAL
         /// <summary>
         /// 获取记录条数
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="strWhere"></param>
         /// <returns></returns>
-        public int GetRecordCount(string filter)
+        public int GetRecordCount(string strWhere)
         {
-            string sql = "select count(1) from customer ";
-            if (!string.IsNullOrEmpty(filter.Trim())) sql += " where " + filter;
+            //string sql = "select count(1) from customer ";
+            //if (!string.IsNullOrEmpty(filter.Trim())) sql += " where " + filter;
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) ");
+            strSql.Append(" FROM customer ");
+            strSql.Append(" left join(select uid as usid, displayname,deptid from sysuser) a on a.usid=customer.uid ");
+            strSql.Append(" left join (select cateid cid, catename from cate_cust) b on b.cid=customer.cateid ");
+            strSql.Append(" left join (");
+            strSql.Append(" select clientid,c_stime,c_fee,c_etime,c_ctime from");
+            strSql.Append(" (select MAX(c_stime) m,custid as clientid from contract group by custid) g ");
+            strSql.Append(" left join contract c on c.custid=g.clientid and g.m=c.c_stime) c on c.clientid=customer.custid ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
             var database = DatabaseFactory.CreateDatabase();
-            object obj = database.ExecuteScalar(CommandType.Text, sql);
+            object obj = database.ExecuteScalar(CommandType.Text, strSql.ToString());
             if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
             {
                 return 0;

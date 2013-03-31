@@ -68,6 +68,7 @@ $(function () {
     $(".changeTheme li a").click(function() {
         setTheme($(this).text());
     });
+    renderPager();
 });
 //固定gridview头部
 function fixheader() {
@@ -145,4 +146,16 @@ function mconfirm(cont, title, callback) {
         });
     }
     m.modal('show');
+}
+
+function renderPager() {
+    var container = $('#AspNetPager1 div').eq(0).addClass('btn-group');
+    container.find('a').add('span', container).addClass('btn').css({ 'margin-right': 0});
+    container.find('span').addClass('disabled');
+}
+
+//移除无权限的菜单
+function adminAction(role) {
+    role = parseInt(role);
+    if (role != 0 && role != 1) $(".admin-action").remove();
 }

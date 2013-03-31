@@ -46,6 +46,10 @@ public partial class employee : validateUser
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        if (0 != suser.roleid && 1 != suser.roleid)
+        {
+            showDialogWithAlert("无权限");
+        }
         //有效性检测
         string strErr = "";
         if (!string.IsNullOrEmpty(txtbirthday.Text) && !PageValidate.IsDateTime(txtbirthday.Text))

@@ -585,7 +585,7 @@ namespace WZY.DAL
                 if (m != null) prefix = m.prefix;
             }
             catch { }
-            if (seq.IndexOf(prefix) > 0) return seq;
+            if (seq.IndexOf(prefix) >= 0) return seq;
             string pre = prefix + DateTime.Now.ToString("yyMMdd");
             string temp = "";
             for (int i = 1; ; i++)

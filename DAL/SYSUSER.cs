@@ -99,7 +99,7 @@ namespace WZY.DAL
         /// </summary>
         public void Update(WZY.Model.SYSUSER model)
         {
-            isUserNameExist(model);
+            isUserNameExistWhenEdit(model);
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update sysuser set ");
             strSql.Append("roleid=@roleid,");
@@ -127,6 +127,14 @@ namespace WZY.DAL
         }
 
         private static void isUserNameExist(WZY.Model.SYSUSER model)
+        {
+            DataTable dt = new WZY.DAL.SYSUSER().GetList("username='" + model.username + "'").Tables[0];
+            if (dt.Rows.Count > 0)
+            {
+                throw new Exception("该用户名已被占用");
+            }
+        }
+        private static void isUserNameExistWhenEdit(WZY.Model.SYSUSER model)
         {
             DataTable dt = new WZY.DAL.SYSUSER().GetList("username='" + model.username + "'").Tables[0];
             if (dt.Rows.Count > 0 && dt.Rows[0]["uid"].ToString() != model.uid.ToString())
@@ -181,10 +189,10 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
-            strSql.Append(" FROM sysuser ");
+            strSql.Append(" FROM sysuser  where uid!=0 ");
             if (strWhere.Trim() != "")
             {
-                strSql.Append(" where " + strWhere);
+                strSql.Append(" and " + strWhere);
             }
             Database db = DatabaseFactory.CreateDatabase();
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
@@ -215,10 +223,10 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
-            strSql.Append(" FROM sysuser ");
+            strSql.Append(" FROM sysuser where uid!=0");
             if (strWhere.Trim() != "")
             {
-                strSql.Append(" where " + strWhere);
+                strSql.Append(" and " + strWhere);
             }
             List<WZY.Model.SYSUSER> list = new List<WZY.Model.SYSUSER>();
             Database db = DatabaseFactory.CreateDatabase();
@@ -328,6 +336,24 @@ namespace WZY.DAL
             Database db = DatabaseFactory.CreateDatabase();
             object r = db.ExecuteScalar(CommandType.Text, sql);
             return r.ToString();
+        }
+
+        /// <summary>
+        /// 获取记录条数
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public int GetRecordCount(string filter)
+        {
+            string sql = "select count(1) from sysuser where uid!=0 ";
+            if (!string.IsNullOrEmpty(filter.Trim())) sql += " and " + filter;
+            var database = DatabaseFactory.CreateDatabase();
+            object obj = database.ExecuteScalar(CommandType.Text, sql);
+            if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
+            {
+                return 0;
+            }
+            return int.Parse(obj.ToString());
         }
 
     }

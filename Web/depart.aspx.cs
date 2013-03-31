@@ -9,6 +9,11 @@ public partial class depart : validateUser
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!IsPostBack)
+        {
+            SetUserName(this);
+            btnAdd.Enabled = 0 == suser.roleid || 1 == suser.roleid;
+        }
     }
 
     protected void btnsearch(object sender, EventArgs e)
