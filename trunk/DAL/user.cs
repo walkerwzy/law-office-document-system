@@ -73,7 +73,7 @@ namespace WZY.DAL
         {
             uid = -1;
             WZY.DAL.SYSUSER bll = new WZY.DAL.SYSUSER();
-            DataSet ds = bll.GetList(" username='" + username + "' ");
+            DataSet ds = bll.Login(" username='" + username + "' ");
             if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
             {
                 msgcode = 0;
