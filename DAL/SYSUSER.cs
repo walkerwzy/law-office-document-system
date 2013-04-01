@@ -198,6 +198,21 @@ namespace WZY.DAL
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
         }
 
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet Login(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select top 1 uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
+            strSql.Append(" FROM sysuser ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            Database db = DatabaseFactory.CreateDatabase();
+            return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+        }
         /*
         /// <summary>
         /// 分页获取数据列表
