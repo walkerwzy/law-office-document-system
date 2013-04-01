@@ -79,7 +79,7 @@ namespace WZY.DAL
                 msgcode = 0;
                 return false;
             }
-            ds = new WZY.DAL.SYSUSER().GetList(" username='" + username + "' and password='" + password + "' ");
+            ds = new WZY.DAL.SYSUSER().Login(" username='" + username + "' and password='" + password + "' ");
             if (ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
             {
                 msgcode = 2;
