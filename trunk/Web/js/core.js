@@ -78,11 +78,13 @@ function fixheader() {
 //设置主题颜色
 //支持手动设置theme或从cookie读取cookie
 function setTheme(theme) {
+    console.log(theme);
     if (!theme) { //不传theme即从cookie设置cookie
         theme = getCookie('theme');
-        if (!theme) setCookie('theme', 'default');
+        console.log(theme);
+        if (!theme) setCookie('theme', 'default', 360);
         theme = getCookie("theme");
-    } else setCookie('theme', theme);
+    } else setCookie('theme', theme, 360);
     theme = "/css/bootstrap/" + theme + "/bootstrap.min.css";
     $("#btstyle").attr('href', theme);
 }
