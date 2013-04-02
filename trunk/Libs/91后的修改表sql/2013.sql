@@ -1,4 +1,5 @@
---2/24
+
+--2/24======================
 --为案件添加两个文档类型
 alter table cases add tiwen int;
 go
@@ -106,6 +107,7 @@ insert into yewudoc (typeid,cateid) values (3,8);
 insert into yewudoc (typeid,cateid) values (3,9);
 insert into yewudoc (typeid,cateid) values (3,6);
 insert into yewudoc (typeid,cateid) values (3,2);
+SET IDENTITY_INSERT [cate_doc] ON
 go
 
 --修改doc表里面的cateid，typeid
@@ -129,3 +131,23 @@ update docs set typeid=2, cateid=13 where docid in (select tiwen from cases wher
 update docs set typeid=2, cateid=14 where docid in (select quote from cases where quote>0);
 update docs set typeid=2, cateid=15 where docid in (select dabian from cases where dabian>0);
 go
+
+--3/30======================
+--将法律咨询从专项服务改到常年业务
+update yewudoc set typeid=1 where recid=17;
+go
+--添加承办律师(lawid)字段，再手动更新为上传人(uid)
+alter table cases add lawid int;
+go
+update cases set lawid=uid;
+go
+--将文档类型的拜访记录更名为上门记录
+update cate_doc set catename='上门记录' where catename='拜访记录';
+go
+
+--3/31======================
+--重设角色，0管理员1经理2律师3员工
+--先检查对方数据库是否如此
+--update sysrole set rolename='部门负责人' where roleid=1;
+--update sysrole set rolename='律师' where roleid=2;
+--go
