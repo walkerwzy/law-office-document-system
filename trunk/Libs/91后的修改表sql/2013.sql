@@ -151,3 +151,7 @@ go
 --update sysrole set rolename='部门负责人' where roleid=1;
 --update sysrole set rolename='律师' where roleid=2;
 --go
+
+--4/2==============
+--将年终报告从专项服务归到常年业务里去
+update yewudoc set typeid=1 where cateid=6
