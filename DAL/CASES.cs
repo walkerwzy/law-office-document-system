@@ -267,10 +267,6 @@ namespace WZY.DAL
                 strSql.Append("order by T.caseid desc");
             }
             strSql.Append(")AS Row, T.*  from cases T ");
-            if (!string.IsNullOrEmpty(strWhere.Trim()))
-            {
-                strSql.Append(" WHERE " + strWhere);
-            }
             strSql.Append(" ) TT");
             strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", start, end);
             //分页数据结束
@@ -279,6 +275,10 @@ namespace WZY.DAL
             strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=source.uid ");//上传人
             strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=source.lawid ");//承办律师
             strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+            if (!string.IsNullOrEmpty(strWhere.Trim()))
+            {
+                strSql.Append(" WHERE " + strWhere);
+            }
 
             var database = DatabaseFactory.CreateDatabase();
             return database.ExecuteDataSet(CommandType.Text, strSql.ToString());
@@ -542,10 +542,26 @@ namespace WZY.DAL
 
         public int GetRecordCount(string filter)
         {
-            string sql = "select count(1) from cases ";
-            if (!string.IsNullOrEmpty(filter.Trim())) sql += " where " + filter;
+
+            StringBuilder strSql = new StringBuilder();
+            //strSql.Append(
+            //    "select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,lawid,lawname,deptid,custname,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark");
+            //strSql.Append(" from (");
+            //分页数据开始
+            strSql.Append("SELECT count(1) FROM cases ");
+            strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=cases.custid ");
+            strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=cases.uid ");//上传人
+            strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=cases.lawid ");//承办律师
+            strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+            if (!string.IsNullOrEmpty(filter))
+            {
+                strSql.Append("where " + filter);
+            }
+
+            //string sql = "select count(1) from cases ";
+            //if (!string.IsNullOrEmpty(filter.Trim())) sql += " where " + filter;
             var database = DatabaseFactory.CreateDatabase();
-            object obj = database.ExecuteScalar(CommandType.Text, sql);
+            object obj = database.ExecuteScalar(CommandType.Text, strSql.ToString());
             if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
             {
                 return 0;
