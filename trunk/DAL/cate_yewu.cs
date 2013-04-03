@@ -213,7 +213,7 @@ namespace WZY.DAL
 		public DataSet GetList(string strWhere)
 		{
             //字典数据，先查缓存
-            var cate = Helper.HelperCache.GetCache("cate_yewu");
+            var cate = Helper.HelperCache.GetCache("cate_yewu_" + strWhere.Trim());
             if (cate == null)
             {
 			StringBuilder strSql=new StringBuilder();
@@ -225,7 +225,7 @@ namespace WZY.DAL
 			}
 			Database db = DatabaseFactory.CreateDatabase();
             cate = db.ExecuteDataSet(CommandType.Text, strSql.ToString());
-            Helper.HelperCache.Insert("cate_yewu", cate, 24);
+            Helper.HelperCache.Insert("cate_yewu_" + strWhere.Trim(), cate, 24);
             }
             return cate as DataSet;
 		}
