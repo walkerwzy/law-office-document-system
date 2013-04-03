@@ -289,6 +289,7 @@ namespace WZY.DAL
 
         public void Delete(WZY.Model.SYSUSER model)
         {
+            model = GetModel(model.uid);
             model.password = "987654";//reset password
             model.stat = 99;//set as deleted
             Update(model);
