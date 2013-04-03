@@ -306,12 +306,23 @@ namespace WZY.DAL
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public int GetRecordCount(string filter)
+        public int GetRecordCount(string strWhere)
         {
-            string sql = "select count(1) from docs ";
-            if (!string.IsNullOrEmpty(filter.Trim())) sql += " where " + filter;
+            //string sql = "select count(1) from docs ";
+            //if (!string.IsNullOrEmpty(filter.Trim())) sql += " where " + filter;
+
+            if (strWhere.Trim() != "")
+            {
+                strWhere = " where " + strWhere;
+            }
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) ");
+            strSql.Append(" FROM docs ");
+            strSql.Append(" left join (select uid as userid, displayname,deptid from sysuser) a on a.userid=docs.uid ");
+            strSql.Append(" left join (select custid as cusid, custname from customer) b on b.cusid=docs.custid ");
+            strSql.Append(strWhere);
             var database = DatabaseFactory.CreateDatabase();
-            object obj = database.ExecuteScalar(CommandType.Text, sql);
+            object obj = database.ExecuteScalar(CommandType.Text, strSql.ToString());
             if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
             {
                 return 0;
