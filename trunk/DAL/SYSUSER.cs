@@ -182,11 +182,12 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
-            strSql.Append(" FROM sysuser  where uid!=0 and uid != 99 ");
+            strSql.Append(" FROM sysuser  where uid!=0 and stat != 99 ");
             if (strWhere.Trim() != "")
             {
                 strSql.Append(" and " + strWhere);
             }
+            strSql.Append(" order by uid ");
             Database db = DatabaseFactory.CreateDatabase();
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
         }
@@ -198,7 +199,7 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select top 1 uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
-            strSql.Append(" FROM sysuser where uid != 99");
+            strSql.Append(" FROM sysuser where stat != 99");
             if (strWhere.Trim() != "")
             {
                 strSql.Append(" and " + strWhere);
@@ -231,11 +232,12 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
-            strSql.Append(" FROM sysuser where uid!=0 and uid!=99");
+            strSql.Append(" FROM sysuser where uid!=0 and stat!=99");
             if (strWhere.Trim() != "")
             {
                 strSql.Append(" and " + strWhere);
             }
+            strSql.Append(" order by uid ");
             List<WZY.Model.SYSUSER> list = new List<WZY.Model.SYSUSER>();
             Database db = DatabaseFactory.CreateDatabase();
             using (IDataReader dataReader = db.ExecuteReader(CommandType.Text, strSql.ToString()))
@@ -298,15 +300,15 @@ namespace WZY.DAL
             string inwhere = "";
             if (strWhere.Trim() != "")
             {
-                inwhere = " where uid!=0 and uid!=99 and " + strWhere;
-                strWhere = " and uid!=0 and uid!=99 and " + strWhere;
+                inwhere = " where uid!=0 and stat!=99 and " + strWhere;
+                strWhere = " and uid!=0 and stat!=99 and " + strWhere;
             }
             int start = (pageindex - 1) * pagesize;
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select top " + pagesize + " uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
             strSql.Append(" FROM sysuser ");
-            strSql.Append(" where uid not in ( select top " + start + " uid from sysuser " + inwhere + " )");
-            strSql.Append(strWhere);
+            strSql.Append(" where uid not in ( select top " + start + " uid from sysuser " + inwhere + " order by uid )");
+            strSql.Append(strWhere+" order by uid ");
             Database db = DatabaseFactory.CreateDatabase();
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
         }
@@ -355,7 +357,7 @@ namespace WZY.DAL
         /// <returns></returns>
         public int GetRecordCount(string filter)
         {
-            string sql = "select count(1) from sysuser where uid!=0 and uid!=99 ";
+            string sql = "select count(1) from sysuser where uid!=0 and stat!=99 ";
             if (!string.IsNullOrEmpty(filter.Trim())) sql += " and " + filter;
             var database = DatabaseFactory.CreateDatabase();
             object obj = database.ExecuteScalar(CommandType.Text, sql);
