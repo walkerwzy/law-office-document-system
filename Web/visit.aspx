@@ -7,7 +7,7 @@
     <link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
     <link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />
     <script src="js/ca/WdatePicker.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/js/lhgdialog.min.js"></script>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
     <script type="text/javascript">

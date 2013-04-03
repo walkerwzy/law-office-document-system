@@ -14,7 +14,7 @@
         .odd{ background:#eee;}
 	   .themegray{border-bottom-color:#afafaf!important;}
     </style>
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript">
 	$(function(){setTheme();	});
 	 function getCookie(name) {

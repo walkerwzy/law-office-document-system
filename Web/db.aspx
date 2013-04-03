@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title></title>
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
     <link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
     <style type="text/css">
