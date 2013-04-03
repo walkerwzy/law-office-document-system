@@ -20,7 +20,7 @@ public partial class users : validateUser
 
     private void bindData()
     {
-        string filter = " uid!=0 ";
+        string filter = " 1=1 ";
         if (ddldeptsearch.SelectedIndex > 0)
         {
             filter += " and deptid=" + ddldeptsearch.Text;
