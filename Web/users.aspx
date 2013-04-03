@@ -208,7 +208,7 @@
                 <asp:Parameter Name="deptid" Type="Int32" />
             </DeleteParameters>
             <SelectParameters>
-                <asp:Parameter DefaultValue="1=1 order by uid" Name="strWhere" Type="String" />
+                <asp:Parameter DefaultValue="1=1" Name="strWhere" Type="String" />
                 <asp:ControlParameter ControlID="AspNetPager1" PropertyName="CurrentPageIndex" DefaultValue="1"
                     Name="pageindex" Type="Int32" />
                 <asp:ControlParameter ControlID="AspNetPager1" PropertyName="PageSize" DefaultValue="10"

@@ -298,8 +298,8 @@ namespace WZY.DAL
             string inwhere = "";
             if (strWhere.Trim() != "")
             {
-                inwhere = " where uid!=0 and uid!=99 " + strWhere;
-                strWhere = " and uid!=0 and uid!=99 " + strWhere;
+                inwhere = " where uid!=0 and uid!=99 and " + strWhere;
+                strWhere = " and uid!=0 and uid!=99 and " + strWhere;
             }
             int start = (pageindex - 1) * pagesize;
             StringBuilder strSql = new StringBuilder();
@@ -355,7 +355,7 @@ namespace WZY.DAL
         /// <returns></returns>
         public int GetRecordCount(string filter)
         {
-            string sql = "select count(1) from sysuser where uid!=0 ";
+            string sql = "select count(1) from sysuser where uid!=0 and uid!=99 ";
             if (!string.IsNullOrEmpty(filter.Trim())) sql += " and " + filter;
             var database = DatabaseFactory.CreateDatabase();
             object obj = database.ExecuteScalar(CommandType.Text, sql);
