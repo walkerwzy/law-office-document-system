@@ -22,7 +22,7 @@ namespace WZY.DAL
         /// </summary>
         public int GetMaxId()
         {
-            string strsql = "select max(uid)+1 from sysuser";
+            const string strsql = "select max(uid)+1 from sysuser";
             Database db = DatabaseFactory.CreateDatabase();
             object obj = db.ExecuteScalar(CommandType.Text, strsql);
             if (obj != null && obj != DBNull.Value)
@@ -52,14 +52,7 @@ namespace WZY.DAL
             {
                 cmdresult = int.Parse(obj.ToString());
             }
-            if (cmdresult == 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return cmdresult != 0;
         }
 
 
@@ -148,7 +141,7 @@ namespace WZY.DAL
         /// </summary>
         public void Delete(int uid)
         {
-
+            throw new Exception("系统不支持直接删除用户，请联系管理员");
             StringBuilder strSql = new StringBuilder();
             strSql.Append("delete from sysuser ");
             strSql.Append(" where uid=@uid and uid!=0 ");
@@ -189,7 +182,7 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
-            strSql.Append(" FROM sysuser  where uid!=0 ");
+            strSql.Append(" FROM sysuser  where uid!=0 and uid != 99 ");
             if (strWhere.Trim() != "")
             {
                 strSql.Append(" and " + strWhere);
@@ -205,10 +198,10 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select top 1 uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
-            strSql.Append(" FROM sysuser ");
+            strSql.Append(" FROM sysuser where uid != 99");
             if (strWhere.Trim() != "")
             {
-                strSql.Append(" where " + strWhere);
+                strSql.Append(" and " + strWhere);
             }
             Database db = DatabaseFactory.CreateDatabase();
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
@@ -238,7 +231,7 @@ namespace WZY.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select uid,roleid,deptid,username,password,displayname,remark,pycode,stat ");
-            strSql.Append(" FROM sysuser where uid!=0");
+            strSql.Append(" FROM sysuser where uid!=0 and uid!=99");
             if (strWhere.Trim() != "")
             {
                 strSql.Append(" and " + strWhere);
@@ -262,8 +255,7 @@ namespace WZY.DAL
         public WZY.Model.SYSUSER ReaderBind(IDataReader dataReader)
         {
             WZY.Model.SYSUSER model = new WZY.Model.SYSUSER();
-            object ojb;
-            ojb = dataReader["uid"];
+            object ojb = dataReader["uid"];
             if (ojb != null && ojb != DBNull.Value)
             {
                 model.uid = (int)ojb;
@@ -295,7 +287,10 @@ namespace WZY.DAL
 
         public void Delete(WZY.Model.SYSUSER model)
         {
-            Delete(model.uid);
+            model.password = "987654";//reset password
+            model.stat = 99;//set as deleted
+            Update(model);
+            //Delete(model.uid);
         }
 
         public DataSet GetPage(string strWhere, int pagesize, int pageindex)
@@ -303,8 +298,8 @@ namespace WZY.DAL
             string inwhere = "";
             if (strWhere.Trim() != "")
             {
-                inwhere = " where " + strWhere;
-                strWhere = " and " + strWhere;
+                inwhere = " where uid!=0 and uid!=99 " + strWhere;
+                strWhere = " and uid!=0 and uid!=99 " + strWhere;
             }
             int start = (pageindex - 1) * pagesize;
             StringBuilder strSql = new StringBuilder();

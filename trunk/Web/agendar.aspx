@@ -4,8 +4,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<%--<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
+<%--<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
 <link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />--%>
     <walker:header ID="myheader" runat="server" mytitle="主页" />
 <link href="js/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
