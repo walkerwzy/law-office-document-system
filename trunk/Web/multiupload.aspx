@@ -196,7 +196,7 @@
     </div>
     </form>
 </body>
-<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/js/autoComplete/autoComplete.js"></script>
 <script type="text/javascript">
     var doctype = 0;

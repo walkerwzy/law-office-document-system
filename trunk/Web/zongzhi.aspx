@@ -47,7 +47,7 @@
     <div id="float_cont" class="floatdiv"><div><img src="images/loading46.gif" /><a href="javascript:popAction();" id="ajaxclose">关闭</a></div></div>
     <!--ajax弹层结束-->
 </body>
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/js/lhgdialog.min.js"></script>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
     <script type="text/javascript">

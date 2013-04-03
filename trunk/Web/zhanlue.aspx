@@ -41,7 +41,7 @@
     </div>
     </form>
 </body>
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/js/lhgdialog.min.js"></script>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
     <script type="text/javascript">

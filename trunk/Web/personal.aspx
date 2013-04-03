@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <%--<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>--%>
+    <%--<script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>--%>
     <%--<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />--%>
     <walker:header ID="myheader" runat="server" mytitle="个人设置" />
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>

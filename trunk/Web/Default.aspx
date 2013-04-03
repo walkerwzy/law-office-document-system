@@ -11,8 +11,9 @@
 	<style type="text/css">
 	</style>
     <script src="/js/ca/WdatePicker.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
      <script type="text/javascript">
+         window.location.href = "/agendar.aspx";
          //浏览器大小改变事件
          window.onresize = setWH;
          function setWH() {
@@ -117,24 +118,24 @@
              });
              if (svision == "2") $("#opArea").click();
          });
-		//设置主题的主方法
-		function setTheme(path){
-		    path += "/";
-		    if (path == "/") path = "";
-			//图片
-			$(".left_3").css({background:"url(../images/"+path+"hos_bg4.gif)"});
-			$(".left_4").css({background:"url(../images/"+path+"hos_bg2.gif)"});
-			$(".left_5").css({background:"url(../images/"+path+"hos_bg3.gif)"});
-			$(".left_6").css({background:"url(../images/"+path+"hos_bg5.gif)"});
-			$("#left .im").css({background:"url(../images/"+path+"hos_bg1.gif)"});
-			$(".right_1").css({background:"url(../images/"+path+"hos_bg6.gif)"});
-			//颜色
-			if(path!=""){$(".curli").addClass("grayli");}
-			else{$(".curli").removeClass("grayli");}
-			//子窗体主题
-			try{$("#rightframe")[0].contentWindow.setTheme();}
-			catch(err){}
-		}
+         //设置主题的主方法
+         function setTheme(path){
+             path += "/";
+             if (path == "/") path = "";
+             //图片
+             $(".left_3").css({background:"url(../images/"+path+"hos_bg4.gif)"});
+             $(".left_4").css({background:"url(../images/"+path+"hos_bg2.gif)"});
+             $(".left_5").css({background:"url(../images/"+path+"hos_bg3.gif)"});
+             $(".left_6").css({background:"url(../images/"+path+"hos_bg5.gif)"});
+             $("#left .im").css({background:"url(../images/"+path+"hos_bg1.gif)"});
+             $(".right_1").css({background:"url(../images/"+path+"hos_bg6.gif)"});
+             //颜色
+             if(path!=""){$(".curli").addClass("grayli");}
+             else{$(".curli").removeClass("grayli");}
+             //子窗体主题
+             try{$("#rightframe")[0].contentWindow.setTheme();}
+             catch(err){}
+         }
          //操作弹出层
          /*
          *@act:bool, true:open pop layer; false:close pop layer

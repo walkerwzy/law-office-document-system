@@ -48,7 +48,7 @@
     </form>
 </body>
 <script src="/js/ca/WdatePicker.js" type="text/javascript"></script>
-<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/editor/kindeditor-min.js"></script>
 <script type="text/javascript">
     var thisdg = frameElement.lhgDG;

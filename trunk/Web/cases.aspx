@@ -6,7 +6,7 @@
 <head>
     <%--<link href="/css/public.css?v=0" rel="stylesheet" type="text/css" />
     <link href="/css/main.css?v=1" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/js/lhgdialog.min.js"></script>--%>
     <walker:header runat="server" ID="myheader" mytitle="案件管理" />
     <style type="text/css">
