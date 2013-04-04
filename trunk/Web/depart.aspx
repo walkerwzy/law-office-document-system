@@ -97,8 +97,8 @@
                     Enabled='<%# canedit(Eval("deptid").ToString()) %>'>删除</asp:LinkButton>
             </ItemTemplate>
             <EditItemTemplate>
-                <asp:LinkButton runat="server" ID="lbtnupdate" CommandName="Update">保存</asp:LinkButton>
-                <asp:LinkButton runat="server" ID="lbtncancel" CommandName="Cancel" CausesValidation="false">取消</asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lbtnupdate" CommandName="Update" CssClass="btn btn-small btn-info">保存</asp:LinkButton>
+                <asp:LinkButton runat="server" ID="lbtncancel" CommandName="Cancel" CausesValidation="false" CssClass="btn btn-small">取消</asp:LinkButton>
             </EditItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="&nbsp;"><ItemTemplate>&nbsp;</ItemTemplate></asp:TemplateField>

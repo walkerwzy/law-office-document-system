@@ -168,21 +168,21 @@ namespace WZY.DAL
         public DataSet GetList(string strWhere)
         {
             //字典数据，先查缓存
-            var cate = Helper.HelperCache.GetCache("cache_dept_" + strWhere.Trim());
+            var cate = Helper.HelperCache.GetCache("cache_dept");
             if (cate == null)
             {
                 StringBuilder strSql = new StringBuilder();
                 strSql.Append("select deptid,deptname,seq,remark ");
                 strSql.Append(" FROM depart ");
-                if (strWhere.Trim() != "")
-                {
-                    strSql.Append(" where " + strWhere);
-                }
+                //if (strWhere.Trim() != "")
+                //{
+                //    strSql.Append(" where " + strWhere);
+                //}
                 Database db = DatabaseFactory.CreateDatabase();
                 cate = db.ExecuteDataSet(CommandType.Text, strSql.ToString());
-                Helper.HelperCache.Insert("cache_dept_" + strWhere.Trim(), cate, 24);
+                Helper.HelperCache.Insert("cache_dept", cate, 24);
             }
-            return cate as DataSet;
+            return Utility.FilterData(cate as DataSet, strWhere);
         }
 
         /*
@@ -258,7 +258,7 @@ namespace WZY.DAL
             DataTable dt = new WZY.DAL.DEPART().GetList("deptname='" + model.deptname + "'").Tables[0];
             if (dt.Rows.Count > 0 && dt.Rows[0]["deptid"].ToString() != model.deptid.ToString())
             {
-                throw new Exception("该类别已存在");
+                throw new Exception("该部门已存在");
             }
         }
     }
