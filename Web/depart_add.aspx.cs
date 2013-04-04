@@ -47,9 +47,16 @@ public partial class depart_add : validateUser
         model.seq = seq;
         model.remark = remark;
 
-        WZY.DAL.DEPART bll = new WZY.DAL.DEPART();
-        bll.Add(model);
-        showDialogWithReload("添加部门成功");
+        try
+        {
+            WZY.DAL.DEPART bll = new WZY.DAL.DEPART();
+            bll.Add(model);
+            showDialogWithReload("添加部门成功");
+        }
+        catch (Exception ex)
+        {
+            showDialogWithAlert(ex.Message);
+        }
 
     }
 

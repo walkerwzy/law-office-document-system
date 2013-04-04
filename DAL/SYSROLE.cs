@@ -157,21 +157,21 @@ namespace WZY.DAL
         public DataSet GetList(string strWhere)
         {
             //字典数据，先查缓存
-            var cate = Helper.HelperCache.GetCache("cache_sysrole_" + strWhere.Trim());
+            var cate = Helper.HelperCache.GetCache("cache_sysrole");
             if (cate == null)
             {
                 StringBuilder strSql = new StringBuilder();
                 strSql.Append("select roleid,rolename,displayname,remark ");
                 strSql.Append(" FROM sysrole ");
-                if (strWhere.Trim() != "")
-                {
-                    strSql.Append(" where " + strWhere);
-                }
+                //if (strWhere.Trim() != "")
+                //{
+                //    strSql.Append(" where " + strWhere);
+                //}
                 Database db = DatabaseFactory.CreateDatabase();
                 cate = db.ExecuteDataSet(CommandType.Text, strSql.ToString());
-                Helper.HelperCache.Insert("cache_sysrole_" + strWhere.Trim(), cate, 24);
+                Helper.HelperCache.Insert("cache_sysrole", cate, 24);
             }
-            return cate as DataSet;
+            return Utility.FilterData(cate as DataSet, strWhere);
         }
 
         /*

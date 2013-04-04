@@ -160,22 +160,22 @@ namespace WZY.DAL
         public DataSet GetList(string strWhere)
         {
             //字典数据，先查缓存
-            var cate = Helper.HelperCache.GetCache("cate_doc_" + strWhere.Trim());
+            var cate = Helper.HelperCache.GetCache("cate_doc");
             if (cate == null)
             {
                 StringBuilder strSql = new StringBuilder();
                 strSql.Append("select cate_doc.cateid cateid, typeid, catename,seq,remark ");
                 strSql.Append(" FROM cate_doc ");
                 strSql.Append(" left join yewudoc on yewudoc.cateid=cate_doc.cateid ");
-                if (strWhere.Trim() != "")
-                {
-                    strSql.Append(" where " + strWhere);
-                }
+                //if (strWhere.Trim() != "")
+                //{
+                //    strSql.Append(" where " + strWhere);
+                //}
                 Database db = DatabaseFactory.CreateDatabase();
                 cate = db.ExecuteDataSet(CommandType.Text, strSql.ToString());
-                Helper.HelperCache.Insert("cate_doc_" + strWhere.Trim(), cate, 24);
+                Helper.HelperCache.Insert("cate_doc", cate, 24);
             }
-            return cate as DataSet;
+            return Utility.FilterData(cate as DataSet, strWhere);
         }
 
         /*
