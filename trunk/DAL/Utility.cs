@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Data;
 using System.Web;
-using System.Data;
+using System.Xml.Linq;
 
 public static class Utility
 {
@@ -41,7 +37,7 @@ public static class Utility
             return source;
         }
         var dv = source.Tables[0].DefaultView;
-        var order = string.Empty;
+        string order;
         filter = ParseOrderBy(filter, out order);
         dv.RowFilter = filter;
         dv.Sort = order;
@@ -51,10 +47,10 @@ public static class Utility
         return ds2;
     }
 
-    private static string ParseOrderBy(string filter,out string order)
+    private static string ParseOrderBy(string filter, out string order)
     {
         var i = filter.IndexOf("order by");
-        if (i<0)
+        if (i < 0)
         {
             order = "";
             return filter;
