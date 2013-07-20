@@ -266,8 +266,17 @@ namespace WZY.DAL
             {
                 strSql.Append("order by T.caseid desc");
             }
-            strSql.Append(")AS Row, T.*  from cases T ");
-            strSql.Append(" ) TT");
+            strSql.Append(")AS Row, T.*  from ");
+            strSql.Append("(select source2.* from cases source2");
+            strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=source2.custid ");
+            strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=source2.uid ");//上传人
+            strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=source2.lawid ");//承办律师
+            strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+            if (!string.IsNullOrEmpty(strWhere.Trim()))
+            {
+                strSql.Append(" WHERE " + strWhere);
+            }
+            strSql.Append(") T  ) TT");
             strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", start, end);
             //分页数据结束
             strSql.Append(") source ");

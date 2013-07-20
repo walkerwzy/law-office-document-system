@@ -276,7 +276,10 @@ namespace WZY.DAL
             strSql.Append(" FROM docs ");
             strSql.Append(" left join (select uid as userid, displayname,deptid from sysuser) a on a.userid=docs.uid ");
             strSql.Append(" left join (select custid as cusid, custname from customer) b on b.cusid=docs.custid ");
-            strSql.Append(" where docid not in ( select top " + start + " docid from docs " + inwhere + " )");
+            strSql.Append(" where docid not in ( select top " + start + " docid from docs ");
+            strSql.Append(" left join (select uid as userid, displayname,deptid from sysuser) a on a.userid=docs.uid ");
+            strSql.Append(" left join (select custid as cusid, custname from customer) b on b.cusid=docs.custid ");
+            strSql.Append(inwhere + " )");
             strSql.Append(strWhere);
             Database db = DatabaseFactory.CreateDatabase();
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
