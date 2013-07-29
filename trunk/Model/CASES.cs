@@ -222,6 +222,9 @@ namespace WZY.Model
 
 	    public int lawid { get; set; }
 
+	    public int? xieban { get; set; }
+	    public DateTime? juzheng { get; set; }
+
 	}
 }
 
