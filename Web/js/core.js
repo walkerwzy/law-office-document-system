@@ -12,6 +12,8 @@ $(function () {
         //malert(cont);
         location.href = '/upgrade.html';
     }
+    //不允许记住checkbox状态
+    $(":checkbox").prop("checked", false);
     //取type参数，给注册表格事件用
     var args = (/type=([^#&]+).*/i.exec(src) || ["", "single"])[1];
     //设置主题

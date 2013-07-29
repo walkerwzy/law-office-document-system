@@ -43,6 +43,7 @@ public partial class cate_cust_add : validateUser
         model.catename = catename;
         model.seq = seq;
         model.remark = remark;
+        model.prefix = txtprefix.Text.Trim();
 
         WZY.DAL.CATE_CUST bll = new WZY.DAL.CATE_CUST();
         try
