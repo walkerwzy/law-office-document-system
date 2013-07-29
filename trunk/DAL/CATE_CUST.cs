@@ -74,7 +74,7 @@ namespace WZY.DAL
             strSql.Append("catename,seq,deptid,parent,prefix,remark)");
 
             strSql.Append(" values (");
-            strSql.Append("@catename,@seq,@parent,@prefix,@remark)");
+            strSql.Append("@catename,@seq,@deptid,@parent,@prefix,@remark)");
             strSql.Append(";select @@IDENTITY");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());

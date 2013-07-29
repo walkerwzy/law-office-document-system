@@ -343,8 +343,9 @@ namespace WZY.DAL
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public string GetUserDisplayNameByID(int uid)
+        public string GetUserDisplayNameByID(int? uid)
         {
+            if (!uid.HasValue) return "";
             string sql = "select top 1 displayname from sysuser where uid=" + uid;
             Database db = DatabaseFactory.CreateDatabase();
             object r = db.ExecuteScalar(CommandType.Text, sql);
