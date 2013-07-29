@@ -31,6 +31,13 @@
 	</td></tr>
 	<tr>
 	<td height="25" width="30%" align="right">
+		类别前缀
+	：</td>
+	<td height="25" width="*" align="left">
+		<asp:TextBox id="txtprefix" runat="server" Width="200px" CssClass="tinput"></asp:TextBox>
+	</td></tr>
+	<tr>
+	<td height="25" width="30%" align="right">
 		说明
 	：</td>
 	<td height="25" width="*" align="left">

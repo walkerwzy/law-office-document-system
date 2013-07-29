@@ -19,7 +19,7 @@
         <table style="width:100%;" cellpadding="2" cellspacing="1" class="border">
             <tr>
                 <td class="tdbg">
-                    <table cellspacing="0" cellpadding="0" width="680" align="center" border="0" style="margin-top: 15px;
+                    <table cellspacing="0" cellpadding="0" width="700" align="center" border="0" style="margin-top: 15px;
                         margin-left: 17px;">
                         <tr class="title">
                             <td height="25" width="150px" align="right">
@@ -31,9 +31,14 @@
                         </tr>
                         <tr>
                             <td height="25" width="150px" align="right">承办律师：</td>
-                            <td height="25" width="*" align="left" colspan="3">
-                                <asp:TextBox runat="server" ID="txtlawid" CssClass="tinput" Width="200px"></asp:TextBox><span class="tred">*</span>
+                            <td height="25" width="*" align="left">
+                                <asp:TextBox runat="server" ID="txtlawid" CssClass="tinput" Width="190px"></asp:TextBox><span class="tred">*</span>
                                 <asp:HiddenField runat="server" ID="hidlawid" Value="-1"/>
+                            </td>
+                            <td height="25" width="150px" align="right">协办律师：</td>
+                            <td height="25" width="*" align="left">
+                                <asp:TextBox runat="server" ID="txtxieban" CssClass="tinput" Width="190px"></asp:TextBox>
+                                <asp:HiddenField runat="server" ID="hidxieban" Value="-1"/>
                             </td>
                         </tr>
                         <tr>
@@ -65,13 +70,13 @@
                                 原告/申请人 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtyuangao" runat="server" Width="180px" CssClass="tinput"></asp:TextBox><span class="tred">*</span>
+                                <asp:TextBox ID="txtyuangao" runat="server" Width="190px" CssClass="tinput"></asp:TextBox><span class="tred">*</span>
                             </td>
                             <td height="25" width="150px" align="right">
                                 被告/被申请人 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtbeigao" runat="server" Width="180px" CssClass="tinput"></asp:TextBox><span class="tred">*</span>
+                                <asp:TextBox ID="txtbeigao" runat="server" Width="190px" CssClass="tinput"></asp:TextBox><span class="tred">*</span>
                             </td>
                         </tr>
                         <tr>
@@ -79,7 +84,7 @@
                                 案由 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
-                                <asp:TextBox ID="txtanyou" runat="server" Width="514px" CssClass="tinput"></asp:TextBox><span class="tred">*</span>
+                                <asp:TextBox ID="txtanyou" runat="server" Width="534px" CssClass="tinput"></asp:TextBox><span class="tred">*</span>
                             </td>
                         </tr>
                         <tr>
@@ -87,14 +92,14 @@
                                 收案日期 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtshouan" runat="server" Width="180px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
+                                <asp:TextBox ID="txtshouan" runat="server" Width="190px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
                                     CssClass="tinput Wdate"></asp:TextBox>
                             </td>
                             <td height="25" width="150px" align="right">
                                 递交委托手续/立案时间 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtdijiaotime" runat="server" Width="180px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
+                                <asp:TextBox ID="txtdijiaotime" runat="server" Width="190px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
                                     CssClass="tinput Wdate"></asp:TextBox>
                             </td>
                         </tr>
@@ -103,32 +108,32 @@
                                 承办法官 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtfaguan" runat="server" Width="180px" CssClass="tinput"></asp:TextBox>
+                                <asp:TextBox ID="txtfaguan" runat="server" Width="190px" CssClass="tinput"></asp:TextBox>
                             </td>
                             <td height="25" width="150px" align="right">
                                 法官电话 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtfaguantel" runat="server" Width="180px" CssClass="tinput"></asp:TextBox>
+                                <asp:TextBox ID="txtfaguantel" runat="server" Width="190px" CssClass="tinput"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
                         <td height="25" width="150px" align="right">法官办公室：</td>
                         <td colspan="3">
-                                <asp:TextBox ID="txtoffice" runat="server" Width="514px" CssClass="tinput"></asp:TextBox></td>
+                                <asp:TextBox ID="txtoffice" runat="server" Width="534px" CssClass="tinput"></asp:TextBox></td>
                         </tr>
                         <tr>
                             <td height="25" width="150px" align="right">
                                 审理法院：
                             </td>
                             <td height="25" width="*" align="left">
-                            <asp:TextBox ID="txtcourt" runat="server" Width="180px" CssClass="tinput"></asp:TextBox>
+                            <asp:TextBox ID="txtcourt" runat="server" Width="190px" CssClass="tinput"></asp:TextBox>
                             </td>
                             <td height="25" width="150px" align="right">
                                 开庭时间 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtkaiting" runat="server" Width="180px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
+                                <asp:TextBox ID="txtkaiting" runat="server" Width="190px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
                                     CssClass="tinput Wdate"></asp:TextBox>
                             </td>
                         </tr>
@@ -137,14 +142,23 @@
                                 判决时间 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtpanjuetime" runat="server" Width="180px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
+                                <asp:TextBox ID="txtpanjuetime" runat="server" Width="190px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
                                     CssClass="tinput Wdate"></asp:TextBox>
                             </td>
                             <td height="25" width="150px" align="right">
                                 代理费用 ：
                             </td>
                             <td height="25" width="*" align="left">
-                                <asp:TextBox ID="txtfee" runat="server" Width="180px" CssClass="tinput"></asp:TextBox>
+                                <asp:TextBox ID="txtfee" runat="server" Width="190px" CssClass="tinput"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="25" width="150px" align="right">
+                                举证期限 ：
+                            </td>
+                            <td height="25" width="*" align="left" colspan="3">
+                                <asp:TextBox ID="txtjuzheng" runat="server" Width="190px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
+                                    CssClass="tinput Wdate"></asp:TextBox>
                             </td>
                         </tr>
                         <tr class="title">
@@ -247,10 +261,10 @@
                         </tr>
                         <tr>
                             <td height="25" width="150px" align="right" valign="top">
-                                备注 ：
+                                跟踪情况：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
-                                <asp:TextBox ID="txtremark" runat="server" Width="514px" Height="95px" TextMode="MultiLine"
+                                <asp:TextBox ID="txtremark" runat="server" Width="534px" Height="95px" TextMode="MultiLine"
                                     CssClass="tinput"></asp:TextBox>
                             </td>
                         </tr>
@@ -274,7 +288,8 @@
 <script type="text/javascript">
     $(function () {
         $("#txtcustid").autoCmpt({ url: "/ajaxHandler.aspx?act=customer&uid=" + $("#hiduserid").val(), width: 380, hidden: $("#hidcust") });
-        $("#txtlawid").autoCmpt({ url: "/ajaxhandler.aspx?act=getuser", width: 200, hidden: $("#hidlawid") });
+        $("#txtlawid").autoCmpt({ url: "/ajaxhandler.aspx?act=getuser", width: 190, hidden: $("#hidlawid") });
+        $("#txtxieban").autoCmpt({ url: "/ajaxHandler.aspx?act=getuser", width: 190, hidden: $("#hidxieban") });
     });
     var thisdg = frameElement.lhgDG;
     var savebtntxt = "添加";

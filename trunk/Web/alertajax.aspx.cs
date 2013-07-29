@@ -27,6 +27,9 @@ public partial class alertajax : validateUser
             case "xuyue":
                 xuyue();
                 break;
+            case "juzheng":
+                juzheng();
+                break;
             case "movedate":
                 updateAgendar();
                 break;
@@ -126,8 +129,10 @@ public partial class alertajax : validateUser
         if (result.Count > 0)
         {
             bool isfirst = true;
+            var userDAO = new WZY.DAL.SYSUSER();
             foreach (WZY.Model.alert item in result)
             {
+                var user = new WZY.Model.SYSUSER();
                 if (!isfirst)
                 {
                     msg.Append(",");
@@ -136,7 +141,20 @@ public partial class alertajax : validateUser
                 {
                     isfirst = false;
                 }
-                msg.Append("{\"id\":\"" + item.id + "\",\"title\":\"" + item.cont + "\",\"start\":\"" + item.alerttime.Value.ToString("yyyy-MM-dd") + "\",\"description\":\"" + item.cont + "\",\"p\":" + item.isprivate.Value + ",\"cp\":" + (item.uid.Value == suser.uid ? 1 : 0) + "}");
+                try
+                {
+                    //映射用户名
+                    if (item.uid.HasValue)
+                    {
+                        user = userDAO.GetModel(item.uid.Value);
+                    }
+                    if (user == null) user.displayname = "未知";
+                }
+                catch (Exception)
+                {
+                    user.displayname = "未知";
+                }
+                msg.Append("{\"id\":\"" + item.id + "\",\"title\":\"" + item.cont + " - " + user.displayname + "" + "\",\"start\":\"" + item.alerttime.Value.ToString("yyyy-MM-dd") + "\",\"description\":\"" + item.cont + "\",\"p\":" + item.isprivate.Value + ",\"cp\":" + (item.uid.Value == suser.uid ? 1 : 0) + "}");
             }
         }
         msg.Append("]");
@@ -175,6 +193,39 @@ public partial class alertajax : validateUser
         Response.Write(msg.ToString());
         Response.End();
 
+    }
+
+    //举证期限
+    private void juzheng()
+    {
+        Response.Clear();
+        Response.ContentType = "application/json";
+        islogin();
+        StringBuilder msg = new StringBuilder();
+        DateTime dtstart = tools.ConvertIntDateTime(Convert.ToInt64(Request["start"]));
+        DateTime dtend = tools.ConvertIntDateTime(Convert.ToInt64(Request["end"]));
+        string sql = "juzheng>='" + dtstart.ToString("yyyy-MM-dd") + "' and juzheng<= '" + dtend.ToString("yyyy-MM-dd") + "'";
+        List<WZY.Model.CASES> result = new WZY.DAL.CASES().GetListArray(sql);
+        msg.Append("[");
+        if (result.Count > 0)
+        {
+            bool isfirst = true;
+            foreach (WZY.Model.CASES item in result)
+            {
+                if (!isfirst)
+                {
+                    msg.Append(",");
+                }
+                else
+                {
+                    isfirst = false;
+                }
+                msg.Append("{\"title\":\"举证期限到期\",\"start\":\"" + item.juzheng.Value.ToString("yyyy-MM-dd") + "\",\"description\":\"" + item.yuangao + "\",\"url\":\"cases.aspx?caseid=" + item.caseid + "\",\"editable\":false}");
+            }
+        }
+        msg.Append("]");
+        Response.Write(msg.ToString());
+        Response.End();
     }
     //生日
     private void birthday()

@@ -36,13 +36,15 @@ public partial class case_add : validateUser
     private void ShowInfo(int caseid)
     {
         WZY.DAL.CASES bll = new WZY.DAL.CASES();
+        var userDao = new WZY.DAL.SYSUSER();
         WZY.Model.CASES model = bll.GetModel(caseid);
         hidcaseid.Value = model.caseid.ToString();
         ddlcateid.Text = model.cateid.ToString();
         this.txtcustid.Text = new WZY.DAL.CUSTOMER().GetCustNameById(model.custid.Value);
         hidcust.Value = model.custid.ToString();
-        this.txtlawid.Text = new WZY.DAL.SYSUSER().GetUserDisplayNameByID(model.lawid);
+        this.txtlawid.Text = userDao.GetUserDisplayNameByID(model.lawid);
         hidlawid.Value = model.lawid.ToString();
+        this.txtxieban.Text = userDao.GetUserDisplayNameByID(model.xieban);
         this.txtyuangao.Text = model.yuangao;
         this.txtbeigao.Text = model.beigao;
         this.txtanyou.Text = model.anyou;
@@ -53,6 +55,7 @@ public partial class case_add : validateUser
         this.txtfaguantel.Text = model.faguantel;
         this.txtoffice.Text = model.office;
         this.txtkaiting.Text = model.kaiting.HasValue ? model.kaiting.Value.ToString("yyyy-MM-dd") : "";
+        this.txtjuzheng.Text = model.juzheng.HasValue ? model.juzheng.Value.ToString("yyyy-MM-dd") : "";
         this.txtpanjuetime.Text = model.panjuetime.HasValue ? model.panjuetime.Value.ToString("yyyy-MM-dd") : "";
         this.txtfee.Text = model.fee.ToString();
         //this.ltdetail.Text = genFileLink(model.detail.Value, model.caseid, "detail");
@@ -186,6 +189,7 @@ public partial class case_add : validateUser
             int cateid = int.Parse(ddlcateid.Text);
             int custid = int.Parse(hidcust.Value);
             int lawid = int.Parse(hidlawid.Value);
+            int? xieban = hidxieban.Value == "-1" ? null : (int?) int.Parse(hidxieban.Value);
             string yuangao = this.txtyuangao.Text;
             string beigao = this.txtbeigao.Text;
             string anyou = this.txtanyou.Text;
@@ -197,6 +201,7 @@ public partial class case_add : validateUser
             string court = this.txtcourt.Text;
             object kaiting = string.IsNullOrEmpty(txtkaiting.Text.Trim()) ? null : DateTime.Parse(this.txtkaiting.Text) as object;
             object panjuetime = string.IsNullOrEmpty(txtpanjuetime.Text.Trim()) ? null : DateTime.Parse(this.txtpanjuetime.Text) as object;
+            object juzheng = string.IsNullOrEmpty(txtjuzheng.Text.Trim()) ? null : DateTime.Parse(this.txtjuzheng.Text) as object;
             decimal fee = string.IsNullOrEmpty(txtfee.Text.Trim()) ? 0 : decimal.Parse(this.txtfee.Text);
 
             int detail = -1;// upfile(updetail);
@@ -230,11 +235,13 @@ public partial class case_add : validateUser
             model.cateid = cateid;
             model.custid = custid;
             model.lawid = lawid;
+            model.xieban = xieban;
             model.yuangao = yuangao;
             model.beigao = beigao;
             model.anyou = anyou;
             model.shouan = (DateTime?)shouan;
             model.dijiaotime = (DateTime?)dijiaotime;
+            model.juzheng = (DateTime?)juzheng;
             model.faguan = faguan;
             model.faguantel = faguantel;
             model.court = court;
