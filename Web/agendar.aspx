@@ -20,7 +20,7 @@
         .cgreen, .cgreen div{background:Green; border-color:Green;}
         .cgray, .cgray div{background:Gray; border-color:Gray;}
         .corange, .orange div{background:#ec870e; border-color:#ec870e;}
-        .cpurple, .cpurple div{background:#f3a;border-color:#d2a;}
+        .cpurple, .cpurple div{background:#f3b;border-color:#f3b;}
         .cyellow, .cyellow div{background:#ff3;border-color:#ff3; color:#333;}
     </style>
 </head>
@@ -62,6 +62,7 @@
              //{ url: 'https://www.google.com/calendar/feeds/china__zh_cn%40holiday.calendar.google.com/public/basic', className: "cgreen cgoogle" },
              { url: 'alertajax.aspx?act=agendar', className: 'clickable' },
              { url: 'alertajax.aspx?act=kaiting', className: 'cred' },
+             { url: 'alertajax.aspx?act=juzheng', className: 'cpurple' },
              { url: 'alertajax.aspx?act=birthday', className: 'cgray' },
              { url: 'alertajax.aspx?act=xuyue', className: 'corange' },
              { url: 'alertajax.aspx?act=docs', className: 'cyellow' }
