@@ -15,6 +15,7 @@
     <form id="form1" runat="server">
     <asp:HiddenField runat="server" ID="hidcaseid" Value="" />
     <asp:HiddenField runat="server" ID="hiduserid" Value="" />
+    <asp:HiddenField runat="server" ID="hiddeptid" Value=""/>
     <div id="formdiv">
         <table style="width:100%;" cellpadding="2" cellspacing="1" class="border">
             <tr>
@@ -260,6 +261,15 @@
                             </td>
                         </tr>
                         <tr>
+                            <td height="25" width="150px" align="right">
+                                附加文件 ：
+                            </td>
+                            <td height="25" width="*" align="left" colspan="3">
+                                <asp:Button runat="server" ID="btnAttatchView" Text="查看" CssClass="btn1" OnClientClick=""/>
+                                <asp:Button runat="server" ID="btnAttatch" Text="添加" CssClass="btn1" OnClientClick="addAttatch();"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td height="25" width="150px" align="right" valign="top">
                                 跟踪情况：
                             </td>
@@ -333,6 +343,7 @@
         $.get("ajaxHandler.aspx", { act: "delcasefile", t: new Date().getMilliseconds(), id: id,caseid:caseid, field: field }, function (d) {
             if (d == "1") {
                 alert("删除成功"); $(obj).closest("td").find("a").remove();
+                location.reload();
             } else { alert("删除失败"); }
         });
     }
@@ -341,6 +352,23 @@
             resize: true, width: 750, height: 540, cover: false, cancelBtn: false, rang: true
         });
         dgaddcust.ShowDialog();
+    }
+    function addAttatch() {
+        var caseid = $("#hidcaseid").val(),
+            custid=$("#hidcust").val(),
+            dgaddattatch = new thisdg.curWin.$.dialog({
+                id: 'd2f3', title: '上传案件附加文档', page: 'specialupload.aspx?type=case&caseid='+caseid+'&custid='+custid+'&t=' + new Date().getMilliseconds(),
+                resize: false, width: 570, height: 400, cover: true, cancelBtn: false, rang: true
+            });
+        dgaddattatch.ShowDialog();
+    }
+    function viewAttatch() {
+        var caseid = $("#hidcaseid").val(),
+            dgviewattatch = new thisdg.curWin.$.dialog({
+                id: 'd2f3', title: '查看案件附加文档', page: 'docquickview.aspx?type=case&caseid=' + caseid + '&t=' + new Date().getMilliseconds(),
+                resize: false, width: 570, height: 400, cover: true, cancelBtn: false, rang: true
+            });
+        dgviewattatch.ShowDialog();
     }
 </script>   
 </html>

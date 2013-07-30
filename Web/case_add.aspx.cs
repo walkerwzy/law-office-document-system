@@ -26,6 +26,13 @@ public partial class case_add : validateUser
 
         if (Request["act"] == "modify")
         {
+            var deptid = Request.QueryString["dept"];
+            if (string.IsNullOrEmpty(deptid))
+            {
+                Response.Write("参数错误");
+                Response.End();
+            }
+            hiddeptid.Value = deptid;
             ShowInfo(Convert.ToInt32(Request["id"]));
         }
 
@@ -70,6 +77,14 @@ public partial class case_add : validateUser
         this.lttiwen.Text = genFileLink(model.tiwen, model.caseid, "tiwen");
         this.ltdabian.Text = genFileLink(model.dabian, model.caseid, "dabian");
         this.txtremark.Text = model.remark;
+
+        updabian.Enabled = model.dabian == -1;
+        updali.Enabled = model.quote.Value == -1;
+        upevidence.Enabled = model.evidence.Value == -1;
+        upopinion.Enabled = model.opinion.Value == -1;
+        upqisu.Enabled = model.qisu == -1;
+        uptiwen.Enabled = model.tiwen == -1;
+
         lbltip.Visible = true;
 
         this.lblno.Text = model.caseno;
@@ -306,7 +321,7 @@ public partial class case_add : validateUser
             if (extName != ".doc" && extName != ".docx" && extName != ".pptx" && extName != ".ppt" && extName != ".xls" && extName != ".xlsx"
                         && extName != ".jpg" && extName != ".png")
             {
-                showDialogWithAlert("请上传扩展名为.doc|.docx|.ppt|.pptx|.xls|.xlsx的文件！\n或.jpg|.png格式的图片");
+                showDialogWithAlert("请上传扩展名为.doc|.docx|.ppt|.pptx|.xls|.xlsx的文件！\\n或.jpg|.png格式的图片");
                 return -1;
             }
             else
@@ -385,9 +400,24 @@ public partial class case_add : validateUser
             return "";
         }
         string fmt = "<a href='ProcessFile.aspx?act=preview&d={0}' target='_blank' title='预览' class='icona'><img src='/images/preview.gif' alt='' />预览</a>";
-        fmt += "<a href='#' class='icona' onclick='deldoc(this,{0},{1},\"{2}\");'><img src='images/delete.gif' alt='' />删除</a>";
+        fmt += "<a href='ProcessFile.aspx?act=download&d={0}' target='_blank' class='icona' title='下载'><img src='/images/download.gif' title='下载' alt='' />下载</a>";
+        if (canDel(hiddeptid.Value))
+            fmt +="<a href='#' class='icona' onclick='deldoc(this,{0},{1},\"{2}\");'><img src='images/delete.gif' alt='' />删除</a>";
+        else fmt += "<img src='images/delete.gif' alt='' style='vertical-align:middle;' /><span class='tgray'>&nbsp;删除</span>";
         //string value = Utility.getConfigFile().Root.Descendants("uploadpath").Single().Value + filepath;
         return string.Format(fmt, docid.ToString(), caseid.ToString(), field);
     }
 
+    private bool canDel(string deptid)
+    {
+        if (suser.roleid == 0)
+        {
+            return true;
+        }
+        if (suser.roleid == 1 && suser.deptid.ToString() == deptid)
+        {
+            return true;
+        }
+        return false;
+    }
 }
