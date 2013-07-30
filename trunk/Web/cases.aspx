@@ -11,6 +11,7 @@
     <walker:header runat="server" ID="myheader" mytitle="案件管理" />
     <style type="text/css">
         #delinfo p{ margin: 5px 0;}
+        .tdfile{ display: none;}
     </style>
     <script type="text/javascript" src="/js/core.js?type=single&v=5"></script>
       
@@ -38,9 +39,11 @@
 	            alert("请选择一条记录！");
 	            return;
 	        }
-	        var id = $(".selected input:checked").data("id");
-	        var info = $(".selected input:checked").val();
-	        var dlg = new $.dialog({ id: "dg02", title: '修改案件信息', page: "case_add.aspx?act=modify&info="+info+"&t=" + new Date().getMilliseconds() + "&id="+ id +"&url=" + location.href, resize: false, width: 760, height: 720, cover: true, rang: true, cancelBtn: false });
+	        var tr = $(".selected input:checked"),
+	            id = tr.data("id"),
+	            dept = tr.data("dept"),
+	            info = $(".selected input:checked").val(),
+	            dlg = new $.dialog({ id: "dg02", title: '修改案件信息', page: "case_add.aspx?act=modify&info=" + info + "&t=" + new Date().getMilliseconds() + "&id=" + id + "&dept=" + dept + "&url=" + location.href, resize: false, width: 760, height: 720, cover: true, rang: true, cancelBtn: false });
 	        dlg.ShowDialog();
 	    }
         </script>
@@ -137,7 +140,7 @@
         <asp:TemplateField HeaderStyle-Width="20px" ItemStyle-Width="20px" ItemStyle-CssClass="nodetail">
             <HeaderTemplate><input type="checkbox" id="cbxall" /></HeaderTemplate>
             <ItemTemplate>
-                <input type="checkbox" class="GVcbx" value='<%# Eval("caseid") %>|<%# Eval("uid") %>|<%# Eval("deptid") %>' name="ids" data-id='<%# Eval("caseid") %>'/>
+                <input type="checkbox" class="GVcbx" value='<%# Eval("caseid") %>|<%# Eval("uid") %>|<%# Eval("deptid") %>' name="ids" data-id='<%# Eval("caseid") %>' data-dept='<%#Eval("deptid") %>'/>
                 <asp:HiddenField runat="server" ID="hiddetail" Value="" />
             </ItemTemplate>
         </asp:TemplateField>
@@ -180,36 +183,36 @@
                 <%# getDocPath(Convert.ToInt32(Eval("analysis").ToString()), Eval("caseid").ToString(), "analysis", Eval("deptid").ToString())%>
             </ItemTemplate>
         </asp:TemplateField>--%>
-        <%--<asp:TemplateField HeaderText="证据目录" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        <asp:TemplateField HeaderText="证据目录" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail tdfile" HeaderStyle-CssClass="tdfile">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("evidence").ToString()), Eval("caseid").ToString(), "evidence", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>--%>
-        <%--<asp:TemplateField HeaderText="质证意见" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="质证意见" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail tdfile" HeaderStyle-CssClass="tdfile">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("opinion").ToString()), Eval("caseid").ToString(), "opinion", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>--%>
-        <%--<asp:TemplateField HeaderText="代理意见" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="代理意见" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail tdfile" HeaderStyle-CssClass="tdfile">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("quote").ToString()), Eval("caseid").ToString(), "quote", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>--%>
-        <%--<asp:TemplateField HeaderText="上诉状/起诉状" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="上诉状/起诉状" HeaderStyle-Width="85px" ItemStyle-Width="85px" ItemStyle-CssClass="nodetail tdfile" HeaderStyle-CssClass="tdfile">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("qisu").ToString()), Eval("caseid").ToString(), "quote", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>--%>
-        <%--<asp:TemplateField HeaderText="法庭提问" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="法庭提问" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail tdfile" HeaderStyle-CssClass="tdfile">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("tiwen").ToString()), Eval("caseid").ToString(), "tiwen", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>--%>
-        <%--<asp:TemplateField HeaderText="答辩意见" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="答辩意见" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail tdfile" HeaderStyle-CssClass="tdfile">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("dabian").ToString()), Eval("caseid").ToString(), "dabian", Eval("deptid").ToString())%>
             </ItemTemplate>
-        </asp:TemplateField>--%>
+        </asp:TemplateField>
         <%--<asp:TemplateField HeaderText="判决结果" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <%# getDocPath(Convert.ToInt32(Eval("result").ToString()), Eval("caseid").ToString(), "result", Eval("deptid").ToString())%>
@@ -335,6 +338,7 @@
         msg = setInterval(function () {
             if (delflag == docs.length) {
                 clearInterval(msg);
+                //TODO: 此处需要添加删除附加文件的逻辑
                 info.append("<br/><p>关联文件已全部删除，正在删除案件资料...</p>");
                 setTimeout(function() { __doPostBack('btnDel', ''); }, 8000);
             }
