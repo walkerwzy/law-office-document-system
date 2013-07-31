@@ -57,6 +57,7 @@
     <Compile Include="SETTINGS.cs" />
     <Compile Include="SYSROLE.cs" />
     <Compile Include="SYSUSER.cs" />
+    <Compile Include="tasklog.cs" />
     <Compile Include="UserConfig.cs" />
     <Compile Include="VISIT.cs" />
     <Compile Include="yewudoc.cs" />

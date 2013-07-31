@@ -102,6 +102,32 @@
             var id = $(".selected input:checked").val();
             location.href = "/cases.aspx?custid=" + id + "&t=" + new Date().getMilliseconds() + "&f=" + encodeURIComponent($("#hidquery").val());
         }
+	    //添加业务接收记录
+        function addTaskLog() {
+            if ($(".selected").length == 0) {
+                alert("请选择一位客户！");
+                return;
+            }
+            var id = $(".selected input:checked").val();
+            var dlg = new $.dialog({
+                id: 'dg07', title: '添加业务接收记录', page: 'taskadd.aspx?act=add&custid=' + id + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
+                resize: true, width: 650, height: 445, cover: true, cancelBtn: false, rang: true
+            });
+            dlg.ShowDialog();
+        }
+	    //查看业务接收记录
+        function viewTaskLog() {
+            if ($(".selected").length == 0) {
+                alert("请选择一位客户！");
+                return;
+            }
+            var id = $(".selected input:checked").val();
+            var dlg = new $.dialog({
+                id: 'dg08', title: '查看业务接收记录', page: 'tasklist.aspx?act=view&custid=' + id + '&custname=' + name + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
+                resize: true, width: 550, height: 420, cover: true, cancelBtn: false, rang: true
+            });
+            dlg.ShowDialog();
+        }
         </script>
 </head>
 <body>
@@ -129,27 +155,51 @@
                 <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txteTime')[0].focus();}});" runat="server" style="width:80px!important;" /></label>
                 <label>至：<input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" style="width:80px!important;" /></label>
                 <%--<label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%>&nbsp;&nbsp;
-                <div class="btn-group">
                     <%--<asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />--%>
-                    <asp:LinkButton runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" OnClick="btnsearch" CssClass="btn1 btn btn-primary"><i class="icon-search icon-white"></i> 查询</asp:LinkButton>
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnAdd"><i class="icon-plus"></i> 添加</a>
-                    <a href="javascript:void(0);" class="btn1 btn" id="btnChange" onclick="change();"><i class="icon-random"></i> 转移客户</a>
-                    <a href="javascript:cprint();" class="btn1 btn"><i class="icon-print"></i> 打印</a>
-                    <asp:LinkButton runat="server" ID="lbtnexcel" OnClick="export" CssClass="btn1 btn"><i class="icon-upload"></i> 导出</asp:LinkButton>
-                </div>&nbsp;&nbsp;
-                <label>
-                对选定客户操作：
                     <div class="btn-group">
-                        <a href="javascript:void(0);" class="btn1 btn" id="btnHighQuery" onclick="detail();"><i class="icon-pencil"></i> 编辑</a>
-                        <%--<asp:Button runat="server" ID="btnDel" Text="删除" OnClick="delcust" OnClientClick="return candel();" CssClass="btn1 btn" />--%>
-                        <asp:LinkButton runat="server" ID="btnDel" OnClick="delcust" OnClientClick="return candel();" CssClass="btn1 btn"><i class="icon-trash"></i> 删除</asp:LinkButton>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A11" onclick="getCases();"><i class="icon-book"></i> 相关案件</a>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A12" onclick="getDocs();"><i class="icon-list"></i> 相关文档</a>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A13" onclick="getContract();"><i class="icon-list-alt"></i> 签约记录</a>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A14" onclick="addVisit();"><i class="icon-thumbs-up"></i> 拜访记录</a>
-                        <a href="javascript:void(0);" class="btn1 btn" id="A15  " onclick="upload();"><i class="icon-upload"></i> 上传资料</a>
+                    	<asp:LinkButton runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" OnClick="btnsearch" CssClass="btn1 btn btn-primary"><i class="icon-search icon-white"></i> 查询</asp:LinkButton>
                     </div>
-                </label>
+                <%--<label>
+                对选定客户操作：--%>
+                    <%--<div class="btn-group">
+                        <%--<a href="javascript:void(0);" class="btn1 btn" id="btnHighQuery" onclick="detail();"><i class="icon-pencil"></i> 编辑</a>--%>
+                        <%--<asp:Button runat="server" ID="btnDel" Text="删除" OnClick="delcust" OnClientClick="return candel();" CssClass="btn1 btn" />--%>
+                        <%--<asp:LinkButton runat="server" ID="btnDel" OnClick="delcust" OnClientClick="return candel();" CssClass="btn1 btn"><i class="icon-trash"></i> 删除</asp:LinkButton>--%>
+                        <%--<a href="javascript:void(0);" class="btn1 btn" id="A11" onclick="getCases();"><i class="icon-book"></i> 相关案件</a>--%>
+                        <%--<a href="javascript:void(0);" class="btn1 btn" id="A12" onclick="getDocs();"><i class="icon-list"></i> 相关文档</a>--%>
+                        <%--<a href="javascript:void(0);" class="btn1 btn" id="A13" onclick="getContract();"><i class="icon-list-alt"></i> 签约记录</a>--%>
+                        <%--<a href="javascript:void(0);" class="btn1 btn" id="A14" onclick="addVisit();"><i class="icon-thumbs-up"></i> 拜访记录</a>--%>
+                        <%--<a href="javascript:void(0);" class="btn1 btn" id="A15  " onclick="upload();"><i class="icon-upload"></i> 上传资料</a>--%>
+                    <%--<div class="btn-group">
+                        <a href="" class="btn"><i class="icon-thumbs-up"></i>业务接收</a>
+                        <a href="" class="btn"><i class="icon-th"></i>接收记录</a>
+                    </div>--%>
+                <%--</label>--%>
+                <div class="btn-group">
+                  <button class="btn btn-success dropdown-toggle" data-toggle="dropdown"><i class=" icon-cog icon-white"></i> 操作 <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" id="A5" onclick="detail();"><i class="icon-pencil"></i> 编辑</a></li>
+                        <li><asp:LinkButton runat="server" ID="btnDel" OnClick="delcust" OnClientClick="return candel();"><i class="icon-trash"></i> 删除</asp:LinkButton></li>
+                        <li class="divider"</li>
+                        <li><a href="javascript:void(0);" id="A11" onclick="getCases();"><i class="icon-book"></i> 相关案件</a></li>
+                        <li><a href="javascript:void(0);" id="A12" onclick="getDocs();"><i class="icon-list"></i> 相关文档</a></li>
+                        <li><a href="javascript:void(0);" id="A13" onclick="getContract();"><i class="icon-list-alt"></i> 签约记录</a></li>
+                        <li><a href="javascript:void(0);" id="A14" onclick="upload();"><i class="icon-upload"></i> 上传资料</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:viewTaskLog();"><i class="icon-th"></i> 业务接收记录</a></li>
+                        <li><a href="javascript:addTaskLog();"><i class="icon-thumbs-up"></i> 添加业务记录</a></li>   
+                  </ul>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-warning dropdown-toggle" data-toggle="dropdown"><i class=" icon-wrench icon-white"></i> 更多 <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" id="btnAdd"><i class="icon-plus"></i> 添加客户</a></li>
+                        <li><a href="javascript:void(0);" id="btnChange" onclick="change();"><i class="icon-random"></i> 转移客户</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:cprint();"><i class="icon-print"></i> 打印</a></li>
+                        <li><asp:LinkButton runat="server" ID="lbtnexcel" OnClick="export"><i class="icon-share"></i> 导出</asp:LinkButton></li>
+                    </ul>
+                </div>
             </fieldset>
             <%--<table class="tab1">
                 <tr>
@@ -263,7 +313,7 @@
         <asp:BoundField HeaderText="序号" HeaderStyle-Width="40px" ItemStyle-Width="40px" ItemStyle-HorizontalAlign="Left" DataField="recno" ItemStyle-CssClass="nodetail" />
         <asp:TemplateField HeaderText="客户名称" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="210px" ItemStyle-Width="210px">
             <ItemTemplate>
-                <span title='<%# Eval("custname") %>' class="spcustname txtoverflow" style="width:210px;"><%# Helper.HelperString.cutString(Eval("custname").ToString(),13) %></span>
+                <span title='<%# Eval("custname") %>' class="spcustname txtoverflow" style="width:210px;"><%# Helper.HelperString.cutString(Eval("custname").ToString(),15) %></span>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField HeaderText="客户编号" HeaderStyle-Width="70px" ItemStyle-Width="60px" ItemStyle-HorizontalAlign="Left" DataField="custno" />

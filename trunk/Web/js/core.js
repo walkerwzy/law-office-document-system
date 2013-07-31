@@ -108,7 +108,6 @@ function popAction(act) {
     else $(".floatdiv").css("display", "none");
 }
 
-
 //取cookie值
 function getCookie(name) {
     var arr = document.cookie.match(new RegExp("(^|;\\s*)" + name + "=([^;]*)(;|$)"));

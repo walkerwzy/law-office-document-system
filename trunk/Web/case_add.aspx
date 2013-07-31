@@ -168,7 +168,8 @@
                             </td>
                             <td colspan="3">
                                 <b>附属文件：</b>
-                                <asp:Label runat="server" ID="lbltip" ForeColor="Gray" Visible="false">上传会覆盖之前的文件，请谨慎操作</asp:Label>
+                                <%--<asp:Label runat="server" ID="lbltip" ForeColor="Gray" Visible="false">上传会覆盖之前的文件，请谨慎</asp:Label>--%>
+                                <span class="tgray">请上传扩展名为.doc .docx .ppt .pptx .xls .xlsx的文件，或.jpg .png格式的图片</span>
                             </td>
                         </tr>
                         <%--<tr>
@@ -265,8 +266,8 @@
                                 附加文件 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
-                                <asp:Button runat="server" ID="btnAttatchView" Text="查看" CssClass="btn1" OnClientClick=""/>
-                                <asp:Button runat="server" ID="btnAttatch" Text="添加" CssClass="btn1" OnClientClick="addAttatch();"/>
+                                <a href="javascript:viewAttatch();" class="btn1">查看文件</a>
+                                <a href="javascript:addAttatch();" class="btn1">上传附加文件</a>
                             </td>
                         </tr>
                         <tr>
@@ -357,16 +358,16 @@
         var caseid = $("#hidcaseid").val(),
             custid=$("#hidcust").val(),
             dgaddattatch = new thisdg.curWin.$.dialog({
-                id: 'd2f3', title: '上传案件附加文档', page: 'specialupload.aspx?type=case&caseid='+caseid+'&custid='+custid+'&t=' + new Date().getMilliseconds(),
-                resize: false, width: 570, height: 400, cover: true, cancelBtn: false, rang: true
+                id: 'd2f3m', title: '上传案件附加文档', page: 'specialupload.aspx?type=case&caseid='+caseid+'&custid='+custid+'&t=' + new Date().getMilliseconds(),
+                resize: false, width: 570, height: 360, cover: true, cancelBtn: false, rang: true
             });
         dgaddattatch.ShowDialog();
     }
     function viewAttatch() {
         var caseid = $("#hidcaseid").val(),
             dgviewattatch = new thisdg.curWin.$.dialog({
-                id: 'd2f3', title: '查看案件附加文档', page: 'docquickview.aspx?type=case&caseid=' + caseid + '&t=' + new Date().getMilliseconds(),
-                resize: false, width: 570, height: 400, cover: true, cancelBtn: false, rang: true
+                id: 'd2f3t', title: '查看案件附加文档', page: 'batchview.aspx?type=case&id=' + caseid + '&t=' + new Date().getMilliseconds(),
+                resize: false, width: 570, height: 390, cover: true, cancelBtn: false, rang: true
             });
         dgviewattatch.ShowDialog();
     }

@@ -85,7 +85,7 @@ public partial class case_add : validateUser
         upqisu.Enabled = model.qisu == -1;
         uptiwen.Enabled = model.tiwen == -1;
 
-        lbltip.Visible = true;
+        //lbltip.Visible = true;
 
         this.lblno.Text = model.caseno;
     }
@@ -295,7 +295,7 @@ public partial class case_add : validateUser
         }
         catch (Exception ex)
         {
-            Helper.log.error("更新案件失败", ex.Message);
+            Helper.log.error("操作失败", ex.Message);
             showDialogWithAlert(ex.Message);
             return;
         }

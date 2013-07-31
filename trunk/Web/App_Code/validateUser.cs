@@ -103,6 +103,10 @@ public class validateUser : System.Web.UI.Page
     {
         runJS("alert('" + msg.Replace("'", "").Replace("\"", "") + "');var w=frameElement.lhgDG.curWin;top.popAction(false);w.location.href=w.location.href;");
     }
+    public void showDialogWithReload3(string msg)
+    {
+        runJS("alert('" + msg.Replace("'", "").Replace("\"", "") + "');top.popAction(false);location.href=location.href;");
+    }
     public void showDialogWithAlert(string msg)
     {
         runJS("alert('" + msg.Replace("'", "").Replace("\"", "") + "');frameElement.lhgDG.dg.style.display = 'block'; top.popAction(false);");
@@ -118,5 +122,11 @@ public class validateUser : System.Web.UI.Page
     public void closeDialog()
     {
         runJS("top.popAction(false);frameElement.lhgDG.cancel();");
+    }
+    public void closeDialog(string msg)
+    {
+        msg = msg.Replace("'", "").Replace("\"", "");
+        if (string.IsNullOrEmpty(msg)) runJS("top.popAction(false);frameElement.lhgDG.cancel();");
+        else runJS("alert('" + msg + "'); top.popAction(false);frameElement.lhgDG.cancel();");
     }
 }

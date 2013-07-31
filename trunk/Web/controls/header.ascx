@@ -26,5 +26,5 @@
     /*fix for dropdown in nav-bar*/
     /*ul.nav li.dropdown:hover ul.dropdown-menu{display: block;}
     a.menu:after, .dropdown-toggle:after {content: none;}*/
-
+    .hide{ display: none;}
 </style>

@@ -11,3 +11,30 @@ SET IDENTITY_INSERT [cate_doc] ON
 insert into cate_doc(cateid,catename,seq) values(18,'案件附加文件',7);
 go
 SET IDENTITY_INSERT [cate_doc] OFF
+
+--7/31===============
+--添加业务接收清单表tasklog
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('tasklog')
+            and   type = 'U')
+   drop table tasklog
+go
+
+/*==============================================================*/
+/* Table: tasklog                                               */
+/*==============================================================*/
+create table tasklog (
+   recid                int                  identity,
+   rectime              datetime             null,
+   expiretime           datetime             null,
+   custid               int                  null,
+   userid               int                  null,
+   agentid              int                  null,
+   tasklist             ntext                null,
+   footlist             ntext                null,
+   feedback             ntext                null,
+   constraint PK_TASKLOG primary key (recid)
+)
+go
+

@@ -77,6 +77,7 @@
     <Compile Include="SETTINGS.cs" />
     <Compile Include="SYSROLE.cs" />
     <Compile Include="SYSUSER.cs" />
+    <Compile Include="tasklog.cs" />
     <Compile Include="tools.cs" />
     <Compile Include="user.cs" />
     <Compile Include="UserConfig.cs" />
