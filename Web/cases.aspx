@@ -30,7 +30,7 @@
 //	        });
 	        //添加
 	        var dlgAdd = $("#btnAdd").dialog({ id: 'd2', title: '添加案件', page: 'case_add.aspx?act=add&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
-	            resize: true, width: 760, height: 720, cover: true, cancelBtn: false, rang: true
+	            resize: true, width: 760, height: 710, cover: true, cancelBtn: false, rang: true
 	        });
 	    });
 	    //弹窗_编辑
@@ -43,7 +43,7 @@
 	            id = tr.data("id"),
 	            dept = tr.data("dept"),
 	            info = $(".selected input:checked").val(),
-	            dlg = new $.dialog({ id: "dg02", title: '修改案件信息', page: "case_add.aspx?act=modify&info=" + info + "&t=" + new Date().getMilliseconds() + "&id=" + id + "&dept=" + dept + "&url=" + location.href, resize: false, width: 760, height: 720, cover: true, rang: true, cancelBtn: false });
+	            dlg = new $.dialog({ id: "dg02", title: '修改案件信息', page: "case_add.aspx?act=modify&info=" + info + "&t=" + new Date().getMilliseconds() + "&id=" + id + "&dept=" + dept + "&url=" + location.href, resize: false, width: 760, height: 710, cover: true, rang: true, cancelBtn: false });
 	        dlg.ShowDialog();
 	    }
         </script>
@@ -146,7 +146,7 @@
         </asp:TemplateField>
 		<asp:BoundField DataField="caseno" HeaderText="案件编号" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" />
 		<asp:BoundField HeaderText="案件类别" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="50px" />
-        <asp:TemplateField HeaderText="委托人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="140px" ItemStyle-Width="140px" ItemStyle-CssClass="nodetail">
+        <asp:TemplateField HeaderText="委托人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="145px" ItemStyle-Width="145px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <span title='<%# Eval("custname") %>'><%# Helper.HelperString.cutString(Eval("custname").ToString(),10) %></span>
             </ItemTemplate>
@@ -171,7 +171,7 @@
         </asp:TemplateField>
         <asp:BoundField DataField="lawname" HeaderText="承办律师" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" /> 
         <asp:BoundField DataField="faguan" HeaderText="主审法官" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" /> 
-        <asp:BoundField DataField="kaiting" HeaderText="开庭时间" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" DataFormatString="{0:d}" /> 
+        <asp:BoundField DataField="kaiting" HeaderText="开庭时间" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="65px" ItemStyle-Width="65px" DataFormatString="{0:d}" /> 
         <asp:BoundField DataField="juzheng" HeaderText="举证期限" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" DataFormatString="{0:d}" /> 
         <%--<asp:TemplateField HeaderText="案件详情" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>

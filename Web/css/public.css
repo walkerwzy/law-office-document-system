@@ -46,3 +46,4 @@ select, input,textarea{background-color:#fff!important;}
 .icona:hover{ color:Red;}
 .icona img{ vertical-align:middle; width:16px; height:16px; border:none;}
 
+.hide{ display: none;}

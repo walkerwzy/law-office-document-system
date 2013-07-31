@@ -14,9 +14,10 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    <asp:HiddenField runat="server" ID="hiddocid" Value="" />
-    <asp:HiddenField runat="server" ID="hiduserid" />
+        <asp:HiddenField runat="server" ID="hiddocid" Value="" />
+        <asp:HiddenField runat="server" ID="hiduserid" />
         <asp:HiddenField runat="server" ID="hidcateid" />
+        <asp:HiddenField runat="server" ID="hidcaseid"/>
     <br />
 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="mytable">
 	<td height="32" width="70px" align="right">
@@ -119,10 +120,10 @@
     var thisdg = frameElement.lhgDG;
     thisdg.addBtn('btnClose', '取消', function () { top.popAction(false); thisdg.cancel(); });
     if($("#hiddocid").val()=="") thisdg.addBtn('btnClear', '清空', function () { __doPostBack('btnCancle', ''); });
-    thisdg.addBtn('btnOk', '保存', function () { if (checkQuery()) __doPostBack('btnSave', ''); });
+    thisdg.addBtn('btnOk', '上传', function () { if (checkQuery()) __doPostBack('btnSave', ''); });
     function checkQuery() {
-        var hidcateid = $.trim($("#hidcateid").val($("#txtcust").attr("qid")).val());
-        if (hidcateid == "" || hidcateid == "-1") { alert("请选择客户"); return false; }
+        //var hidcateid = $("#hidcateid").val();
+        //if (hidcateid == "" || hidcateid == "-1") { alert("请选择客户"); return false; }
         thisdg.dg.style.display = "none";
         top.popAction(true);
         return true;
