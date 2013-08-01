@@ -12,24 +12,25 @@ public partial class taskadd : validateUser
     private bool isEdit = false;
     private int custid = -1;
     private int recid = -1;
-    private WZY.Model.tasklog model = null;
     private WZY.DAL.tasklog dal = new tasklog();
     protected void Page_Load(object sender, EventArgs e)
     {
+        isEdit = Request.QueryString["act"] == "edit";
         if (IsPostBack) return;
+        if (isEdit) bindData();
+        else initData();
+    }
+
+    private void initData()
+    {
         if (!int.TryParse(Request.QueryString["custid"], out custid))
         {
             Response.Write("参数错误");
             Response.End();
         }
         hidcustid.Value = custid.ToString();
-        isEdit = Request.QueryString["act"] == "edit";
-        if (isEdit) bindData();
-        else
-        {
-            lbltimereceive.Text = DateTime.Now.ToString("yyyy-MM-dd");
-            lbluser.Text = suser.displayname;
-        }
+        lbltimereceive.Text = DateTime.Now.ToString("yyyy-MM-dd");
+        lbluser.Text = suser.displayname;
     }
 
     private void bindData()
@@ -41,14 +42,15 @@ public partial class taskadd : validateUser
         }
         var userDao = new SYSUSER();
         hidid.Value = recid.ToString();
-        model = dal.GetModel(recid);
+        WZY.Model.tasklog model = dal.GetModel(recid);
+        hidcustid.Value = model.custid.ToString();
         lbltimereceive.Text = model.rectime.ToString("yyyy-MM-dd");
         hidagent.Value = model.agentid.ToString();
         txtagent.Text = userDao.GetUserDisplayNameByID(model.agentid);
         txtfeedback.Text = model.feedback;
         txtfoot.Text = model.footlist;
         txttask.Text = model.tasklist;
-        if(model.expiretime.HasValue) txttimeexpire.Text = model.expiretime.Value.ToString("yyyy-MM-dd");
+        if (model.expiretime.HasValue) txttimeexpire.Text = model.expiretime.Value.ToString("yyyy-MM-dd");
         lbluser.Text = new SYSUSER().GetUserDisplayNameByID(model.userid);
     }
 
@@ -57,18 +59,34 @@ public partial class taskadd : validateUser
     {
         try
         {
+            WZY.Model.tasklog model = null;
+            recid = int.Parse(hidid.Value);
             if (isEdit)
             {
+                int depta = -1;
+                int deptb = -1;
+                if (!int.TryParse(Request.QueryString["depta"], out depta) ||
+                    !int.TryParse(Request.QueryString["deptb"], out deptb))
+                {
+                    showDialogWithAlert("无权限"); //无部门信息，不予采用
+                    return;
+                }
+                model = dal.GetModel(recid);
                 //修改权限仅支持本人数据，部门负责人：部门数据，管理员：全部数据
-                //if (info[1] == suser.uid.ToString() || (info[2] == suser.deptid.ToString() && suser.roleid == 1) || suser.roleid == 0)
-                //{ }
-                //else
-                //{
-                //    showDialogWithAlert("无权限");
-                //    return;
-                //}
+                //本人在此例中为“提交人，或承办人”
+                if (model.userid == suser.uid
+                    ||model.agentid==suser.uid
+                    || (depta == suser.deptid && suser.roleid == 1)
+                    || (deptb == suser.deptid && suser.roleid == 1) 
+                    || suser.roleid == 0)
+                { }
+                else
+                {
+                    showDialogWithAlert("无权限");
+                    return;
+                }
             }
-            else model=new WZY.Model.tasklog();
+            else model = new WZY.Model.tasklog();
             string strErr = "";
             if (!PageValidate.IsNumber(hidagent.Value))
             {
@@ -90,12 +108,17 @@ public partial class taskadd : validateUser
             model.feedback = txtfeedback.Text;
             model.footlist = txtfoot.Text;
             model.tasklist = txttask.Text;
-            if (isEdit) dal.Update(model);
+            if (isEdit)
+            {
+                dal.Update(model);
+                //closeDialog();
+                closeDialog("操作成功");
+            }
             else
             {
                 int id = dal.Add(model);
+            closeDialog("操作成功");
             }
-            showDialogWithAlert("操作成功");
         }
         catch (Exception ex)
         {

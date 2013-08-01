@@ -30,7 +30,7 @@
 	    //弹窗_编辑
 	    function detail() {
 	        if ($(".selected").length == 0) {
-	            alert("请选择一位客户！");
+	            malert("请选择一位客户！");
 	            return;
 	        }
 	        var auth = $(".selected :hidden").eq(1).val();
@@ -40,14 +40,14 @@
 	    }
 	    //判断是否有权限删除
 	    function candel() {
-	        if ($(".selected").length == 0) { alert("请选择一位客户！"); return false; }
-	        if ($(".selected :hidden").eq(1).val() != "1") { alert("无权限"); return false; }
+	        if ($(".selected").length == 0) { malert("请选择一位客户！"); return false; }
+	        if ($(".selected :hidden").eq(1).val() != "1") { malert("无权限"); return false; }
 	        return true;
 	    }
 	    //签约历史窗口
 	    function getContract() {
 	        if ($(".selected").length == 0) {
-	            alert("请选择一位客户！");
+	            malert("请选择一位客户！");
 	            return;
 	        }
 	        var id = $(".selected input:checked").val();
@@ -64,7 +64,7 @@
 	    //快速上传
 	    function upload() {
 	        if ($(".selected").length == 0) {
-	            alert("请选择一位客户！");
+	            malert("请选择一位客户！");
 	            return;
 	        }
 	        var id = $(".selected input:checked").val();
@@ -74,7 +74,7 @@
 	    //添加拜访记录
 	    function addVisit() {
 	        if ($(".selected").length == 0) {
-	            alert("请选择一位客户！");
+	            malert("请选择一位客户！");
 	            return;
 	        }
 	        var id = $(".selected input:checked").val();
@@ -87,7 +87,7 @@
 	    //文档管理
 	    function getDocs() {
 	        if ($(".selected").length == 0) {
-	            alert("请选择一位客户！");
+	            malert("请选择一位客户！");
 	            return;
 	        }
 	        var id = $(".selected input:checked").val();
@@ -96,7 +96,7 @@
         //案件管理
         function getCases() {
             if ($(".selected").length == 0) {
-                alert("请选择一位客户！");
+                malert("请选择一位客户！");
                 return;
             }
             var id = $(".selected input:checked").val();
@@ -105,26 +105,42 @@
 	    //添加业务接收记录
         function addTaskLog() {
             if ($(".selected").length == 0) {
-                alert("请选择一位客户！");
+                malert("请选择一位客户！");
                 return;
             }
             var id = $(".selected input:checked").val();
+            var name = $(".selected .spcustname").attr("title");
             var dlg = new $.dialog({
-                id: 'dg07', title: '添加业务接收记录', page: 'taskadd.aspx?act=add&custid=' + id + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
-                resize: true, width: 650, height: 445, cover: true, cancelBtn: false, rang: true
+                id: 'dg07',
+                title: '添加业务接收记录-' + name,
+                page: 'taskadd.aspx?act=add&custid=' + id + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
+                resize: true,
+                width: 650,
+                height: 430,
+                cover: true,
+                cancelBtn: false,
+                rang: true
             });
             dlg.ShowDialog();
         }
 	    //查看业务接收记录
         function viewTaskLog() {
             if ($(".selected").length == 0) {
-                alert("请选择一位客户！");
+                malert("请选择一位客户！");
                 return;
             }
             var id = $(".selected input:checked").val();
+            var name = $(".selected .spcustname").attr("title");
             var dlg = new $.dialog({
-                id: 'dg08', title: '查看业务接收记录', page: 'tasklist.aspx?act=view&custid=' + id + '&custname=' + name + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
-                resize: true, width: 550, height: 420, cover: true, cancelBtn: false, rang: true
+                id: 'dg08',
+                title: '业务接收记录-' + name,
+                page: 'tasklist.aspx?act=view&custid=' + id + '&custname=' + encodeURI(name) + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
+                resize: true,
+                width: 650,
+                height: 420,
+                cover: true,
+                cancelBtn: false,
+                rang: true
             });
             dlg.ShowDialog();
         }

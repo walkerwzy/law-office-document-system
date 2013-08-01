@@ -255,6 +255,7 @@ namespace WZY.DAL
         /// </summary>
         public DataSet GetListPager(string strWhere, int pagesize, int pageindex, string orderby, string orderdirection)
         {
+            //如果查询条件涉及关联表的条件，则需要把关联表也同时写到row函数里去
             int start = pagesize*(pageindex - 1) + 1;
             int end = start + pagesize - 1;
             StringBuilder strSql = new StringBuilder();

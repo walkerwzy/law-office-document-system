@@ -37,7 +37,7 @@
 	    //弹窗_编辑
 	    function detail() {
 	        if ($(".selected").length == 0) {
-	            alert("请选择一条记录！");
+	            malert("请选择一条记录！");
 	            return;
 	        }
 	        var id = $(".selected input:checked").val();
@@ -207,7 +207,7 @@
         $.get("ajaxHandler.aspx", { act: "deldoc", t: new Date().getMilliseconds(), id: id }, function (d) {
             if (d == "1") {
                 __doPostBack("LinkButton1", "");
-            } else { alert("删除失败"); }
+            } else { malert("删除失败"); }
         });
     }
 </script>

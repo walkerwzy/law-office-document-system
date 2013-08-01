@@ -62,6 +62,7 @@ public class validateUser : System.Web.UI.Page
     }
     protected void alert(string msg)
     {
+        if (string.IsNullOrEmpty(msg)) return;
         runJS("malert('" + msg.Replace("'", "").Replace("\"", "") + "');");
     }
 
@@ -97,19 +98,21 @@ public class validateUser : System.Web.UI.Page
     public void showDialogWithReload(string msg)
     {
         //runJS("alert('" + msg + "');var w=frameElement.lhgDG.curWin; w.location.href=w.location.href;");
-        runJS("alert('" + msg.Replace("'", "").Replace("\"", "") + "');var w=frameElement.lhgDG.curWin; w.__doPostBack('LinkButton1','');");
+        var js = "var w=frameElement.lhgDG.curWin; w.__doPostBack('LinkButton1','');";
+        if (!string.IsNullOrEmpty(msg)) js = "alert('" + msg.Replace("'", "").Replace("\"", "") +"');" + js;
+        runJS(js);
     }
     public void showDialogWithReload2(string msg)
     {
-        runJS("alert('" + msg.Replace("'", "").Replace("\"", "") + "');var w=frameElement.lhgDG.curWin;top.popAction(false);w.location.href=w.location.href;");
-    }
-    public void showDialogWithReload3(string msg)
-    {
-        runJS("alert('" + msg.Replace("'", "").Replace("\"", "") + "');top.popAction(false);location.href=location.href;");
+        var js = "var w=frameElement.lhgDG.curWin;top.popAction(false);w.location.href=w.location.href;";
+        if (!string.IsNullOrEmpty(msg)) js = "alert('" + msg.Replace("'", "").Replace("\"", "") + "');" + js;
+        runJS(js);
     }
     public void showDialogWithAlert(string msg)
     {
-        runJS("alert('" + msg.Replace("'", "").Replace("\"", "") + "');frameElement.lhgDG.dg.style.display = 'block'; top.popAction(false);");
+        var js = "frameElement.lhgDG.dg.style.display = 'block'; top.popAction(false);";
+        if (!string.IsNullOrEmpty(msg)) js = "alert('" + msg.Replace("'", "").Replace("\"", "") + "');" + js;
+        runJS(js);
     }
     public void showDialog()
     {
