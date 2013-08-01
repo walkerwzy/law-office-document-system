@@ -77,6 +77,12 @@
         thisdg.addBtn('btnOk', savebtntxt, function () { if (checkQuery()) __doPostBack('btnSave', ''); });
 
         function checkQuery() {
+            if ($.trim($("#hidagent").val()) == "") {
+                alert("请选择承办人");
+                return false;
+            }
+            thisdg.dg.style.display = "none";
+            top.popAction(true);
             return true;
         }
     </script>

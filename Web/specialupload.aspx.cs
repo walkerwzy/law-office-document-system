@@ -30,12 +30,12 @@ public partial class specialupload : validateUser
         var caseok = int.TryParse(Request.QueryString["caseid"], out caseid);
         if (caseFile && (!custok || !caseok)) //上传案件附件文件
         {
-            Response.Write("参数不全");
+            Response.Write("参数错误");
             Response.End();
         }
         else if (!caseFile && !custok) //上传客户维护文件
         {
-            Response.Write("参数不全");
+            Response.Write("参数错误");
             Response.End();
         }
         hidcateid.Value = custid.ToString();//cust

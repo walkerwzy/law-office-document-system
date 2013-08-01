@@ -303,9 +303,14 @@ namespace WZY.DAL
 		/// <summary>
 		/// 分页获取数据列表
 		/// </summary>
-		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-		{
+		public DataSet GetListByPage(string strWhere, string orderby, int pageindex, int pagesize)
+        {
+            //如果查询条件涉及关联表的条件，则需要把关联表也同时写到row函数里去
+            //此处只用几个关联ID查询，因此简化
+            int startIndex = pagesize * (pageindex - 1) + 1;
+            int endIndex = startIndex + pagesize - 1;
 			StringBuilder strSql=new StringBuilder();
+		    strSql.Append("select ts.*,a.custname,b.displayname usera, b.deptid depta, c.displayname userb, c.deptid deptb from ( ");
 			strSql.Append("SELECT * FROM ( ");
 			strSql.Append(" SELECT ROW_NUMBER() OVER (");
 			if (!string.IsNullOrEmpty(orderby.Trim()))
@@ -323,6 +328,10 @@ namespace WZY.DAL
 			}
 			strSql.Append(" ) TT");
 			strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
+		    strSql.Append(") ts ");
+		    strSql.Append(" left join customer a on a.custid= ts.custid ");
+		    strSql.Append(" left join sysuser b on b.uid=ts.userid ");
+		    strSql.Append(" left join sysuser c on c.uid=ts.agentid ");
             var database = DatabaseFactory.CreateDatabase();
             return database.ExecuteDataSet(CommandType.Text, strSql.ToString());
 		}

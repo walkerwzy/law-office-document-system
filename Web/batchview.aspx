@@ -8,7 +8,6 @@
     <title></title>
     <link href="css/public.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
-        .hide{ display: none;}
         th{background:#f3f3f3; color:#1E5494; font-weight:400;}
     </style>
 </head>

@@ -45,7 +45,7 @@ public partial class case_add : validateUser
         WZY.DAL.CASES bll = new WZY.DAL.CASES();
         var userDao = new WZY.DAL.SYSUSER();
         WZY.Model.CASES model = bll.GetModel(caseid);
-        hidcaseid.Value = model.caseid.ToString();
+        hidcaseid.Value = caseid.ToString();
         ddlcateid.Text = model.cateid.ToString();
         this.txtcustid.Text = new WZY.DAL.CUSTOMER().GetCustNameById(model.custid.Value);
         hidcust.Value = model.custid.ToString();

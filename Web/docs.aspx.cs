@@ -15,6 +15,7 @@ public partial class docs : validateUser
     protected bool usecustid = false;
     protected string cates;
     protected string request_cateid;
+    private string date = "";
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!string.IsNullOrEmpty(Request["custid"])) usecustid = true;
@@ -22,6 +23,11 @@ public partial class docs : validateUser
         if (!IsPostBack)
         {
             SetUserName(this);
+            if (!string.IsNullOrEmpty(Request.QueryString["date"]))
+            {
+                DateTime dt = default(DateTime);
+                if (DateTime.TryParse(Request.QueryString["date"], out dt)) date = dt.ToString("yyyy-MM-dd");
+            }
             //Helper.HelperDropDownList.BindData(ddlcate, new WZY.DAL.CATE_DOC().GetList(" 1=1 order by seq ").Tables[0], "catename", "cateid", 0, true);
             var doctype = string.IsNullOrEmpty(Request["type"]) ? "-1" : Request["type"];
             Helper.HelperDropDownList.BindData(ddltype, new WZY.DAL.cate_yewu().GetList(" 1=1 order by cate_index").Tables[0], "cate_name", "cate_id", doctype, true);
@@ -61,6 +67,10 @@ public partial class docs : validateUser
         if (usecustid)
         {
             filter += " and custid=" + Request["custid"];
+        }
+        else if (!string.IsNullOrEmpty(date))
+        {
+            filter += " and uptime >='" + date + " 0:0:0' and uptime <='" + date + " 23:59:59'";
         }
         else
         {

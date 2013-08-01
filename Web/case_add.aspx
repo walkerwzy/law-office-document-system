@@ -261,7 +261,7 @@
                                 <asp:FileUpload ID="updabian" runat="server" Width="400px"  /><asp:Literal runat="server" ID="ltdabian"></asp:Literal>
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="attatch">
                             <td height="25" width="150px" align="right">
                                 附加文件 ：
                             </td>
@@ -305,8 +305,10 @@
     var thisdg = frameElement.lhgDG;
     var savebtntxt = "添加";
     thisdg.addBtn('btnClose', '取消', function () { top.popAction(false); thisdg.cancel(); });
-    if ($("#hidcaseid").val() == "") thisdg.addBtn('btnClear', '清空', function() { __doPostBack('btnCancle', ''); });
-    else {
+    if ($("#hidcaseid").val() == "") {
+        thisdg.addBtn('btnClear', '清空', function () { __doPostBack('btnCancle', ''); });
+        $("tr.attatch").hide();
+    } else {
         savebtntxt = "保存";
         $("#txtcustid").attr("qid", $("#hidcust").val());
         $("#txtlawid").attr("qid", $("#hidlawid").val());
