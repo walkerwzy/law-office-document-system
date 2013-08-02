@@ -30,7 +30,16 @@
                 <td class="text-right">提交人：</td><td><asp:Label runat="server" ID="lbluser"></asp:Label></td>
                 <td class="text-right">承办人：</td><td><asp:TextBox runat="server" ID="txtagent" CssClass="tinput" Width="220px"></asp:TextBox><span class="tred"> *</span></td>
             </tr>
-            <tr id="docs"><td class="text-right">原始资料：</td><td colspan="3"><a href="" class="btn1">查看</a>&nbsp;<a href="" class="btn1">添加</a></td></tr>
+            <tr id="docs">
+                <td class="text-right">原始资料：</td>
+                <td colspan="3">
+                    <% if (fileCount > 0)
+                       { %><input type="button" class="btn1" onclick="viewAttatch();" value="查看" id="viewfile"/>已上传的<span class="tred" id="filecount" style="margin:0 2px; font-weight: 600;"><%= fileCount %></span>份文件，<% } else {%>
+                    还未上传任何文件，
+                    <%} %>
+                    <a href="javascript:addAttatch();" class="btn1">点此<%if(fileCount>0){ %>继续<%} %>上传</a>
+                </td>
+            </tr>
             <tr>
                 <td class="text-right">事项：</td>
                 <td colspan="3">
@@ -62,9 +71,11 @@
     <script type="text/javascript">
         $(function() {
             $("#txtagent").autoCmpt({ url: "/ajaxhandler.aspx?act=getuser", width: 220, hidden: $("#hidagent") });
+            if ($("#filecount").text() == "0") $("#viewfile").prop("disabled", true);
         });
-        var thisdg = frameElement.lhgDG;
-        var savebtntxt = "添加";
+        var thisdg = frameElement.lhgDG,
+            savebtntxt = "添加",
+            reloadflag;
         thisdg.addBtn('btnClose', '取消', function () { top.popAction(false); thisdg.cancel(); });
         if ($("#hidid").val() == "") {
             thisdg.addBtn('btnClear', '清空', function () { __doPostBack('btnCancle', ''); });
@@ -84,6 +95,31 @@
             thisdg.dg.style.display = "none";
             top.popAction(true);
             return true;
+        }
+        
+        function addAttatch() {
+            var recid = $("#hidid").val(),
+                custid = $("#hidcustid").val(),
+                dgaddattatch = new thisdg.curWin.$.dialog({
+                    id: 'd2f3m', title: '上传原始资料', page: 'specialupload.aspx?type=task&caseid=' + recid + '&custid=' + custid + '&t=' + new Date().getMilliseconds(),
+                    resize: false, width: 570, height: 360, cover: true, cancelBtn: false, rang: true
+                });
+            dgaddattatch.ShowDialog();
+            top.lhgflag = true;
+            reloadflag = setInterval(function () {
+                if (!top.lhgflag) {
+                    location.href = location.href;
+                    clearInterval(reloadflag);
+                }
+            }, 1000);
+        }
+        function viewAttatch() {
+            var recid = $("#hidid").val(),
+                dgviewattatch = new thisdg.curWin.$.dialog({
+                    id: 'd2f3t', title: '查看原始资料', page: 'batchview.aspx?type=task&id=' + recid + '&t=' + new Date().getMilliseconds(),
+                    resize: false, width: 570, height: 390, cover: true, cancelBtn: false, rang: true
+                });
+            dgviewattatch.ShowDialog();
         }
     </script>
 </body>

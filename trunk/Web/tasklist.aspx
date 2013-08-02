@@ -31,7 +31,7 @@
                 <asp:TemplateField HeaderText="操作" ItemStyle-HorizontalAlign="Center">
                     <ItemTemplate>
                         <a href="javascript:editTask(<%# string.Format("{0},{1},{2}",Eval("recid"),Eval("depta"),Eval("deptb")) %>);">详细</a>&nbsp;
-                        <a href="javascript:;">删除</a>
+                        <a href="javascript:delTask(<%# string.Format("{0},{1},{2}",Eval("recid"),Eval("depta"),Eval("deptb"))%>);">删除</a>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -53,12 +53,14 @@
     </form>
     <script type="text/javascript" src="/js/jquery-1.8.2.min.js"></script>  
     <script type="text/javascript">
-        var thisdg = frameElement.lhgDG;
+        var thisdg = frameElement.lhgDG,
+            reloadflag;
         thisdg.addBtn('btnClose', '关闭', function () { top.popAction(false); thisdg.cancel(); });
+        thisdg.addBtn('btnRefresh', '刷新', function() { location.href = location.href; });
         $(function () {
 
         });
-        //添加业务接收记录
+        //修改业务接收记录
         function editTask(id,depta,deptb) {
             var name = $("#hidcustname").val();
             var dlg = new thisdg.curWin.$.dialog({
@@ -67,12 +69,26 @@
                 page: 'taskadd.aspx?act=edit&id=' + id + '&depta=' + depta + '&deptb=' + deptb + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
                 resize: true,
                 width: 650,
-                height: 450,
+                height: 455,
                 cover: true,
                 cancelBtn: false,
                 rang: true
             });
             dlg.ShowDialog();
+            top.lhgflag = true;
+            reloadflag = setInterval(function () {
+                if (!top.lhgflag) {
+                    location.href = location.href;
+                    clearInterval(reloadflag);
+                }
+            }, 1000);
+        }
+        function delTask(id, depta, deptb) {
+            if (!confirm("警告！\n删除记录将会自动删除关联文件，是否确定？")) return;
+
+            //TODO:实现
+            //删除任务
+            //同时删除任务文件
         }
     </script>
 </body>

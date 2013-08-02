@@ -24,57 +24,55 @@ public partial class specialupload : validateUser
     private int cateid = 18;//案件附加文件
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (IsPostBack) return;
         caseFile = Request.QueryString["type"] == "case";
+        if (!caseFile)
+        {
+            typeid = 1;//常年业务
+            cateid = 17;//原始资料
+        }
+        if (IsPostBack) return;
         var custok = int.TryParse(Request.QueryString["custid"], out custid);
         var caseok = int.TryParse(Request.QueryString["caseid"], out caseid);
-        if (caseFile && (!custok || !caseok)) //上传案件附件文件
-        {
-            Response.Write("参数错误");
-            Response.End();
-        }
-        else if (!caseFile && !custok) //上传客户维护文件
+        if (!custok || !caseok) //上传案件附件文件
         {
             Response.Write("参数错误");
             Response.End();
         }
         hidcateid.Value = custid.ToString();//cust
         hiduserid.Value = suser.uid.ToString();//user
-        hidcaseid.Value = caseid.ToString(); //case
-        if (!caseFile)
-        {
-            typeid = 1;//常年业务
-            cateid = 17;//原始资料
-        }
+        hidcaseid.Value = caseid.ToString(); //case or raskrecord
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-    //    string strErr = "";
-    //    if (!PageValidate.IsNumber(hidcateid.Value))
-    //    {
-    //        strErr += "请选择客户！\\n";
-    //    }
-    //    if (strErr != "")
-    //    {
-    //        showDialogWithAlert(strErr);
-    //        return;
-    //    }
-    //    int ctrfile = 0;//有文件就加1
-    //    int ctr = 0;//文件成功上传才加1
-    //    for (int i = 1; i < 9; i++)
-    //    {
-    //        FileUpload fuctrl = Page.FindControl("FileUpload" + i) as FileUpload;
-    //        if (fuctrl.HasFile)
-    //        {
-    //            ctrfile++;
-    //            if (fileupload(fuctrl)) ctr++;
-    //        }
-    //    }
-    //    if (ctrfile == 0) showDialogWithAlert("请至少上传一个文件");
-    //    if (ctr == ctrfile) showDialogWithReload3("上传成功");
-    //    else showDialogWithAlert("部分上传失败");
-        //showDialogWithReload3("fsda");
-        closeDialog();
+        string strErr = "";
+        if (!PageValidate.IsNumber(hidcateid.Value))
+        {
+            strErr += "请选择客户！\\n";
+        }
+        if (strErr != "")
+        {
+            showDialogWithAlert(strErr);
+            return;
+        }
+        int ctrfile = 0;//有文件就加1
+        int ctr = 0;//文件成功上传才加1
+        for (int i = 1; i < 9; i++)
+        {
+            FileUpload fuctrl = Page.FindControl("FileUpload" + i) as FileUpload;
+            if (fuctrl.HasFile)
+            {
+                ctrfile++;
+                if (fileupload(fuctrl)) ctr++;
+            }
+        }
+        if (ctrfile == 0) showDialogWithAlert("请至少上传一个文件");
+        if (ctr == ctrfile) //closeDialog("上传成功");
+        {
+            //TODO: 案件的附加文档也最好数一下，到时候都换成刷新父窗体
+            if (caseFile) closeDialog("上传成功");
+            else closeDialogWidthReload("上传成功");
+        }
+        else showDialogWithAlert("部分上传失败");
 }
 
     //上传单个文件的方法
@@ -140,7 +138,7 @@ public partial class specialupload : validateUser
             }
             catch (Exception ex)
             {
-                Helper.log.error("上传" + (caseFile ? "案件附加" : "客户维护原始资料") + "文件失败", ex.Message);
+                Helper.log.error("上传" + (caseFile ? "案件附加" : "业务交接原始资料") + "文件失败", ex.Message);
                 return false;
             }
         }
