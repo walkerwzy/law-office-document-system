@@ -2,7 +2,8 @@
  * Date : 2012-03-30 23:03:11
  * Copyright (c) 2013 by Walker Wang
  */
-var src = $("script:last").attr("src");
+var src = $("script:last").attr("src"),
+    lhgflag = false;//lhg dialog child window refresh flag
 $(function () {
     //IE升级
     if ($("#ieupgrade").length > 0) {

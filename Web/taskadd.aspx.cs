@@ -13,6 +13,7 @@ public partial class taskadd : validateUser
     private int custid = -1;
     private int recid = -1;
     private WZY.DAL.tasklog dal = new tasklog();
+    protected int fileCount = 0;
     protected void Page_Load(object sender, EventArgs e)
     {
         isEdit = Request.QueryString["act"] == "edit";
@@ -40,6 +41,7 @@ public partial class taskadd : validateUser
             Response.Write("参数错误");
             Response.End();
         }
+        fileCount = new WZY.DAL.DOCS().GetRecordCount("remark='log:" + recid + "'");
         var userDao = new SYSUSER();
         hidid.Value = recid.ToString();
         WZY.Model.tasklog model = dal.GetModel(recid);
@@ -111,8 +113,7 @@ public partial class taskadd : validateUser
             if (isEdit)
             {
                 dal.Update(model);
-                //closeDialog();
-                closeDialog("操作成功");
+                closeDialogWidthReload("操作成功");
             }
             else
             {
