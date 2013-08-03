@@ -62,9 +62,9 @@ public partial class taskadd : validateUser
         try
         {
             WZY.Model.tasklog model = null;
-            recid = int.Parse(hidid.Value);
             if (isEdit)
             {
+                recid = int.Parse(hidid.Value);
                 int depta = -1;
                 int deptb = -1;
                 if (!int.TryParse(Request.QueryString["depta"], out depta) ||
@@ -77,9 +77,9 @@ public partial class taskadd : validateUser
                 //修改权限仅支持本人数据，部门负责人：部门数据，管理员：全部数据
                 //本人在此例中为“提交人，或承办人”
                 if (model.userid == suser.uid
-                    ||model.agentid==suser.uid
+                    || model.agentid == suser.uid
                     || (depta == suser.deptid && suser.roleid == 1)
-                    || (deptb == suser.deptid && suser.roleid == 1) 
+                    || (deptb == suser.deptid && suser.roleid == 1)
                     || suser.roleid == 0)
                 { }
                 else
@@ -113,12 +113,12 @@ public partial class taskadd : validateUser
             if (isEdit)
             {
                 dal.Update(model);
-                closeDialogWidthReload("操作成功");
+                closeDialogWithReload("操作成功");
             }
             else
             {
                 int id = dal.Add(model);
-            closeDialog("操作成功");
+                closeDialogWithReload("操作成功");
             }
         }
         catch (Exception ex)

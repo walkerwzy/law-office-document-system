@@ -105,13 +105,7 @@
                     resize: false, width: 570, height: 360, cover: true, cancelBtn: false, rang: true
                 });
             dgaddattatch.ShowDialog();
-            top.lhgflag = true;
-            reloadflag = setInterval(function () {
-                if (!top.lhgflag) {
-                    location.href = location.href;
-                    clearInterval(reloadflag);
-                }
-            }, 1000);
+            watchFile();
         }
         function viewAttatch() {
             var recid = $("#hidid").val(),
@@ -120,6 +114,16 @@
                     resize: false, width: 570, height: 390, cover: true, cancelBtn: false, rang: true
                 });
             dgviewattatch.ShowDialog();
+            watchFile();
+        }
+        function watchFile() {
+            top.lhgflag = true;
+            reloadflag = setInterval(function () {
+                if (!top.lhgflag) {
+                    location.href = location.href;
+                    clearInterval(reloadflag);
+                }
+            }, 1000);
         }
     </script>
 </body>

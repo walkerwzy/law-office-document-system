@@ -26,7 +26,7 @@
 	<td height="32" width="230px" align="left">
 		<asp:FileUpload runat="server" ID="FileUpload1" CssClass="tinput" style="width:224px; height:24px; border:1px solid #ccc;" />
         <asp:Literal runat="server" ID="ltpreview"></asp:Literal>
-	</td></tr>
+	</td>
 	<tr>
 	<td height="32" width="70px" align="right">
 		上传文件

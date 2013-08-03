@@ -16,6 +16,7 @@ public partial class tasklist : validateUser
             Response.Write("参数错误");
             Response.End();
         }
+        hidcustid.Value = Request.QueryString["custid"];
         hidcustname.Value = Request.QueryString["custname"];
         bindData();
     }

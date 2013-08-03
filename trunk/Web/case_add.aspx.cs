@@ -11,6 +11,8 @@ using System.Data;
 
 public partial class case_add : validateUser
 {
+    protected int fileCount = 0;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -42,6 +44,7 @@ public partial class case_add : validateUser
 
     private void ShowInfo(int caseid)
     {
+        fileCount = new WZY.DAL.DOCS().GetRecordCount("remark='case:" + caseid + "'");
         WZY.DAL.CASES bll = new WZY.DAL.CASES();
         var userDao = new WZY.DAL.SYSUSER();
         WZY.Model.CASES model = bll.GetModel(caseid);

@@ -16,6 +16,7 @@
 <body>
     <form id="form1" runat="server">
         <asp:HiddenField runat="server" ID="hidcustname"/>
+        <asp:HiddenField runat="server" ID="hidcustid"/>
     <div id="wndbody">
         <asp:GridView runat="server" ID="gridlist" DataKeyNames="recid" AutoGenerateColumns="False" Width="100%" GridLines="None" CellSpacing="-1">
             <Columns>
@@ -56,7 +57,28 @@
         var thisdg = frameElement.lhgDG,
             reloadflag;
         thisdg.addBtn('btnClose', '关闭', function () { top.popAction(false); thisdg.cancel(); });
-        thisdg.addBtn('btnRefresh', '刷新', function() { location.href = location.href; });
+        thisdg.addBtn('btnRefresh', '刷新', function () { location.href = location.href; });
+        thisdg.addBtn('btnAdd', '添加', function() {
+        //添加业务接收记录
+            //function addTaskLog() {
+            var id = $("#hidcustid").val();
+            if (id == "") return;
+            var name = $("#hidcustname").attr("title");
+            var dlg = new thisdg.curWin.$.dialog({
+                id: 'dg07abc',
+                title: '添加业务接收记录-' + name,
+                page: 'taskadd.aspx?act=add&custid=' + id + '&t=' + new Date().getMilliseconds() + '&url=' + location.pathname,
+                resize: true,
+                width: 650,
+                height: 430,
+                cover: true,
+                cancelBtn: false,
+                rang: true
+            });
+            dlg.ShowDialog();
+            watchFile();
+            //}
+        });
         $(function () {
 
         });
@@ -75,13 +97,7 @@
                 rang: true
             });
             dlg.ShowDialog();
-            top.lhgflag = true;
-            reloadflag = setInterval(function () {
-                if (!top.lhgflag) {
-                    location.href = location.href;
-                    clearInterval(reloadflag);
-                }
-            }, 1000);
+            watchFile();
         }
         function delTask(id, depta, deptb) {
             if (!confirm("警告！\n删除记录将会自动删除关联文件，是否确定？")) return;
@@ -89,6 +105,15 @@
             //TODO:实现
             //删除任务
             //同时删除任务文件
+        }
+        function watchFile() {
+            top.lhgflag = true;
+            reloadflag = setInterval(function () {
+                if (!top.lhgflag) {
+                    location.href = location.href;
+                    clearInterval(reloadflag);
+                }
+            }, 1000);
         }
     </script>
 </body>

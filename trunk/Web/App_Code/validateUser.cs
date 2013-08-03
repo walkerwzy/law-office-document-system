@@ -132,7 +132,7 @@ public class validateUser : System.Web.UI.Page
         if (string.IsNullOrEmpty(msg)) runJS("top.popAction(false);frameElement.lhgDG.cancel();");
         else runJS("alert('" + msg + "'); top.popAction(false);frameElement.lhgDG.cancel();");
     }
-    public void closeDialogWidthReload(string msg)
+    public void closeDialogWithReload(string msg)
     {
         msg = msg.Replace("'", "").Replace("\"", "");
         if (string.IsNullOrEmpty(msg)) runJS("top.lhgflag=false;top.popAction(false);frameElement.lhgDG.cancel();");

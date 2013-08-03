@@ -62,6 +62,16 @@
         $(function() {
             
         });
+        function deldoc(id) {
+            if (!confirm("确认删除？")) return;
+            //ajax删除文件
+            $.get("ajaxHandler.aspx", { act: "deldoc", t: new Date().getMilliseconds(), id: id }, function (d) {
+                if (d == "1") {
+                    top.lhgflag = false;
+                    location.href = location.href;
+                } else { alert("删除失败"); }
+            });
+        }
     </script>
 </body>
 </html>
