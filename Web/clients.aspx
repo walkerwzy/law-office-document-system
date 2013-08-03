@@ -199,11 +199,11 @@
                         <li class="divider"</li>
                         <li><a href="javascript:void(0);" id="A11" onclick="getCases();"><i class="icon-book"></i> 相关案件</a></li>
                         <li><a href="javascript:void(0);" id="A12" onclick="getDocs();"><i class="icon-list"></i> 相关文档</a></li>
-                        <li><a href="javascript:void(0);" id="A13" onclick="getContract();"><i class="icon-list-alt"></i> 签约记录</a></li>
                         <li><a href="javascript:void(0);" id="A14" onclick="upload();"><i class="icon-upload"></i> 上传资料</a></li>
                         <li class="divider"></li>
+                        <li><a href="javascript:void(0);" id="A13" onclick="getContract();"><i class="icon-list-alt"></i> 签约记录</a></li>
                         <li><a href="javascript:viewTaskLog();"><i class="icon-th"></i> 业务接收记录</a></li>
-                        <li><a href="javascript:addTaskLog();"><i class="icon-thumbs-up"></i> 添加业务记录</a></li>   
+                        <%--<li><a href="javascript:addTaskLog();"><i class="icon-thumbs-up"></i> 添加业务记录</a></li>--%>   
                   </ul>
                 </div>
                 <div class="btn-group">

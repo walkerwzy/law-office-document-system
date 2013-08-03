@@ -266,8 +266,13 @@
                                 附加文件 ：
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
-                                <a href="javascript:viewAttatch();" class="btn1">查看文件</a>
-                                <a href="javascript:addAttatch();" class="btn1">上传附加文件</a>
+                                <%--<a href="javascript:viewAttatch();" class="btn1">查看文件</a>
+                                <a href="javascript:addAttatch();" class="btn1">上传附加文件</a>--%>
+                    <% if (fileCount > 0)
+                       { %><input type="button" class="btn1" onclick="viewAttatch();" value="查看" id="viewfile"/>已上传的<span class="tred" id="filecount" style="margin:0 2px; font-weight: 600;"><%= fileCount %></span>份附加文件，<% } else {%>
+                    还未上传任何附加文件，
+                    <%} %>
+                    <a href="javascript:addAttatch();" class="btn1">点此<%if(fileCount>0){ %>继续<%} %>上传</a>
                             </td>
                         </tr>
                         <tr>
@@ -302,8 +307,9 @@
         $("#txtlawid").autoCmpt({ url: "/ajaxhandler.aspx?act=getuser", width: 190, hidden: $("#hidlawid") });
         $("#txtxieban").autoCmpt({ url: "/ajaxHandler.aspx?act=getuser", width: 190, hidden: $("#hidxieban") });
     });
-    var thisdg = frameElement.lhgDG;
-    var savebtntxt = "添加";
+    var thisdg = frameElement.lhgDG,
+        savebtntxt = "添加",
+        reloadflag;
     thisdg.addBtn('btnClose', '取消', function () { top.popAction(false); thisdg.cancel(); });
     if ($("#hidcaseid").val() == "") {
         thisdg.addBtn('btnClear', '清空', function () { __doPostBack('btnCancle', ''); });
@@ -364,6 +370,7 @@
                 resize: false, width: 570, height: 360, cover: true, cancelBtn: false, rang: true
             });
         dgaddattatch.ShowDialog();
+        watchFile();
     }
     function viewAttatch() {
         var caseid = $("#hidcaseid").val(),
@@ -372,6 +379,16 @@
                 resize: false, width: 570, height: 390, cover: true, cancelBtn: false, rang: true
             });
         dgviewattatch.ShowDialog();
+        watchFile();
+    }
+    function watchFile() {
+        top.lhgflag = true;
+        reloadflag = setInterval(function () {
+            if (!top.lhgflag) {
+                location.href = location.href;
+                clearInterval(reloadflag);
+            }
+        }, 1000);
     }
 </script>   
 </html>

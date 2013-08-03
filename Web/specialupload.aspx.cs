@@ -68,9 +68,9 @@ public partial class specialupload : validateUser
         if (ctrfile == 0) showDialogWithAlert("请至少上传一个文件");
         if (ctr == ctrfile) //closeDialog("上传成功");
         {
-            //TODO: 案件的附加文档也最好数一下，到时候都换成刷新父窗体
-            if (caseFile) closeDialog("上传成功");
-            else closeDialogWidthReload("上传成功");
+            //if (caseFile) closeDialog("上传成功");
+            //else 
+                closeDialogWithReload("上传成功");
         }
         else showDialogWithAlert("部分上传失败");
 }
