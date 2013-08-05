@@ -181,6 +181,7 @@ public partial class cases : validateUser
                     }
                     else
                     {
+                        Helper.log.trace("跨权限删除案件：" + ids);
                         alert("无权限");
                     }
                 }
