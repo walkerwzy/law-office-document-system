@@ -180,14 +180,16 @@ namespace WZY.DAL
         /// </summary>
         public void Delete(int custid)
         {
-            if (new CASES().GetList("custid=" + custid).Tables[0].Rows.Count > 0)
-            {
-                throw new Exception("该用户有关联案件，为了案件资料完整，不允许删除");
-            }
-            if (new DOCS().GetList("custid=" + custid).Tables[0].Rows.Count > 0)
-            {
-                throw new Exception("请先删除与该客户关联的文档");
-            }
+            //if (new CASES().GetList("custid=" + custid).Tables[0].Rows.Count > 0)
+            //{
+            //    throw new Exception("该用户有关联案件，为了案件资料完整，不允许删除");
+            //}
+            //if (new DOCS().GetList("custid=" + custid).Tables[0].Rows.Count > 0)
+            //{
+            //    throw new Exception("请先删除与该客户关联的文档");
+            //}
+            string error = candel(custid);
+            if (!string.IsNullOrEmpty(error)) throw new Exception(error);
             WZY.Model.CUSTOMER c = new WZY.DAL.CUSTOMER().GetModel(custid);
             StringBuilder strSql = new StringBuilder();
             strSql.Append("delete from customer ");
@@ -372,7 +374,7 @@ namespace WZY.DAL
             model.summary = dataReader["summary"].ToString();
             model.remark = dataReader["remark"].ToString();
             model.contact = dataReader["contact"].ToString();
-            model.contel= dataReader["contel"].ToString();
+            model.contel = dataReader["contel"].ToString();
             ojb = dataReader["ownerbirth"];
             if (ojb != null && ojb != DBNull.Value)
             {
@@ -561,6 +563,35 @@ namespace WZY.DAL
             {
                 return 0;
             }
+            return int.Parse(obj.ToString());
+        }
+
+        public string candel(int id)
+        {
+            try
+            {
+                var database = DatabaseFactory.CreateDatabase();
+                string sqlFmt = "select count(custid) from {0} where custid=" + id;
+                object obj = database.ExecuteScalar(CommandType.Text, string.Format(sqlFmt, "docs"));
+                if (getCount(obj, "关联文档") > 0) return "请先删除与该客户关联的文档";
+                obj = database.ExecuteScalar(CommandType.Text, string.Format(sqlFmt, "cases"));
+                if (getCount(obj, "关联案件") > 0) return "该用户有关联案件，为了案件资料完整，不允许删除";
+                obj = database.ExecuteScalar(CommandType.Text, string.Format(sqlFmt, "[contract]"));
+                if (getCount(obj, "关联合同") > 0) return "该客户有签约记录，为了客户资料完整，不允许删除";
+                obj = database.ExecuteScalar(CommandType.Text, string.Format(sqlFmt, "tasklog"));
+                if (getCount(obj, "业务交接记录") > 0) return "请赞民该客户关联的业务交接记录";
+                return "";
+            }
+            catch (Exception ex)
+            {
+                Helper.log.error("判断是否能删除客户出错：" + ex.Message);
+                return ex.Message;
+            }
+        }
+        private int getCount(object obj, string type)
+        {
+            if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
+                throw new Exception("计算客户" + type + "时出错");
             return int.Parse(obj.ToString());
         }
     }

@@ -32,7 +32,7 @@
                 <asp:TemplateField HeaderText="操作" ItemStyle-HorizontalAlign="Center">
                     <ItemTemplate>
                         <a href="javascript:editTask(<%# string.Format("{0},{1},{2}",Eval("recid"),Eval("depta"),Eval("deptb")) %>);">详细</a>&nbsp;
-                        <a href="javascript:delTask(<%# string.Format("{0},{1},{2}",Eval("recid"),Eval("depta"),Eval("deptb"))%>);">删除</a>
+                        <a href="javascript:delTask(<%# string.Format("{0},{1},{2},{3},{4}",Eval("recid"),Eval("userid"),Eval("agentid"),Eval("depta"),Eval("deptb"))%>);">删除</a>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -99,12 +99,21 @@
             dlg.ShowDialog();
             watchFile();
         }
-        function delTask(id, depta, deptb) {
+        function delTask(id,userid,agentid, depta, deptb) {
             if (!confirm("警告！\n删除记录将会自动删除关联文件，是否确定？")) return;
 
             //TODO:实现
             //删除任务
-            //同时删除任务文件
+            $.get("?act=del", { id: id, userid: userid, agentid: agentid, depta: depta, deptb: deptb }, function (d) {
+                if (d == "1") {
+                    //删除任务文件
+                    $.get("ajaxHandler.aspx", { act: "delontomanyfile", type: 'tasklog', t: new Date().getMilliseconds(), id: id }, function(d) {
+                        alert("记录和文件删除成功");
+                        location.href = location.href;
+                    });
+                } else alert("删除失败，原因：" + d);
+            });
+
         }
         function watchFile() {
             top.lhgflag = true;
