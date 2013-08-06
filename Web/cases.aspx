@@ -289,6 +289,7 @@
             if (o) caseinfo = $(o).parents("tr").find(".GVcbx").val().split("|");
             else caseinfo = $(".selected").find(".GVcbx").val().split("|");
             uinfo = $("#hiduinfo").val().split("|");
+            console.log(uinfo,caseinfo);
             if (caseinfo[1] != uinfo[0]) { //不是本人数据
                 if (caseinfo[2] != uinfo[1]) { //不是本部门数据
                     if (uinfo[2] != "0") {//不是管理员
@@ -296,7 +297,7 @@
                     }
                 }
                 else {
-                    if (uinfo[2] != "1" || uinfo[2] != 0) {//是本部门数据，但不是部门负责人，也不是管理员
+                    if (uinfo[2] != "1" && uinfo[2] != "0") {//是本部门数据，但不是部门负责人，也不是管理员
                         return false;
                     }
                 }
@@ -338,9 +339,11 @@
         msg = setInterval(function () {
             if (delflag == docs.length) {
                 clearInterval(msg);
-                //TODO: 此处需要添加删除附加文件的逻辑
-                info.append("<br/><p>关联文件已全部删除，正在删除案件资料...</p>");
-                setTimeout(function() { __doPostBack('btnDel', ''); }, 8000);
+                info.append("<br/><p>正在删除附加文件...</p>");
+                $.get("ajaxHandler.aspx", { act: "delontomanyfile", type: 'case', t: new Date().getMilliseconds(), id: docs.eq(0).data('caseid') }, function (d) {
+                    info.append("<br/><p>关联文件已全部删除，正在删除案件资料...</p>");
+                    setTimeout(function () { __doPostBack('btnDel', ''); }, 8000);
+                });
             }
         }, 1000);
     }

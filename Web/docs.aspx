@@ -67,7 +67,7 @@
                 <label>文档类别：<asp:DropDownList ToolTip="文档类别" runat="server" ID="ddlcate" CssClass="input-small"></asp:DropDownList></label>
                 <label>上传人：<input type="text" title="上传人" id="txtuser" class="tinput shortTxt input-small" runat="server" /></label>
                 <label>客户名：<input type="text" title="客户名" id="txtcust" class="tinput shortTxt input-small" runat="server" /></label>
-                <label>案由：<input type="text" title="案由" id="txtfilename" class="tinput shortTxt" runat="server" /></label>
+                <label>文件名：<input type="text" title="文件名" id="txtfilename" class="tinput shortTxt" runat="server" /></label>
                 <%--<label>数据范围：<asp:DropDownList ToolTip="数据范围" runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%><br />
                 <label>开始时间：<input id="txtsdate" type="text" class="Wdate shortTxt input-small" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txtedate')[0].focus();}});" runat="server" /></label>
                 <label>结束时间：<input id="txtedate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" /></label>

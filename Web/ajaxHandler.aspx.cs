@@ -27,6 +27,9 @@ public partial class ajaxHandler : System.Web.UI.Page
                 case "delcasefile":
                     delCaseFile();
                     break;
+                case "delontomanyfile":
+                    delOneToManyFile();
+                    break;
                 case "getuser":
                     getUser();
                     break;
@@ -45,7 +48,7 @@ public partial class ajaxHandler : System.Web.UI.Page
             }
         }
     }
-    
+
     /// <summary>
     /// 获取业务类型下的文档类型
     /// </summary>
@@ -90,6 +93,47 @@ public partial class ajaxHandler : System.Web.UI.Page
             }
         }
         Response.Write(msg);
+        Response.End();
+    }
+
+    /// <summary>
+    /// 一对多的文档：案件附加文档，业务交接原始资料
+    /// 删除案件附加文档要简单地多，跟删除普通文档一样，只需要从案件ID关联出有哪些文档即可
+    /// 同样的逻辑用在删除业务交接记录产生的原始资料
+    /// </summary>
+    private void delOneToManyFile()
+    {
+        Response.Clear();
+        Response.ContentType = "text/plain";
+
+        XDocument xdoc = Utility.getConfigFile();
+        string id = Request["id"];
+        string type = Request["type"] == "case" ? "case" : "log";
+        //从案件ID得到文档ID列表
+        var dal = new WZY.DAL.DOCS();
+        var docs = dal.GetListArray(" remark='" + type + ":" + id + "'");
+        foreach (var doc in docs)
+        {
+            try
+            {
+                //删除记录
+                dal.Delete(doc.docid);
+                string uploadpath = xdoc.Root.Descendants("uploadpath").SingleOrDefault().Value;
+                string filename = uploadpath + doc.docpath;
+                if (File.Exists(filename))
+                {
+                    //删除文件（先删记录可保证虽然文件没有被删除，但是记录上查不出来了）
+                    new FileInfo(filename).Delete();
+                }
+                //删除所在案件的文档记录
+                //暂不实现，因为案件的文档被删除，预览文档时会提示文件不存在，提醒用户补传文件
+            }
+            catch
+            {
+
+            }
+        }
+        Response.Write("1");
         Response.End();
     }
 
