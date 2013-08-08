@@ -65,7 +65,8 @@
             <fieldset>
                 <legend>查询条件</legend>
                 <label>案件类别：<asp:DropDownList ID="ddlcasecate" runat="server" CssClass="input-medium"></asp:DropDownList></label>
-                <label>案件编号：<input type="text" title="案件编号" id="txtno" class="tinput shortTxt input-small" runat="server" /></label>
+                <label>律师：<input type="text" title="承办或协办律师" id="txtlawer" class="tinput shortTxt input-small" runat="server" /></label>
+                <%--<label>案件编号：<input type="text" title="案件编号" id="txtno" class="tinput shortTxt input-small" runat="server" /></label>--%>
                 <label>委托人：<input type="text" title="委托人" id="txtpeople" class="tinput shortTxt input-small" runat="server" /></label>
                 <label>案由：<input type="text" title="案由" id="txtreason" class="tinput shortTxt input-small" runat="server" /></label>
                 <%--<label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%>

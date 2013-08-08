@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Collections;
+using System.Linq;
 
 /// <summary>
 /// FlowControl 的摘要说明
@@ -21,26 +22,18 @@ public class FlowControl
         //
     }
 
-    public ArrayList getTestData()
-    {
-        ArrayList arr = new ArrayList();
-        for (int i = 0; i < 300; i++)
-        {
-            arr.Add(i.ToString());
-        }
-
-        return arr;
-    }
-
     public static void SaveLoginInfo(string userid, string userdata)
     {
+        var t = Utility.getConfigFile().Root.Descendants("cookietimeout").SingleOrDefault().Value;
+        int timeout = 20;
+        int.TryParse(t, out timeout);
         string permission = userdata;// ManageUser.GetPermissionAction(userid, true);
         FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
           1,//version
           userid,//user name
           System.DateTime.Now,//login time
-          DateTime.Now.AddMinutes(20),// Expiration
-          true,//persistent
+          DateTime.Now.AddMinutes(timeout),// Expiration
+          false,//persistent
           permission//user data
           );
         //Entrcy Ticket
