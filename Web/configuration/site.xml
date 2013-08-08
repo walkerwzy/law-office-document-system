@@ -7,5 +7,6 @@
     <dbpath des="数据库备份文件夹路径"><![CDATA[F:\LawOfficeSystem\DB\]]></dbpath>
     <imgpath des="照片照径"><![CDATA[E:\LawOfficeSystem\pic\]]></imgpath>
     <predays des="提前提醒的天数">15</predays>
+    <cookietimeout>30</cookietimeout>
   </system>
 </root>
