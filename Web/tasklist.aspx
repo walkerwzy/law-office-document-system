@@ -63,7 +63,7 @@
             //function addTaskLog() {
             var id = $("#hidcustid").val();
             if (id == "") return;
-            var name = $("#hidcustname").attr("title");
+            var name = $("#hidcustname").val();
             var dlg = new thisdg.curWin.$.dialog({
                 id: 'dg07abc',
                 title: '添加业务接收记录-' + name,
