@@ -86,7 +86,7 @@ public partial class cases : validateUser
             //e.Row.Attributes["data-original-title"] = "案件详情";
             //e.Row.Attributes["data-trigger"] = "manual";
             var xieban = string.IsNullOrEmpty(dr["xiebanname"].ToString()) ? "" : "<code>" + dr["xiebanname"] + "协办</code>";
-            var tel = string.IsNullOrEmpty(dr["faguantel"].ToString()) ? "" : "<code>" + dr["faguantel"] + "</code>";
+            var tel = string.IsNullOrEmpty(dr["faguantel"].ToString()) ? "" : "<code>tel: " + dr["faguantel"] + "</code>";
             (e.Row.Cells[0].FindControl("hiddetail") as HiddenField).Value = string.Format(detail, dr["faguan"].ToString(), tel, dr["office"].ToString(), getdatetime(dr["kaiting"]), getdatetime(dr["panjuetime"]), getdatetime(dr["shouan"]), dr["anyou"].ToString(), Helper.HelperString.cutString(dr["remark"].ToString(), 50), dr["lawname"].ToString(), dr["court"].ToString(), dr["displayname"].ToString(), xieban);
             e.Row.Cells[2].Text = cate_case.Select("cateid=" + dr["cateid"].ToString())[0]["catename"].ToString();
         }

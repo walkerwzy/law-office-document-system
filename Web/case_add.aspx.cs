@@ -207,7 +207,7 @@ public partial class case_add : validateUser
             int cateid = int.Parse(ddlcateid.Text);
             int custid = int.Parse(hidcust.Value);
             int lawid = int.Parse(hidlawid.Value);
-            int? xieban = hidxieban.Value == "-1" ? null : (int?) int.Parse(hidxieban.Value);
+            int? xieban = hidxieban.Value == "-1" ? null : (int?)int.Parse(hidxieban.Value);
             string yuangao = this.txtyuangao.Text;
             string beigao = this.txtbeigao.Text;
             string anyou = this.txtanyou.Text;
@@ -253,7 +253,7 @@ public partial class case_add : validateUser
             model.cateid = cateid;
             model.custid = custid;
             model.lawid = lawid;
-            model.xieban = xieban;
+            if (isAdd || xieban != null) model.xieban = xieban;
             model.yuangao = yuangao;
             model.beigao = beigao;
             model.anyou = anyou;
@@ -405,7 +405,7 @@ public partial class case_add : validateUser
         string fmt = "<a href='ProcessFile.aspx?act=preview&d={0}' target='_blank' title='预览' class='icona'><img src='/images/preview.gif' alt='' />预览</a>";
         fmt += "<a href='ProcessFile.aspx?act=download&d={0}' target='_blank' class='icona' title='下载'><img src='/images/download.gif' title='下载' alt='' />下载</a>";
         if (canDel(hiddeptid.Value))
-            fmt +="<a href='#' class='icona' onclick='deldoc(this,{0},{1},\"{2}\");'><img src='images/delete.gif' alt='' />删除</a>";
+            fmt += "<a href='#' class='icona' onclick='deldoc(this,{0},{1},\"{2}\");'><img src='images/delete.gif' alt='' />删除</a>";
         else fmt += "<img src='images/delete.gif' alt='' style='vertical-align:middle;' /><span class='tgray'>&nbsp;删除</span>";
         //string value = Utility.getConfigFile().Root.Descendants("uploadpath").Single().Value + filepath;
         return string.Format(fmt, docid.ToString(), caseid.ToString(), field);

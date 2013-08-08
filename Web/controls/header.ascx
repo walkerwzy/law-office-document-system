@@ -18,7 +18,8 @@
     body{position:relative;}
     /*popover*/
     #divdetail{ position:absolute;}
-    #divdetail .popover{ min-width:250px; _width:300px; }
+    #divdetail .popover{ min-width:270px; _width:300px; }
+    #divdetail .popover b{ font-size: 12px;}
     /*float div style*/
     .floatdiv{ position:fixed; _position:absolute; display:none; background:white;}
     #float_bg{ width:100%; height:100%; opacity:0.7; filter:alpha(opacity=70); top:0; left:0;}
