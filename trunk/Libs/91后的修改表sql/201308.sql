@@ -38,3 +38,8 @@ create table tasklog (
 )
 go
 
+
+--8/23==========
+--更改案件remark为ntext字段，以支持重复录入
+alter table cases alter column remark ntext;
+go
