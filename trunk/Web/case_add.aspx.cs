@@ -290,7 +290,7 @@ public partial class case_add : validateUser
             if (dabian != -1 || isAdd)
                 model.dabian = dabian;
             model.remark = remark;
-
+            
             WZY.DAL.CASES bll = new WZY.DAL.CASES();
             if (isAdd) { bll.Add(model); showDialogWithReload("添加成功"); }
             else { bll.Update(model); showDialogWithReload("保存成功"); }
