@@ -99,19 +99,19 @@ public class validateUser : System.Web.UI.Page
     {
         //runJS("alert('" + msg + "');var w=frameElement.lhgDG.curWin; w.location.href=w.location.href;");
         var js = "var w=frameElement.lhgDG.curWin; w.__doPostBack('LinkButton1','');";
-        if (!string.IsNullOrEmpty(msg)) js = "alert('" + msg.Replace("'", "").Replace("\"", "") +"');" + js;
+        if (!string.IsNullOrEmpty(msg)) js = cAlert(msg) + js;
         runJS(js);
     }
     public void showDialogWithReload2(string msg)
     {
         var js = "var w=frameElement.lhgDG.curWin;top.popAction(false);w.location.href=w.location.href;";
-        if (!string.IsNullOrEmpty(msg)) js = "alert('" + msg.Replace("'", "").Replace("\"", "") + "');" + js;
+        if (!string.IsNullOrEmpty(msg)) js = cAlert(msg) + js;
         runJS(js);
     }
     public void showDialogWithAlert(string msg)
     {
         var js = "frameElement.lhgDG.dg.style.display = 'block'; top.popAction(false);";
-        if (!string.IsNullOrEmpty(msg)) js = "alert('" + msg.Replace("'", "").Replace("\"", "") + "');" + js;
+        if (!string.IsNullOrEmpty(msg)) js = cAlert(msg) + js;
         runJS(js);
     }
     public void showDialog()
@@ -120,7 +120,7 @@ public class validateUser : System.Web.UI.Page
     }
     public void showDialogWithJs(string msg, string js)
     {
-        ClientScript.RegisterClientScriptBlock(GetType(), DateTime.Now.ToString(), "onload=function(){$('.autoCmpt-q-last').removeClass('autoCmpt-q-last');alert('" + msg + "');" + js + "frameElement.lhgDG.dg.style.display = 'block'; top.popAction(false);}", true);
+        ClientScript.RegisterClientScriptBlock(GetType(), DateTime.Now.ToString(), "onload=function(){$('.autoCmpt-q-last').removeClass('autoCmpt-q-last');" + cAlert(msg) + js + "frameElement.lhgDG.dg.style.display = 'block'; top.popAction(false);}", true);
     }
     public void closeDialog()
     {
@@ -130,12 +130,16 @@ public class validateUser : System.Web.UI.Page
     {
         msg = msg.Replace("'", "").Replace("\"", "");
         if (string.IsNullOrEmpty(msg)) runJS("top.popAction(false);frameElement.lhgDG.cancel();");
-        else runJS("alert('" + msg + "'); top.popAction(false);frameElement.lhgDG.cancel();");
+        else runJS(cAlert(msg) + " top.popAction(false);frameElement.lhgDG.cancel();");
     }
     public void closeDialogWithReload(string msg)
     {
-        msg = msg.Replace("'", "").Replace("\"", "");
         if (string.IsNullOrEmpty(msg)) runJS("top.lhgflag=false;top.popAction(false);frameElement.lhgDG.cancel();");
-        else runJS("alert('" + msg + "'); top.lhgflag=false;top.popAction(false);frameElement.lhgDG.cancel();");
+        else runJS(cAlert(msg) + " top.lhgflag=false;top.popAction(false);frameElement.lhgDG.cancel();");
+    }
+    private string cAlert(string msg)
+    {
+        msg = msg.Replace("'", "`").Replace("\"", "``").Replace("\r\n", @"\r\n");
+        return "alert('" + msg + "');";
     }
 }
