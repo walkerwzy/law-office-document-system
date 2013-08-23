@@ -287,7 +287,7 @@ namespace WZY.DAL
 
         public DataSet GetDailyDocCount(DateTime starttime, DateTime endtime)
         {
-            string sql = "select count(*) ctr, cast(uptime as datetime) dates from docs where uptime>='" + starttime.ToString("yyyy-MM-dd") + "' and uptime<='" + endtime.ToString("yyyy-MM-dd") + "' group by cast(uptime as datetime)";
+            string sql = "select count(*) ctr, CONVERT(VARCHAR(10),uptime,102) dates from docs where uptime>='" + starttime.ToString("yyyy-MM-dd") + "' and uptime<='" + endtime.ToString("yyyy-MM-dd") + "' group by CONVERT(VARCHAR(10),uptime,102)";
             try
             {
                 var db = DatabaseFactory.CreateDatabase();
