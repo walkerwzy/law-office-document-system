@@ -9,6 +9,9 @@
     <style type="text/css">
         .title{background: #F2F4F6;}
         body{overflow-x:hidden;}
+        #formdiv{ position: relative;}
+        #txtFull{ position: absolute;width: 98%;height: 98%;top: 10px;left: 10px;background-color: #fff;display: none;}
+        #txtFull textarea{ width: 100%;height: 97%;}
     </style>
 </head>
 <body>
@@ -277,7 +280,8 @@
                         </tr>
                         <tr>
                             <td height="25" width="150px" align="right" valign="top">
-                                跟踪情况：
+                                跟踪情况：<br/>
+                                <a href="javascript:fullsize(1);">全屏编辑</a>
                             </td>
                             <td height="25" width="*" align="left" colspan="3">
                                 <asp:TextBox ID="txtremark" runat="server" Width="534px" Height="95px" TextMode="MultiLine"
@@ -295,6 +299,10 @@
             </tr>
         </table>
         <br />
+        <div id="txtFull">
+            <p>跟踪情况：<a href="javascript:fullsize();">退出全屏</a></p>
+            <textarea class="tinput"></textarea>
+        </div>
     </div>
     </form>
 </body>
@@ -306,6 +314,13 @@
         $("#txtcustid").autoCmpt({ url: "/ajaxHandler.aspx?act=customer&uid=" + $("#hiduserid").val(), width: 380, hidden: $("#hidcust") });
         $("#txtlawid").autoCmpt({ url: "/ajaxhandler.aspx?act=getuser", width: 190, hidden: $("#hidlawid") });
         $("#txtxieban").autoCmpt({ url: "/ajaxHandler.aspx?act=getuser", width: 190, hidden: $("#hidxieban") });
+        //绑定全屏幕编辑器
+        $("#txtFull textarea").change(function () {
+            //失焦的时候会触发，要时时刻刻触发，用bind('input propertychange')
+            var o = $(this);
+            console.log(o.val());
+            $("#txtremark").val(o.val());
+        });
     });
     var thisdg = frameElement.lhgDG,
         savebtntxt = "添加",
@@ -389,6 +404,20 @@
                 clearInterval(reloadflag);
             }
         }, 1000);
+    }
+    function fullsize(action) {
+        var f = $("#txtFull"),
+            n = $('textarea',f),
+            o = $("#txtremark");
+        if (action) {
+            //全屏
+            n.val(o.val());
+            f.show();
+        } else {
+            //退出
+            //o.val(n.val());
+            f.hide();
+        }
     }
 </script>   
 </html>
