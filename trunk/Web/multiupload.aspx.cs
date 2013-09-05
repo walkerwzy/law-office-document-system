@@ -67,7 +67,7 @@ public partial class multiupload : validateUser
         if (extName != ".doc" && extName != ".docx" && extName != ".pptx" && extName != ".ppt" && extName != ".xls" && extName != ".xlsx"
             && extName != ".jpg" && extName != ".png")
         {
-            showDialogWithAlert("请上传扩展名为.doc|.docx|.ppt|.pptx|.xls|.xlsx的文件！\n或.jpg|.png格式的图片");
+            showDialogWithAlert("请上传扩展名为.doc|.docx|.ppt|.pptx|.xls|.xlsx的文件！\r\n或.jpg|.png格式的图片");
             return false;
         }
         else

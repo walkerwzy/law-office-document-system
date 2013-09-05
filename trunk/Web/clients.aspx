@@ -164,12 +164,12 @@
                 <label>客户类别：<asp:DropDownList runat="server" ID="ddlcustcate" style="width:125px;"></asp:DropDownList></label>
                 <label>签约时间：<asp:TextBox runat="server" ID="txtstime" CssClass="tinput shortTxt Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" style="width:80px!important;"></asp:TextBox></label>
                 <label>至：<asp:TextBox runat="server" ID="txtetime" CssClass="tinput shortTxt Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" style="width:80px!important;"></asp:TextBox></label>
+                <br />
                 <asp:DropDownList runat="server" ID="ddlnametype" style="width:140px;"><asp:ListItem>客户名称</asp:ListItem><asp:ListItem>法定代表人名称</asp:ListItem><asp:ListItem>负责人名称</asp:ListItem></asp:DropDownList>
                     ：
                 <input type="text" id="txtcustname" class="tinput shortTxt input-small" runat="server" />
-                <br />
-                <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txteTime')[0].focus();}});" runat="server" style="width:80px!important;" /></label>
-                <label>至：<input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" style="width:80px!important;" /></label>
+                <%--<label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',maxDate:'%y-{%M}-%d',onpicked:function(){$('#txteTime')[0].focus();}});" runat="server" style="width:80px!important;" /></label>--%>
+                <%--<label>至：<input id="txtedate" type="text" class="Wdate shortTxt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" runat="server" style="width:80px!important;" /></label>--%>
                 <%--<label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%>&nbsp;&nbsp;
                     <%--<asp:Button runat="server" ID="LinkButton1" OnClientClick="return checkQuery();" Text="查询" OnClick="btnsearch" CssClass="btn1 btn btn-primary" />--%>
                     <div class="btn-group">
