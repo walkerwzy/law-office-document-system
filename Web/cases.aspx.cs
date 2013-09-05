@@ -79,7 +79,7 @@ public partial class cases : validateUser
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             DataRowView dr = e.Row.DataItem as DataRowView;
-            string detail = "<b>数据上传：</b>{10}<br/><b>承办律师：</b>{8} {11}<br/ ><b>承办法官：</b>{0} {1}<br/ ><b>审理法院：</b>{9}<br/><b>法官办公室：</b>{2}<br/ ><b>开庭日期：</b>{3}<br/ ><b>判决日期：</b>{4}<br/ ><b>收案日期：</b>{5}<br /><b>案由：</b>{6}<br /><b>跟踪情况：</b>{7}";
+            string detail = "<b>数据上传：</b>{10}<br/><b>承办律师：</b>{8} {11}<br/ ><b>主审法官：</b>{0} {1}<br/ ><b>审理法院：</b>{9}<br/><b>法官办公室：</b>{2}<br/ ><b>开庭日期：</b>{3}<br/ ><b>判决日期：</b>{4}<br/ ><b>收案日期：</b>{5}<br /><b>案由：</b>{6}<br /><b>跟踪情况：</b>{7}";
             //e.Row.Attributes["data-role"] = "popover";
             //e.Row.Attributes["data-placement"] = "right";
             //e.Row.Attributes["data-content"] = string.Format(detail, dr["faguan"].ToString(), dr["faguantel"].ToString(), dr["office"].ToString(), getdatetime(dr["kaiting"]), getdatetime(dr["panjuetime"]), getdatetime(dr["shouan"]), dr["anyou"].ToString(), dr["remark"].ToString(), dr["displayname"].ToString(), dr["court"].ToString());
@@ -149,6 +149,21 @@ public partial class cases : validateUser
         //    default:
         //        break;
         //}
+        if (suser.roleid != null) suser.roleid = 3;
+        switch (suser.roleid)
+        {
+            case 0:
+                //管理员
+                break;
+            case 1:
+                //部门经理
+                sql += " and (deptid=" + suser.deptid.Value + " or chargedeptid=" + suser.deptid.Value + ")";//本部门上传的，或客户类别属于本部门的，都可以查看
+                break;
+            case 3:
+            default:
+                sql += " and (uid=" + suser.uid + " or (lawid=" + suser.uid + ") or (xieban=" + suser.uid + ")) ";
+                break;
+        }
         if (usedate)
         {
             int predays = int.Parse(Utility.getConfigFile().Root.Descendants("predays").SingleOrDefault().Value);

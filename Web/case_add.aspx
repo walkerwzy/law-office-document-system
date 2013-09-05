@@ -109,7 +109,7 @@
                         </tr>
                         <tr>
                             <td height="25" width="150px" align="right">
-                                承办法官 ：
+                                主审法官 ：
                             </td>
                             <td height="25" width="*" align="left">
                                 <asp:TextBox ID="txtfaguan" runat="server" Width="190px" CssClass="tinput"></asp:TextBox>

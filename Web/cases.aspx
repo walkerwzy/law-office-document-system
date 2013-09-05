@@ -147,31 +147,31 @@
         </asp:TemplateField>
 		<asp:BoundField DataField="caseno" HeaderText="案件编号" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" />
 		<asp:BoundField HeaderText="案件类别" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="50px" />
-        <asp:TemplateField HeaderText="委托人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="145px" ItemStyle-Width="145px" ItemStyle-CssClass="nodetail">
+        <asp:TemplateField HeaderText="委托人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="150px" ItemStyle-Width="150px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <span title='<%# Eval("custname") %>'><%# Helper.HelperString.cutString(Eval("custname").ToString(),10) %></span>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="原告/申请人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="80px" ItemStyle-Width="80px">
+        <asp:TemplateField HeaderText="原告/申请人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="95px" ItemStyle-Width="95px">
             <ItemTemplate>
                 <span title='<%# Eval("yuangao") %>'><%# Helper.HelperString.cutString(Eval("yuangao").ToString(),6)%></span>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="被告/被申请人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="94px" ItemStyle-Width="94px">
+        <asp:TemplateField HeaderText="被告/被申请人" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="95px" ItemStyle-Width="95px">
             <ItemTemplate>
                 <span title='<%# Eval("beigao") %>'><%# Helper.HelperString.cutString(Eval("beigao").ToString(),6)%></span>
             </ItemTemplate>
         </asp:TemplateField>
 		<asp:BoundField DataField="dijiaotime" HeaderText="递交手续" SortExpression="dijiaotime" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" DataFormatString="{0:d}" /> 
-		<asp:BoundField DataField="fee" HeaderText="代理费用" SortExpression="fee" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" /> 
+		<%--<asp:BoundField DataField="fee" HeaderText="代理费用" SortExpression="fee" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" DataFormatString="{0:c}" />--%> 
         <%-- 案由、主办律师、举证期限、主审法官、办公室及联系电话、开庭时间--%>
-        <asp:TemplateField HeaderText="案由" HeaderStyle-Width="120px" ItemStyle-Width="120px" ItemStyle-CssClass="nodetail">
+        <asp:TemplateField HeaderText="案由" HeaderStyle-Width="125px" ItemStyle-Width="125px" ItemStyle-CssClass="nodetail">
             <ItemTemplate>
                 <span title='<%# Eval("anyou") %>'><%# Helper.HelperString.cutString(Eval("anyou").ToString(),8) %></span>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField DataField="lawname" HeaderText="承办律师" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" /> 
-        <asp:BoundField DataField="faguan" HeaderText="主审法官" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" /> 
+        <asp:BoundField DataField="faguan" HeaderText="主审法官" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="100px" ItemStyle-Width="100px" /> 
         <asp:BoundField DataField="kaiting" HeaderText="开庭时间" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="65px" ItemStyle-Width="65px" DataFormatString="{0:d}" /> 
         <asp:BoundField DataField="juzheng" HeaderText="举证期限" ItemStyle-HorizontalAlign="Center" HeaderStyle-Width="60px" ItemStyle-Width="60px" DataFormatString="{0:d}" /> 
         <%--<asp:TemplateField HeaderText="案件详情" HeaderStyle-Width="60px" ItemStyle-Width="60px" ItemStyle-CssClass="nodetail">

@@ -122,6 +122,21 @@ public partial class docs : validateUser
             //    default:
             //        break;
             //}
+            if (suser.roleid != null) suser.roleid = 3;
+            switch (suser.roleid)
+            {
+                case 0:
+                    //管理员
+                    break;
+                case 1:
+                    //部门经理
+                    filter += " and deptid=" + suser.deptid;
+                    break;
+                case 3:
+                default:
+                    filter += " and uid=" + suser.uid;
+                    break;
+            }
         }
 
         AspNetPager1.RecordCount = new WZY.DAL.DOCS().GetRecordCount(filter);
