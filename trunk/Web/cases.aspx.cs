@@ -96,7 +96,7 @@ public partial class cases : validateUser
     {
         //得到查询字符串
         string sql = " 1=1 ";
-        if (suser.roleid != null) suser.roleid = 3;
+        if (suser.roleid == null) suser.roleid = 3;
         switch (suser.roleid)
         {
             case 0:
