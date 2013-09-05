@@ -92,7 +92,7 @@ public partial class docs : validateUser
             }
             if (!string.IsNullOrEmpty(txtedate.Value.Trim()))
             {
-                filter += " and uptime <= '" + txtedate.Value.Trim() + "' ";
+                filter += " and uptime <= '" + txtedate.Value.Trim() + " 23:59:59' ";
             }
             //if (ddlcate.SelectedIndex > 0)
             //{

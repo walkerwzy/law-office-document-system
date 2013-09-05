@@ -58,7 +58,7 @@ public class validateUser : System.Web.UI.Page
 
     protected void runJS(string js)
     {
-        ClientScript.RegisterClientScriptBlock(GetType(), DateTime.Now.ToString(), js, true);
+        ClientScript.RegisterClientScriptBlock(GetType(), DateTime.Now.Ticks.ToString(), js, true);
     }
     protected void alert(string msg)
     {
