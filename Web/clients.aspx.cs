@@ -63,6 +63,21 @@ public partial class clients : validateUser
         else
         {
             filter = "1=1 ";
+            if (suser.roleid != null) suser.roleid = 3;
+            switch (suser.roleid)
+            {
+                case 0:
+                    //管理员
+                    break;
+                case 1:
+                    //部门经理
+                    filter += " and deptid=" + suser.deptid;
+                    break;
+                case 3:
+                default:
+                    filter += " and uid=" + suser.uid;
+                    break;
+            }
             if (usecustid)
             {
                 filter += " and custid=" + Request["custid"];
@@ -116,21 +131,6 @@ public partial class clients : validateUser
             //    default:
             //        break;
             //}
-            if (suser.roleid != null) suser.roleid = 3;
-            switch (suser.roleid)
-            {
-                case 0:
-                    //管理员
-                    break;
-                case 1:
-                    //部门经理
-                    filter += " and deptid=" + suser.deptid;
-                    break;
-                case 3:
-                default:
-                    filter += " and uid=" + suser.uid;
-                    break;
-            }
             switch (ddlqianyue.SelectedIndex)
             {
                 case 0://签约

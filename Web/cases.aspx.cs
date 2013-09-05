@@ -96,6 +96,21 @@ public partial class cases : validateUser
     {
         //得到查询字符串
         string sql = " 1=1 ";
+        if (suser.roleid != null) suser.roleid = 3;
+        switch (suser.roleid)
+        {
+            case 0:
+                //管理员
+                break;
+            case 1:
+                //部门经理
+                sql += " and (deptid=" + suser.deptid.Value + " or chargedeptid=" + suser.deptid.Value + ")";//本部门上传的，或客户类别属于本部门的，都可以查看
+                break;
+            case 3:
+            default:
+                sql += " and (uid=" + suser.uid + " or (lawid=" + suser.uid + ") or (xieban=" + suser.uid + ")) ";
+                break;
+        }
         if (usecustid)
         {
             sql += " and custid=" + Request["custid"];
@@ -149,21 +164,6 @@ public partial class cases : validateUser
         //    default:
         //        break;
         //}
-        if (suser.roleid != null) suser.roleid = 3;
-        switch (suser.roleid)
-        {
-            case 0:
-                //管理员
-                break;
-            case 1:
-                //部门经理
-                sql += " and (deptid=" + suser.deptid.Value + " or chargedeptid=" + suser.deptid.Value + ")";//本部门上传的，或客户类别属于本部门的，都可以查看
-                break;
-            case 3:
-            default:
-                sql += " and (uid=" + suser.uid + " or (lawid=" + suser.uid + ") or (xieban=" + suser.uid + ")) ";
-                break;
-        }
         if (usedate)
         {
             int predays = int.Parse(Utility.getConfigFile().Root.Descendants("predays").SingleOrDefault().Value);
