@@ -77,9 +77,10 @@ public partial class upload : validateUser
         string extName = System.IO.Path.GetExtension(fu.FileName).ToLower(); //获取文件扩展名
         string orName = System.IO.Path.GetFileNameWithoutExtension(fu.FileName);//不带扩展名的文件名
         orName = orName.Replace(" ", "");//去除文件名里的空格
-        if (extName != ".doc" && extName != ".docx")
+        if (extName != ".doc" && extName != ".docx" && extName != ".pptx" && extName != ".ppt" && extName != ".xls" && extName != ".xlsx"
+            && extName != ".jpg" && extName != ".png")
         {
-            showDialogWithAlert("请上传扩展名为.doc或.docx的文件！");
+            showDialogWithAlert("请上传扩展名为.doc|.docx|.ppt|.pptx|.xls|.xlsx的文件！\\n或.jpg|.png格式的图片");
         }
         else
         {

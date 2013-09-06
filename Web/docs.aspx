@@ -139,26 +139,26 @@
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField HeaderText="上传人" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="80px" HeaderStyle-Width="80px" DataField="displayname" />
-        <asp:TemplateField HeaderText="主营业务" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="80px">
+        <asp:TemplateField HeaderText="主营业务" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="70px">
             <ItemTemplate>
                 <%--<asp:DropDownList ID="ddltype" runat="server" DataSourceID="odstype" CssClass="tinput input-small" DataTextField="cate_name" DataValueField="cate_id" selectedvalue='<%# Bind("typeid") %>' Enabled="false"></asp:DropDownList>--%>
                 <%# getYewuName(Eval("typeid").ToString()) %>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="文档类别" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="130px">
+        <asp:TemplateField HeaderText="文档类别" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="90px">
             <ItemTemplate>
                 <%--<asp:DropDownList ID="ddlcate" runat="server" DataSourceID="odscate" CssClass="tinput" Width="130px" DataTextField="catename" DataValueField="cateid" selectedvalue='<%# Bind("cateid") %>' Enabled="false"></asp:DropDownList>--%>
                 <%# getDocTypeName(Eval("cateid").ToString()) %>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="客户名称" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="180px" ItemStyle-Width="162px">
+        <asp:TemplateField HeaderText="客户名称" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="215px" ItemStyle-Width="215px">
             <ItemTemplate>
-                <span title='<%# Eval("custname") %>'><%# Helper.HelperString.cutString(Eval("custname").ToString(),13) %></span>
+                <span title='<%# Eval("custname") %>'><%# Helper.HelperString.cutString(Eval("custname").ToString(),16) %></span>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="文件名" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="250px" ItemStyle-Width="250px">
+        <asp:TemplateField HeaderText="文件名" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="290px" ItemStyle-Width="290px">
             <ItemTemplate>
-                <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 14)%></span>
+                <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 20)%></span>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField HeaderText="上传时间" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="120px" HeaderStyle-Width="80px" DataField="uptime" DataFormatString="{0:yyyy-MM-dd HH:mm:ss}" />
