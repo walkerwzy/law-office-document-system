@@ -158,7 +158,7 @@
         </asp:TemplateField>
         <asp:TemplateField HeaderText="文件名" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="290px" ItemStyle-Width="290px">
             <ItemTemplate>
-                <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 20)%></span>
+                <span title='<%# Eval("docname") %>'><%# Helper.HelperString.cutString(Eval("docname").ToString(), 22)%></span>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:BoundField HeaderText="上传时间" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="120px" HeaderStyle-Width="80px" DataField="uptime" DataFormatString="{0:yyyy-MM-dd HH:mm:ss}" />
