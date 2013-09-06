@@ -120,6 +120,7 @@ namespace Helper
 
 		public static string cutString(string sourceStr,int length)
 		{
+		    sourceStr = sourceStr.Trim();
 			if(sourceStr.Length<=length)
 				return sourceStr;
 			else
