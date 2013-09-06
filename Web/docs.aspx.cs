@@ -166,4 +166,26 @@ public partial class docs : validateUser
     {
         bindData();
     }
+
+    protected string getYewuName(string id)
+    {
+        var dal = new WZY.DAL.cate_yewu();
+        var list = dal.GetList("cate_id=" + id);
+        if (list.Tables[0].Rows.Count == 0) return "";
+        return list.Tables[0].Rows[0]["cate_name"].ToString();
+        //int cateid = 0;
+        //if (!int.TryParse(id, out cateid)) return "";
+        //var model = dal.GetModel(cateid);
+        //if (model == null) return "";
+        //return model.cate_name;
+    }
+
+
+    protected string getDocTypeName(string id)
+    {
+        var dal = new WZY.DAL.CATE_DOC();
+        var list = dal.GetList("cateid=" + id);
+        if (list.Tables[0].Rows.Count == 0) return "";
+        return list.Tables[0].Rows[0]["catename"].ToString();
+    }
 }

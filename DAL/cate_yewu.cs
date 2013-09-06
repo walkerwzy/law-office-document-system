@@ -352,13 +352,13 @@ namespace WZY.DAL
             ojb = dataReader["cate_id"];
             if (ojb != null && ojb != DBNull.Value)
             {
-                model.cate_id = (int)ojb;
+                model.cate_id = Convert.ToInt32(ojb);
             }
             model.cate_name = dataReader["cate_name"].ToString();
             ojb = dataReader["cate_index"];
             if (ojb != null && ojb != DBNull.Value)
             {
-                model.cate_index = (int)ojb;
+                model.cate_index = Convert.ToInt32(ojb);
             }
             model.cate_remark = dataReader["cate_remark"].ToString();
             return model;
