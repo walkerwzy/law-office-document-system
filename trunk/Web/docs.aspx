@@ -141,12 +141,14 @@
         <asp:BoundField HeaderText="上传人" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="80px" HeaderStyle-Width="80px" DataField="displayname" />
         <asp:TemplateField HeaderText="主营业务" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="80px">
             <ItemTemplate>
-                <asp:DropDownList ID="ddltype" runat="server" DataSourceID="odstype" CssClass="tinput input-small" DataTextField="cate_name" DataValueField="cate_id" selectedvalue='<%# Bind("typeid") %>' Enabled="false"></asp:DropDownList>
+                <%--<asp:DropDownList ID="ddltype" runat="server" DataSourceID="odstype" CssClass="tinput input-small" DataTextField="cate_name" DataValueField="cate_id" selectedvalue='<%# Bind("typeid") %>' Enabled="false"></asp:DropDownList>--%>
+                <%# getYewuName(Eval("typeid").ToString()) %>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="文档类别" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="130px">
             <ItemTemplate>
-                <asp:DropDownList ID="ddlcate" runat="server" DataSourceID="odscate" CssClass="tinput" Width="130px" DataTextField="catename" DataValueField="cateid" selectedvalue='<%# Bind("cateid") %>' Enabled="false"></asp:DropDownList>
+                <%--<asp:DropDownList ID="ddlcate" runat="server" DataSourceID="odscate" CssClass="tinput" Width="130px" DataTextField="catename" DataValueField="cateid" selectedvalue='<%# Bind("cateid") %>' Enabled="false"></asp:DropDownList>--%>
+                <%# getDocTypeName(Eval("cateid").ToString()) %>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="客户名称" ItemStyle-HorizontalAlign="Center" ItemStyle-CssClass="nodetail" HeaderStyle-Width="180px" ItemStyle-Width="162px">
