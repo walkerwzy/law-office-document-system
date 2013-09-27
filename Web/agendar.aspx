@@ -22,6 +22,7 @@
         .corange, .orange div{background:#ec870e; border-color:#ec870e;}
         .cpurple, .cpurple div{background:#f3b;border-color:#f3b;}
         .cyellow, .cyellow div{background:#ff3;border-color:#ff3; color:#333;}
+        blockquote.pull-right{margin:0;padding-right:5px; border-right-width:3px;}
     </style>
 </head>
 <body>
@@ -59,8 +60,8 @@
             var time = date.getTime();
 
             var evs = [
-             //{ url: 'https://www.google.com/calendar/feeds/china__zh_cn%40holiday.calendar.google.com/public/basic', className: "cgreen cgoogle" },
-             { url: 'alertajax.aspx?act=agendar', className: 'clickable' },
+            //{ url: 'https://www.google.com/calendar/feeds/china__zh_cn%40holiday.calendar.google.com/public/basic', className: "cgreen cgoogle" },
+             {url: 'alertajax.aspx?act=agendar', className: 'clickable' },
              { url: 'alertajax.aspx?act=kaiting', className: 'cred' },
              { url: 'alertajax.aspx?act=juzheng', className: 'cpurple' },
              { url: 'alertajax.aspx?act=birthday', className: 'cgray' },
@@ -90,6 +91,7 @@
                 eventRender: function (event, element) {
                     //浮动显示出自定义的description属性
                     element.attr("title", event.description);
+                    element.find('span.fc-event-title').html(element.find('span.fc-event-title').text());//使event.title支持html
                 },
                 eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                     var move = $.get('alertajax.aspx?act=movedate', { todate: event.start.getTime(), t: new Date().getTime(), id: event.id });
@@ -117,7 +119,7 @@
             $("#cbxprivate").prop("checked", true).prop("disabled", false);
             if (isedit) {
                 title = "编辑日程";
-                $("#txtcont").val(e.title);
+                $("#txtcont").val(e.description);
                 $("#cbxprivate").prop("checked", e.p == 1).prop("disabled", e.cp == 0);
             }
             var dlg = new $.dialog({ id: "dg02", title: title, html: $("#a-detail")[0], resize: false, width: 480, height: 280, cover: true, rang: true, cancelBtn: true, maxBtn: false });

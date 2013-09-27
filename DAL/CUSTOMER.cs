@@ -277,6 +277,25 @@ namespace WZY.DAL
             Database db = DatabaseFactory.CreateDatabase();
             return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
         }
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public int GetListPureCount(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from customer ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            var database = DatabaseFactory.CreateDatabase();
+            object obj = database.ExecuteScalar(CommandType.Text, strSql.ToString());
+            if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
+            {
+                return 0;
+            }
+            return int.Parse(obj.ToString());
+        }
         /*
         /// <summary>
         /// 分页获取数据列表

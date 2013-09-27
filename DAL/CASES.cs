@@ -231,24 +231,25 @@ namespace WZY.DAL
         }
 
         /// <summary>
-        /// 获得数据列表
+        /// 获得数据列表，不再支持，请用分页方法
         /// </summary>
-        public DataSet GetList(string strWhere)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,lawid,lawname,deptid,custname,xieban,juzheng,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
-            strSql.Append(" FROM cases ");
-            strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=cases.custid ");
-            strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=cases.uid ");//上传人
-            strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=cases.lawid ");//承办律师
-            strSql.Append("left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            Database db = DatabaseFactory.CreateDatabase();
-            return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
-        }
+        //public DataSet GetList(string strWhere)
+        //{
+        //    StringBuilder strSql = new StringBuilder();
+        //    strSql.Append("select caseno,caseid,cateid,custid,uid,displayname,lawid,lawname,deptid,custname,xieban,juzheng,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
+        //    strSql.Append(" FROM cases ");
+        //    strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=cases.custid ");
+        //    strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=cases.uid ");//上传人
+        //    strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=cases.lawid ");//承办律师
+        //    strSql.Append(" left join (select uid as xiebanid, deptid as xiebandeptid, displayname as xiebanname from sysuser) as e on e.xiebanid=cases.xieban ");//协办律师
+        //    //strSql.Append("left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+        //    if (strWhere.Trim() != "")
+        //    {
+        //        strSql.Append(" where " + strWhere);
+        //    }
+        //    Database db = DatabaseFactory.CreateDatabase();
+        //    return db.ExecuteDataSet(CommandType.Text, strSql.ToString());
+        //}
 
         /// <summary>
         /// 获得数据列表
@@ -260,7 +261,7 @@ namespace WZY.DAL
             int end = start + pagesize - 1;
             StringBuilder strSql = new StringBuilder();
             strSql.Append(
-                "select caseno,caseid,cateid,chargedeptid,custid,uid,displayname,lawid,lawname,deptid,custname,xieban,xiebanname,juzheng,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark");
+                "select caseno,caseid,cateid,custid,uid,displayname,lawid,lawname,deptid,lawdeptid,xiebandeptid,custname,xieban,xiebanname,juzheng,yuangao,beigao,anyou,court,shouan,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark");
             strSql.Append(" from (");
             //分页数据开始
             strSql.Append("SELECT * FROM ( ");
@@ -276,10 +277,10 @@ namespace WZY.DAL
             strSql.Append(")AS Row, T.*  from ");
             strSql.Append("(select source2.* from cases source2");
             strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=source2.custid ");
-            strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=source2.uid ");//上传人
-            strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=source2.lawid ");//承办律师
-            strSql.Append(" left join (select uid as xiebanid, displayname as xiebanname from sysuser) as e on e.xiebanid=source2.xieban ");//协办律师
-            strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+            strSql.Append(" left join (select uid as userid, deptid, displayname from sysuser) as b on b.userid=source2.uid ");//上传人
+            strSql.Append(" left join (select uid as lawerid, deptid as lawdeptid, username, displayname as lawname from sysuser) as d on d.lawerid=source2.lawid ");//承办律师
+            strSql.Append(" left join (select uid as xiebanid, deptid as xiebandeptid, displayname as xiebanname from sysuser) as e on e.xiebanid=source2.xieban ");//协办律师
+            //strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
             if (!string.IsNullOrEmpty(strWhere.Trim()))
             {
                 strSql.Append(" WHERE " + strWhere);
@@ -289,10 +290,10 @@ namespace WZY.DAL
             //分页数据结束
             strSql.Append(") source ");
             strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=source.custid ");
-            strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=source.uid ");//上传人
-            strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=source.lawid ");//承办律师
-            strSql.Append(" left join (select uid as xiebanid, displayname as xiebanname from sysuser) as e on e.xiebanid=source.xieban ");//协办律师
-            strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+            strSql.Append(" left join (select uid as userid, deptid, displayname from sysuser) as b on b.userid=source.uid ");//上传人
+            strSql.Append(" left join (select uid as lawerid, deptid as lawdeptid, username, displayname as lawname from sysuser) as d on d.lawerid=source.lawid ");//承办律师
+            strSql.Append(" left join (select uid as xiebanid, deptid as xiebandeptid, displayname as xiebanname from sysuser) as e on e.xiebanid=source.xieban ");//协办律师
+            //strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
             if (!string.IsNullOrEmpty(strWhere.Trim()))
             {
                 strSql.Append(" WHERE " + strWhere);
@@ -578,10 +579,10 @@ namespace WZY.DAL
             //分页数据开始
             strSql.Append("SELECT count(1) FROM cases ");
             strSql.Append(" left join (select custid as id,cateid as custcateid, custname, pycode from customer) as a on a.id=cases.custid ");
-            strSql.Append(" left join (select uid as userid, displayname from sysuser) as b on b.userid=cases.uid ");//上传人
-            strSql.Append(" left join (select uid as lawerid, deptid, username, displayname as lawname from sysuser) as d on d.lawerid=cases.lawid ");//承办律师
-            strSql.Append(" left join (select uid as xiebanid, displayname as xiebanname from sysuser) as e on e.xiebanid=cases.xieban ");//协办律师
-            strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
+            strSql.Append(" left join (select uid as userid, deptid, displayname from sysuser) as b on b.userid=cases.uid ");//上传人
+            strSql.Append(" left join (select uid as lawerid, deptid as lawdeptid, username, displayname as lawname from sysuser) as d on d.lawerid=cases.lawid ");//承办律师
+            strSql.Append(" left join (select uid as xiebanid, deptid as xiebandeptid, displayname as xiebanname from sysuser) as e on e.xiebanid=cases.xieban ");//协办律师
+            //strSql.Append(" left join (select deptid as chargedeptid,cateid as cateid2 from cate_cust) as c on c.cateid2=a.custcateid ");
             if (!string.IsNullOrEmpty(filter))
             {
                 strSql.Append("where " + filter);
