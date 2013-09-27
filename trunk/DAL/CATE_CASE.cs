@@ -121,10 +121,15 @@ namespace WZY.DAL
         /// </summary>
         public void Delete(int cateid)
         {
-            if (new CASES().GetList("cateid=" + cateid).Tables[0].Rows.Count > 0)
+            //if (new CASES().GetList("cateid=" + cateid).Tables[0].Rows.Count > 0)
+            //{
+            //    throw new Exception("该类别下已有数据，不允许删除");
+            //}
+            if (new CASES().GetRecordCount("cateid=" + cateid) > 0)
             {
                 throw new Exception("该类别下已有数据，不允许删除");
             }
+            return;
             StringBuilder strSql = new StringBuilder();
             strSql.Append("delete from cate_case ");
             strSql.Append(" where cateid=@cateid ");

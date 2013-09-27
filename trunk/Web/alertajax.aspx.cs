@@ -71,24 +71,34 @@ public partial class alertajax : validateUser
 
         //客户生日
         //公历生日
-        sql = "uid=" + suser.uid + " and ((lunar1<>1 and ownerbirth>='" + DateTime.Now.ToString("yyyy-MM-dd") + "' and ownerbirth<= '" + DateTime.Now.AddDays(predays).ToString("yyyy-MM-dd") + "')";
+        sql = /*"uid=" + suser.uid + " and*/" ((lunar1<>1 and ownerbirth>='" + DateTime.Now.ToString("yyyy-MM-dd") + "' and ownerbirth<= '" + DateTime.Now.AddDays(predays).ToString("yyyy-MM-dd") + "')";
         sql += " or (lunar2<>1 and chargebirth>='" + DateTime.Now.ToString("yyyy-MM-dd") + "' and chargebirth <= '" + DateTime.Now.AddDays(predays).ToString("yyyy-MM-dd") + "')";
         //农历生日
         Lunar.Lunar today = LunarApi.GetLunarDate(DateTime.Today);
         Lunar.Lunar lastday = LunarApi.GetLunarDate(DateTime.Today.AddDays(predays));
         sql += " or (lunar1=1 and ownerbirth>='" + string.Format("{0}-{1}-{2}", today.Year, today.Month, today.Day) + "' and ownerbirth<= '" + string.Format("{0}-{1}-{2}", lastday.Year, lastday.Month, lastday.Day) + "')";
         sql += " or (lunar2=1 and chargebirth>='" + string.Format("{0}-{1}-{2}", today.Year, today.Month, today.Day) + "' and chargebirth <= '" + string.Format("{0}-{1}-{2}", lastday.Year, lastday.Month, lastday.Day) + "') )";
-        dt = new WZY.DAL.CUSTOMER().GetListPure(sql).Tables[0];
-        if (dt.Rows.Count > 0)
+        //dt = new WZY.DAL.CUSTOMER().GetListPure(sql).Tables[0];
+        //if (dt.Rows.Count > 0)
+        //{
+        //    msg += " <a href='clients.aspx?usedate=yes' target='rightframe'>客户生日</a>(" + dt.Rows.Count + ")";
+        //}
+        var birthday = new WZY.DAL.CUSTOMER().GetListPureCount(sql);
+        if (birthday > 0)
         {
-            msg += " <a href='clients.aspx?usedate=yes' target='rightframe'>客户生日</a>(" + dt.Rows.Count + ")";
+            msg += " <a href='clients.aspx?usedate=yes' target='rightframe'>客户生日</a>(" + birthday + ")";
         }
         //开庭
         sql = "kaiting>='" + DateTime.Now.ToString("yyyy-MM-dd") + "' and kaiting<= '" + DateTime.Now.AddDays(predays).ToString("yyyy-MM-dd") + "'";
-        dt = new WZY.DAL.CASES().GetList(sql).Tables[0];
-        if (dt.Rows.Count > 0)
+        //dt = new WZY.DAL.CASES().GetList(sql).Tables[0];
+        //if (dt.Rows.Count > 0)
+        //{
+        //    msg += " <a href='cases.aspx?usedate=yes' target='rightframe'>近期开庭</a>(" + dt.Rows.Count + ")";
+        //}
+        var ktctr = new WZY.DAL.CASES().GetRecordCount(sql);
+        if (ktctr > 0)
         {
-            msg += " <a href='cases.aspx?usedate=yes' target='rightframe'>近期开庭</a>(" + dt.Rows.Count + ")";
+            msg += " <a href='cases.aspx?usedate=yes' target='rightframe'>近期开庭</a>(" + ktctr + ")";
         }
         //客户到期
         sql = "select count(a.custid) from contract a left join (select c.custid,c.uid,c.custname, d.deptid from customer c left join sysuser d on d.uid=c.uid) b on b.custid=a.custid where c_etime>=getdate() and c_etime<='" + DateTime.Now.AddDays(predays).ToString("yyyy-MM-dd") + "'";
@@ -154,7 +164,7 @@ public partial class alertajax : validateUser
                 {
                     user.displayname = "未知";
                 }
-                msg.Append("{\"id\":\"" + item.id + "\",\"title\":\"" + item.cont + " - " + user.displayname + "" + "\",\"start\":\"" + item.alerttime.Value.ToString("yyyy-MM-dd") + "\",\"description\":\"" + item.cont + "\",\"p\":" + item.isprivate.Value + ",\"cp\":" + (item.uid.Value == suser.uid ? 1 : 0) + "}");
+                msg.Append("{\"id\":\"" + item.id + "\",\"title\":\"" + Helper.HelperString.cutString(item.cont,25) + " <blockquote class='pull-right'>- " + user.displayname + "</blockquote>" + "\",\"start\":\"" + item.alerttime.Value.ToString("yyyy-MM-dd") + "\",\"description\":\"" + item.cont + "\",\"p\":" + item.isprivate.Value + ",\"cp\":" + (item.uid.Value == suser.uid ? 1 : 0) + "}");
             }
         }
         msg.Append("]");
@@ -237,7 +247,7 @@ public partial class alertajax : validateUser
         DateTime dtstart = tools.ConvertIntDateTime(Convert.ToInt64(Request["start"]));
         DateTime dtend = tools.ConvertIntDateTime(Convert.ToInt64(Request["end"]));
         //公历生日-法人
-        string sql = "uid=" + suser.uid + " and (lunar1<>1 and ownerbirth>='" + dtstart.ToString("yyyy-MM-dd") + "' and ownerbirth<= '" + dtend.ToString("yyyy-MM-dd") + "')";
+        string sql = /*"uid=" + suser.uid + " and*/" (lunar1<>1 and dateadd(yyyy,datediff(yyyy,ownerbirth,getdate()),ownerbirth)>='" + dtstart.ToString("yyyy-MM-dd") + "' and dateadd(yyyy,datediff(yyyy,ownerbirth,getdate()),ownerbirth)<= '" + dtend.ToString("yyyy-MM-dd") + "')";
         msg.Append("[");
         WZY.DAL.CUSTOMER bll = new WZY.DAL.CUSTOMER();
         List<WZY.Model.CUSTOMER> result = bll.GetListArray(sql);
@@ -254,11 +264,11 @@ public partial class alertajax : validateUser
                 {
                     isfirst = false;
                 }
-                msg.Append("{\"title\":\"" + item.owner + "生日\",\"start\":\"" + item.ownerbirth.Value.ToString("yyyy-MM-dd") + "\",\"description\":\"单位：" + item.custname + "\",\"url\":\"clients.aspx?custid=" + item.custid + "\",\"editable\":false}");
+                msg.Append("{\"title\":\"" + item.owner + "生日\",\"start\":\"" + DateTime.Now.ToString("yyyy") + item.ownerbirth.Value.ToString("-MM-dd") + "\",\"description\":\"单位：" + item.custname + "\",\"url\":\"clients.aspx?custid=" + item.custid + "\",\"editable\":false}");
             }
         }
         //公历生日-负责人
-        sql = " uid=" + suser.uid + " and  (lunar2<>1 and chargebirth>='" + dtstart.ToString("yyyy-MM-dd") + "' and chargebirth <= '" + dtend.ToString("yyyy-MM-dd") + "')";
+        sql = /*"uid=" + suser.uid + " and*/"(lunar2<>1 and dateadd(yyyy,datediff(yyyy,chargebirth,getdate()),chargebirth)>='" + dtstart.ToString("yyyy-MM-dd") + "' and dateadd(yyyy,datediff(yyyy,chargebirth,getdate()),chargebirth) <= '" + dtend.ToString("yyyy-MM-dd") + "')";
         result.Clear();
         result = bll.GetListArray(sql);
         if (result.Count > 0)
@@ -269,13 +279,13 @@ public partial class alertajax : validateUser
                 {
                     msg.Append(",");
                 }
-                msg.Append("{\"title\":\"" + item.charge + "生日\",\"start\":\"" + item.chargebirth.Value.ToString("yyyy-MM-dd") + "\",\"description\":\"单位：" + item.custname + "\",\"url\":\"clients.aspx?custid=" + item.custid + "\",\"editable\":false}");
+                msg.Append("{\"title\":\"" + item.charge + "生日\",\"start\":\"" + DateTime.Now.ToString("yyyy") + item.chargebirth.Value.ToString("-MM-dd") + "\",\"description\":\"单位：" + item.custname + "\",\"url\":\"clients.aspx?custid=" + item.custid + "\",\"editable\":false}");
             }
         }
         Lunar.Lunar today = LunarApi.GetLunarDate(dtstart);
         Lunar.Lunar lastday = LunarApi.GetLunarDate(dtend);
         //农历生日-法人
-        sql = " uid=" + suser.uid + " and (lunar1=1 and ownerbirth>='" + string.Format("{0}-{1}-{2}", today.Year, today.Month, today.Day) + "' and ownerbirth<= '" + string.Format("{0}-{1}-{2}", lastday.Year, lastday.Month, lastday.Day) + "')";
+        sql = /*"uid=" + suser.uid + " and*/"(lunar1=1 and dateadd(yyyy,datediff(yyyy,ownerbirth,getdate()),ownerbirth)>='" + string.Format("{0}-{1}-{2}", today.Year, today.Month, today.Day) + "' and dateadd(yyyy,datediff(yyyy,ownerbirth,getdate()),ownerbirth)<= '" + string.Format("{0}-{1}-{2}", lastday.Year, lastday.Month, lastday.Day) + "')";
         result.Clear();
         result = bll.GetListArray(sql);
         if (result.Count > 0)
@@ -286,11 +296,11 @@ public partial class alertajax : validateUser
                 {
                     msg.Append(",");
                 }
-                msg.Append("{\"title\":\"" + item.owner + "生日\",\"start\":\"" + LunarToSolar(item.ownerbirth.Value, dtstart, dtend) + "\",\"description\":\"单位：" + item.custname + "\",\"url\":\"clients.aspx?custid=" + item.custid + "\",\"editable\":false}");
+                msg.Append("{\"title\":\"" + item.owner + "生日\",\"start\":\"" + DateTime.Now.ToString("yyyy") + LunarToSolar(item.ownerbirth.Value, dtstart, dtend) + "\",\"description\":\"单位：" + item.custname + "\",\"url\":\"clients.aspx?custid=" + item.custid + "\",\"editable\":false}");
             }
         }
         //农历生日-负责人
-        sql = " uid=" + suser.uid + " and (lunar2=1 and chargebirth>='" + string.Format("{0}-{1}-{2}", today.Year, today.Month, today.Day) + "' and chargebirth <= '" + string.Format("{0}-{1}-{2}", lastday.Year, lastday.Month, lastday.Day) + "')";
+        sql = /*"uid=" + suser.uid + " and*/"(lunar2=1 and dateadd(yyyy,datediff(yyyy,chargebirth,getdate()),chargebirth)>='" + string.Format("{0}-{1}-{2}", today.Year, today.Month, today.Day) + "' and dateadd(yyyy,datediff(yyyy,chargebirth,getdate()),chargebirth) <= '" + string.Format("{0}-{1}-{2}", lastday.Year, lastday.Month, lastday.Day) + "')";
         result.Clear();
         result = bll.GetListArray(sql);
         if (result.Count > 0)
@@ -301,7 +311,7 @@ public partial class alertajax : validateUser
                 {
                     msg.Append(",");
                 }
-                msg.Append("{\"title\":\"" + item.charge + "生日\",\"start\":\"" + LunarToSolar(item.chargebirth.Value, dtstart, dtend) + "\",\"description\":\"单位：" + item.custname + "\",\"url\":\"clients.aspx?custid=" + item.custid + "\",\"editable\":false}");
+                msg.Append("{\"title\":\"" + item.charge + "生日\",\"start\":\"" + DateTime.Now.ToString("yyyy") + LunarToSolar(item.chargebirth.Value, dtstart, dtend) + "\",\"description\":\"单位：" + item.custname + "\",\"url\":\"clients.aspx?custid=" + item.custid + "\",\"editable\":false}");
             }
         }
         msg.Append("]");
@@ -467,10 +477,17 @@ public partial class alertajax : validateUser
     {
         while (start <= end)
         {
-            Lunar.Lunar today = LunarApi.GetLunarDate(start);
-            DateTime todaytolunar = Convert.ToDateTime(string.Format("{0}-{1}-{2}", today.Year, today.Month, today.Day));
-            if (todaytolunar.ToString("yyyy-MM-dd") == lunar.ToString("yyyy-MM-dd")) return start.ToString("yyyy-MM-dd");
-            start = start.AddDays(1);
+            try
+            {
+                Lunar.Lunar today = LunarApi.GetLunarDate(start);
+                DateTime todaytolunar = Convert.ToDateTime(string.Format("{0}-{1}-{2}", today.Year, today.Month, today.Day));
+                if (todaytolunar.ToString("MM-dd") == lunar.ToString("MM-dd")) return start.ToString("-MM-dd");
+            }
+            catch { }
+            finally
+            {
+                start = start.AddDays(1);
+            }
         }
         return "";
     }

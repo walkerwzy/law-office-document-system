@@ -42,7 +42,7 @@
 	    function candel() {
 	        if ($(".selected").length == 0) { malert("请选择一位客户！"); return false; }
 	        if ($(".selected :hidden").eq(1).val() != "1") { malert("无权限"); return false; }
-	        return true;
+	        return confirm("确认删除？");
 	    }
 	    //签约历史窗口
 	    function getContract() {

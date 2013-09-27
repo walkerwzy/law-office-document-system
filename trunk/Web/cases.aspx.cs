@@ -104,7 +104,8 @@ public partial class cases : validateUser
                 break;
             case 1:
                 //部门经理
-                sql += " and (deptid=" + suser.deptid.Value + " or chargedeptid=" + suser.deptid.Value + ")";//本部门上传的，或客户类别属于本部门的，都可以查看
+                //sql += " and (deptid=" + suser.deptid.Value + " or chargedeptid=" + suser.deptid.Value + ")";//本部门上传的，或客户类别属于本部门的，都可以查看
+                sql += " and ( deptid=" + suser.deptid.Value + " or lawdeptid=" + suser.deptid.Value + " or xiebandeptid=" + suser.deptid.Value + ")";
                 break;
             case 3:
             default:

@@ -12,41 +12,43 @@ public partial class test : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
-            //Response.Write(DateTime.Now > DateTime.Now.AddDays(1));
-            //Response.End();
-            //Response.Write(Utility.getConfigFile().Root.Descendants("logpath").Single().Value);
-            //Response.End();
-            //Helper.HelperCache.Insert("aa", "abcdefg");
-            //Response.Write(Helper.HelperCache.GetCache("aa") as string);
-            //Response.Write(new Lunar.LunarDate().);
-            //Response.End();
+        Response.Write("hello world");
+        Response.End();
+        //if (!IsPostBack)
+        //{
+        //    //Response.Write(DateTime.Now > DateTime.Now.AddDays(1));
+        //    //Response.End();
+        //    //Response.Write(Utility.getConfigFile().Root.Descendants("logpath").Single().Value);
+        //    //Response.End();
+        //    //Helper.HelperCache.Insert("aa", "abcdefg");
+        //    //Response.Write(Helper.HelperCache.GetCache("aa") as string);
+        //    //Response.Write(new Lunar.LunarDate().);
+        //    //Response.End();
 
-            int pagesize = 2;
-            DataSet ds = new WZY.DAL.CASES().GetList("");
-            int page;
-            if (!int.TryParse(Request["page"], out page))
-            {
-                page = 1;
-            }
+        //    int pagesize = 2;
+        //    DataSet ds = new WZY.DAL.CASES().GetList("");
+        //    int page;
+        //    if (!int.TryParse(Request["page"], out page))
+        //    {
+        //        page = 1;
+        //    }
 
-            PagedDataSource ps = new PagedDataSource();
-            ps.DataSource = ds.Tables[0].DefaultView;
-            ps.AllowPaging = true;
-            ps.PageSize = pagesize;
-            if (page > ps.PageCount) page = 1;
-            ps.CurrentPageIndex = page - 1;
+        //    PagedDataSource ps = new PagedDataSource();
+        //    ps.DataSource = ds.Tables[0].DefaultView;
+        //    ps.AllowPaging = true;
+        //    ps.PageSize = pagesize;
+        //    if (page > ps.PageCount) page = 1;
+        //    ps.CurrentPageIndex = page - 1;
 
-            gv.DataSource = ps;
-            gv.DataBind();
+        //    gv.DataSource = ps;
+        //    gv.DataBind();
 
-            //生成分页代码
-            string url = Request.Url.ToString();
+        //    //生成分页代码
+        //    string url = Request.Url.ToString();
 
-            lblpager.Text = Pager.getPagerstring(ps, url, 1, 7);
+        //    lblpager.Text = Pager.getPagerstring(ps, url, 1, 7);
 
-        }
+        //}
     }
 
     protected void up(object sender, EventArgs e)
