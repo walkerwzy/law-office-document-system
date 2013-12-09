@@ -436,7 +436,7 @@
                 if (d.code != 1) {
                     alert('操作失败，请稍候再试');
                 } else {
-                    alert('操作成功');
+                    //alert('操作成功');
                     thisdg.removeBtn('btnCloseCase');
                     frameElement.contentWindow.location.reload(true);
                 }
