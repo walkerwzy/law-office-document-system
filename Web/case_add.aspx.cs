@@ -9,6 +9,7 @@ using LTP.Common;
 using System.IO;
 using System.Xml.Linq;
 using System.Data;
+using WZY.DAL;
 using WZY.Model;
 
 public partial class case_add : validateUser
@@ -442,12 +443,20 @@ public partial class case_add : validateUser
         Response.Clear();
         Response.ContentType = "application/json";
         string cid = Request.QueryString["cid"];
+        WZY.DAL.CASES bll = new WZY.DAL.CASES();
+        //WZY.Model.CASES model = bll.GetModel(int.Parse(cid));
+        //if (!string.IsNullOrEmpty(model.caseclosed))
+        //{
+        //    Response.Write( "{\"code\":0,\"message\":\"已结案，勿重复操作\"}");
+        //    Response.End();
+        //    return;
+        //}
         CloseCaseInfo infoobj = new CloseCaseInfo(suser.uid, suser.displayname);
         string res = string.Empty;
         try
         {
             string info = tools.SerializeCloseCaseInfo(infoobj);
-            new WZY.DAL.CASES().CloseCase(cid, info);
+            bll.CloseCase(cid, info);
             res = "{\"code\":1}";
         }
         catch (Exception ex)
