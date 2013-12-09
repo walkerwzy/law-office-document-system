@@ -8,6 +8,7 @@ using System.Text;
 using System.Data;
 using System.Xml.Linq;
 using System.IO;
+using WZY.Model;
 
 public partial class ajaxHandler : System.Web.UI.Page
 {
@@ -321,5 +322,6 @@ public partial class ajaxHandler : System.Web.UI.Page
         Response.Write(arr);
         Response.End();
     }
+
 
 }

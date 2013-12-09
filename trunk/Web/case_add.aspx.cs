@@ -4,20 +4,28 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Helper;
 using LTP.Common;
 using System.IO;
 using System.Xml.Linq;
 using System.Data;
+using WZY.Model;
 
 public partial class case_add : validateUser
 {
     protected int fileCount = 0;
+    protected CloseCaseInfo closeInfo = null;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        var mod = string.IsNullOrEmpty(Request["mod"]) ? "" : Request["mod"];
+        if (mod == "closecase") CloseCase();
+        else
         {
-            BindData();
+            if (!IsPostBack)
+            {
+                BindData();
+            }
         }
     }
 
@@ -33,6 +41,7 @@ public partial class case_add : validateUser
             {
                 Response.Write("参数错误");
                 Response.End();
+                return;
             }
             hiddeptid.Value = deptid;
             ShowInfo(Convert.ToInt32(Request["id"]));
@@ -80,6 +89,20 @@ public partial class case_add : validateUser
         this.lttiwen.Text = genFileLink(model.tiwen, model.caseid, "tiwen");
         this.ltdabian.Text = genFileLink(model.dabian, model.caseid, "dabian");
         this.txtremark.Text = model.remark;
+
+        //closeinfo
+        hidclosed.Value = "";
+        try
+        {
+            closeInfo = tools.DeserializeCloseCaseInfo(model.caseclosed);
+            if (closeInfo != null) hidclosed.Value = "1";
+        }
+        catch (Exception ex)
+        {
+            log.error("反序列化案件关闭信息出错：" + ex.Message);
+            hidclosed.Value = "";
+        }
+
 
         updabian.Enabled = model.dabian == -1;
         updali.Enabled = model.quote.Value == -1;
@@ -290,7 +313,7 @@ public partial class case_add : validateUser
             if (dabian != -1 || isAdd)
                 model.dabian = dabian;
             model.remark = remark;
-            
+
             WZY.DAL.CASES bll = new WZY.DAL.CASES();
             if (isAdd) { bll.Add(model); showDialogWithReload("添加成功"); }
             else { bll.Update(model); showDialogWithReload("保存成功"); }
@@ -409,6 +432,31 @@ public partial class case_add : validateUser
         else fmt += "<img src='images/delete.gif' alt='' style='vertical-align:middle;' /><span class='tgray'>&nbsp;删除</span>";
         //string value = Utility.getConfigFile().Root.Descendants("uploadpath").Single().Value + filepath;
         return string.Format(fmt, docid.ToString(), caseid.ToString(), field);
+    }
+
+    /// <summary>
+    /// 结案
+    /// </summary>
+    private void CloseCase()
+    {
+        Response.Clear();
+        Response.ContentType = "application/json";
+        string cid = Request.QueryString["cid"];
+        CloseCaseInfo infoobj = new CloseCaseInfo(suser.uid, suser.displayname);
+        string res = string.Empty;
+        try
+        {
+            string info = tools.SerializeCloseCaseInfo(infoobj);
+            new WZY.DAL.CASES().CloseCase(cid, info);
+            res = "{\"code\":1}";
+        }
+        catch (Exception ex)
+        {
+            log.error("标记案件为结案，失败", "id:" + cid, "error:" + ex.Message);
+            res = "{\"code\":0,\"message\":\"" + ex.Message.Replace('\"', ' ') + "\"}";
+        }
+        Response.Write(res);
+        Response.End();
     }
 
     private bool canDel(string deptid)
