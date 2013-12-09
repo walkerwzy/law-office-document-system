@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.IO;
 using Lunar;
+using WZY.Model;
 
 public partial class test : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Response.Write("hello world");
+        string result = "hello world";
+        JavaScriptSerializer serializer = new JavaScriptSerializer();
+        CloseCaseInfo u = new CloseCaseInfo(33, "aa");
+        result = serializer.Serialize(u);
+        CloseCaseInfo m = serializer.Deserialize<CloseCaseInfo>(result);
+        Response.Write(result);
         Response.End();
         //if (!IsPostBack)
         //{

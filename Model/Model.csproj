@@ -46,6 +46,7 @@
     <Compile Include="CATE_DOC.cs" />
     <Compile Include="cate_yewu.cs" />
     <Compile Include="CLIENTMAP.cs" />
+    <Compile Include="CloseCaseUser.cs" />
     <Compile Include="CONTRACT.cs" />
     <Compile Include="CUSTOMER.cs" />
     <Compile Include="DEPART.cs" />

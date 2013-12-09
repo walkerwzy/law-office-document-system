@@ -19,6 +19,7 @@
     <asp:HiddenField runat="server" ID="hidcaseid" Value="" />
     <asp:HiddenField runat="server" ID="hiduserid" Value="" />
     <asp:HiddenField runat="server" ID="hiddeptid" Value=""/>
+    <asp:HiddenField runat="server" ID="hidclosed" Value=""/>
     <div id="formdiv">
         <table style="width:100%;" cellpadding="2" cellspacing="1" class="border">
             <tr>
@@ -160,9 +161,15 @@
                             <td height="25" width="150px" align="right">
                                 举证期限 ：
                             </td>
-                            <td height="25" width="*" align="left" colspan="3">
+                            <td height="25" width="*" align="left">
                                 <asp:TextBox ID="txtjuzheng" runat="server" Width="190px" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"
                                     CssClass="tinput Wdate"></asp:TextBox>
+                            </td>
+                            <td height="25" colspan="2" align="right">
+                                <% if (closeInfo != null)
+                                   { %>
+                                       <span style="color:red">案件已于 <b><%= closeInfo.time.ToString("yyyy-MM-dd HH:mm:ss") %></b> 被 <b><%= closeInfo.name %></b> 结案</span>
+                                   <% } %>
                             </td>
                         </tr>
                         <tr class="title">
@@ -335,6 +342,10 @@
         $("#txtlawid").attr("qid", $("#hidlawid").val());
     }
     thisdg.addBtn('btnOk', savebtntxt, function () { if (checkQuery()) __doPostBack('btnSave', ''); });
+    if ($("#hidclosed").val() != "1") {
+        thisdg.addBtn('btnCloseCase', '<b style="color:red;">结案</b>', function() { closeCase(); });
+    }
+
     function checkQuery() {
         if ($("#ddlcateid").val() == "") { alert('请选择案件分类'); return false; }
         if ($.trim($("#txtlawid").val()) == "") { alert("承办律师不能为空"); return false; } else { $("#hidlawid").val($.trim($("#txtlawid").attr("qid"))); var hlaw = $("#hidlawid").val(); if (hlaw == "" || hlaw == "-1") { alert("无效的承办律师，请重新选择"); return false; } }
@@ -417,6 +428,19 @@
             //退出
             //o.val(n.val());
             f.hide();
+        }
+    }
+    function closeCase() {
+        if (confirm('一旦结案，案件将不可修改，并且也不可改回未结案状态\n系统将记录操作人操作时间，后果自负，请谨慎操作。\n是否确认？')) {
+            $.get('?mod=closecase&cid=' + $("#hidcaseid").val(), function (d) {
+                console.log(d);
+                if (d.code != 1) {
+                    alert('操作失败，请稍候再试');
+                } else {
+                    alert('操作成功');
+                    location.href = location.href;
+                }
+            });
         }
     }
 </script>   

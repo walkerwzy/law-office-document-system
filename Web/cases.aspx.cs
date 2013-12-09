@@ -152,6 +152,14 @@ public partial class cases : validateUser
         {
             sql += " and cateid=" + ddlcasecate.Text;
         }
+        if (ddlcasestatus.SelectedIndex == 1)
+        {
+            sql += " and caseclosed is null ";
+        }
+        else if (ddlcasestatus.SelectedIndex == 2)
+        {
+            sql += " and caseclosed is not null";
+        }
         //数据范围
         //switch (ddlrange.SelectedIndex)
         //{

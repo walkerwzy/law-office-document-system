@@ -70,6 +70,7 @@
                 <label>委托人：<input type="text" title="委托人" id="txtpeople" class="tinput shortTxt input-small" runat="server" /></label>
                 <label>案由：<input type="text" title="案由" id="txtreason" class="tinput shortTxt input-small" runat="server" /></label>
                 <%--<label>数据范围：<asp:DropDownList runat="server" ID="ddlrange" CssClass="input-small"><asp:ListItem>本人</asp:ListItem><asp:ListItem>本部门</asp:ListItem></asp:DropDownList></label>--%>
+                <label>结案状态：<asp:DropDownList runat="server" ID="ddlcasestatus" CssClass="input-small"><asp:ListItem>全部</asp:ListItem><asp:ListItem>未结案</asp:ListItem><asp:ListItem>已结案</asp:ListItem></asp:DropDownList></label>
                 <label>收案日期：<input id="txtsdate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',doubleCalendar:'true',startDate:'%y-{%M-1}-%d',maxDate:'%y-{%M}-%d'});" runat="server" /></label>
                 <label>至：<input id="txtedate" type="text" class="Wdate shortTxt input-small" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'txtsdate\')}',maxDate:'%y-%M-%d'});" runat="server" /></label>&nbsp;&nbsp;
                 <div class="btn-group">

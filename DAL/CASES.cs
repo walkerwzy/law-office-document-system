@@ -214,7 +214,7 @@ namespace WZY.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseid,caseno,cateid,custid,uid,lawid,xieban,juzheng,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark from cases ");
+            strSql.Append("select caseid,caseno,caseclosed,cateid,custid,uid,lawid,xieban,juzheng,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark from cases ");
             strSql.Append(" where caseid=@caseid ");
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
@@ -374,6 +374,7 @@ namespace WZY.DAL
             {
                 model.caseid = (int)ojb;
             }
+            model.caseclosed = dataReader["caseclosed"].ToString();
             ojb = dataReader["cateid"];
             if (ojb != null && ojb != DBNull.Value)
             {
@@ -597,6 +598,13 @@ namespace WZY.DAL
                 return 0;
             }
             return int.Parse(obj.ToString());
+        }
+
+        public void CloseCase(string caseid, string info)
+        {
+            var database = DatabaseFactory.CreateDatabase();
+            var sql = "update cases set caseclosed='" + info + "' where caseid=" + caseid;
+            database.ExecuteNonQuery(CommandType.Text, sql);
         }
 
         //生成案件序列号

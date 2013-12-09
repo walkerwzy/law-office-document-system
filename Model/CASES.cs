@@ -224,6 +224,7 @@ namespace WZY.Model
 
 	    public int? xieban { get; set; }
 	    public DateTime? juzheng { get; set; }
+	    public string caseclosed { get; set; }
 
 	}
 }

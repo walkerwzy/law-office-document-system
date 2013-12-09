@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
+using WZY.Model;
 using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Reflection;
@@ -105,6 +107,17 @@ public static class tools
     public static void addAdminOption(DropDownList ddl)
     {
         ddl.Items.Add(new ListItem("全部数据"));
+    }
+
+    public static CloseCaseInfo DeserializeCloseCaseInfo(string source)
+    {
+        JavaScriptSerializer serializer = new JavaScriptSerializer();
+        return serializer.Deserialize<CloseCaseInfo>(source);
+    }
+    public static string SerializeCloseCaseInfo(CloseCaseInfo info)
+    {
+        JavaScriptSerializer serializer = new JavaScriptSerializer();
+        return serializer.Serialize(info);
     }
 
 }
