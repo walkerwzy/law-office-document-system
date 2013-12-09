@@ -342,7 +342,7 @@ namespace WZY.DAL
         public List<WZY.Model.CASES> GetListArray(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select caseno,caseid,cateid,custid,uid,lawid,xieban,juzheng,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
+            strSql.Append("select caseno,caseid,caseclosed,cateid,custid,uid,lawid,xieban,juzheng,yuangao,beigao,anyou,shouan,court,dijiaotime,faguan,faguantel,office,kaiting,panjuetime,fee,detail,analysis,evidence,opinion,quote,qisu,taolun,result,resultreport,tiwen,dabian,remark ");
             strSql.Append(" FROM cases ");
             if (strWhere.Trim() != "")
             {
