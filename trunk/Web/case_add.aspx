@@ -433,12 +433,12 @@
     function closeCase() {
         if (confirm('一旦结案，案件将不可修改，并且也不可改回未结案状态\n系统将记录操作人操作时间，后果自负，请谨慎操作。\n是否确认？')) {
             $.get('?mod=closecase&cid=' + $("#hidcaseid").val(), function (d) {
-                console.log(d);
                 if (d.code != 1) {
                     alert('操作失败，请稍候再试');
                 } else {
                     alert('操作成功');
-                    location.href = location.href;
+                    thisdg.removeBtn('btnCloseCase');
+                    frameElement.contentWindow.location.reload(true);
                 }
             });
         }
