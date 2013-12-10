@@ -341,8 +341,8 @@
         $("#txtcustid").attr("qid", $("#hidcust").val());
         $("#txtlawid").attr("qid", $("#hidlawid").val());
     }
-    thisdg.addBtn('btnOk', savebtntxt, function () { if (checkQuery()) __doPostBack('btnSave', ''); });
     if ($("#hidclosed").val() != "1") {
+        thisdg.addBtn('btnOk', savebtntxt, function () { if (checkQuery()) __doPostBack('btnSave', ''); });
         thisdg.addBtn('btnCloseCase', '<b style="color:red;">结案</b>', function() { closeCase(); });
     }
 
@@ -438,6 +438,7 @@
                 } else {
                     //alert('操作成功');
                     thisdg.removeBtn('btnCloseCase');
+                    thisdg.removeBtn('btnOk');
                     frameElement.contentWindow.location.reload(true);
                 }
             });
